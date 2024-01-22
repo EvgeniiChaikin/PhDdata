@@ -1,0 +1,153 @@
+---
+
+# SWIFT used parameter file
+# Code version: 0.9.0
+# git revision: v0.9.0-46-gab32f06d-dirty
+# git branch: (detached from ab32f06)
+# git date: 2020-11-06 08:31:41 +0000
+
+MetaData:
+  run_name: LOW_RES_DENS_01_H_CM3_WITHIN_5PC
+
+InternalUnitSystem:
+  UnitMass_in_cgs: 1.98848e33
+  UnitLength_in_cgs: 3.08567758e21
+  UnitVelocity_in_cgs: 1e5
+  UnitCurrent_in_cgs: 1
+  UnitTemp_in_cgs: 1
+
+TimeIntegration:
+  time_begin: 0.
+  time_end: 4.0e-3
+  dt_min: 1.0e-15
+  dt_max: 1.0e-6
+  max_dt_RMS_factor: 0.25
+
+Snapshots:
+  basename: output
+  time_first: 0.
+  delta_time: 3.0e-5
+  invoke_stf: 0
+  select_output_on: 0
+  scale_factor_first: 0.1
+  subdir: .
+  compression: 0
+  distributed: 0
+  int_time_label_on: 0
+  UnitMass_in_cgs: 1.98848e+33
+  UnitLength_in_cgs: 3.08568e+21
+  UnitVelocity_in_cgs: 100000
+  UnitCurrent_in_cgs: 1
+  UnitTemp_in_cgs: 1
+  output_list_on: 0
+
+Statistics:
+  delta_time: 1e-2
+  time_first: 0.
+  scale_factor_first: 0.1
+  output_list_on: 0
+  energy_file_name: statistics
+  timestep_file_name: timesteps
+
+InitialConditions:
+  file_name: ../example_diffusion_32_1.9e+00_within_sphere.hdf5
+  periodic: 1
+  replicate: 1
+  cleanup_smoothing_lengths: 0
+  cleanup_h_factors: 0
+  cleanup_velocity_factors: 0
+  generate_gas_in_ics: 0
+  remap_ids: 0
+  smoothing_length_scaling: 1
+  stars_smoothing_length: -1
+  black_holes_smoothing_length: -1
+  shift:  [0, 0, 0]
+
+SPH:
+  resolution_eta: 1.2348
+  CFL_condition: 0.05
+  h_min_ratio: 0.1
+  h_max: 0.07
+  viscosity_alpha: 0.1
+  viscosity_length: 0.05
+  viscosity_alpha_max: 2.0
+  viscosity_alpha_min: 0.0
+  diffusion_alpha: 0.0
+  diffusion_beta: 1.0
+  diffusion_alpha_max: 1.0
+  diffusion_alpha_min: 0.0
+  minimal_temperature: 10000.0
+  H_ionization_temperature: 100.0
+  H_mass_fraction: 0.73738788833
+  h_tolerance: 0.0001
+  max_ghost_iterations: 30
+  use_mass_weighted_num_ngb: 0
+  max_volume_change: 1.4
+  initial_temperature: 0
+  particle_splitting: 0
+
+COLIBRECooling:
+  dir_name: ../../cosmo_runs/UV_dust1_CR1_G1_shield1_new.hdf5
+  H_reion_z: 11.5
+  H_reion_eV_p_H: 2.0
+  He_reion_z_centre: 3.5
+  He_reion_z_sigma: 0.5
+  He_reion_eV_p_H: 2.0
+  delta_logTEOS_subgrid_properties: 0.2
+  rapid_cooling_threshold: 1.0
+  Ca_over_Si_in_solar: 1
+  S_over_Si_in_solar: 1
+
+COLIBREChemistry:
+  metal_diffusion_constant: 0.1
+  metal_diffusion_timestep_mult: 0.2
+  init_abundance_metal: -1
+
+COLIBREFeedback:
+  HIIregion_ionization_fraction: 1.0
+  HIIregion_temperature: 1.e4
+
+Scheduler:
+  tasks_per_cell: 1024
+  max_top_level_cells: 12
+  cell_max_size: 8000000
+  cell_sub_size_pair_hydro: 256000000
+  cell_sub_size_self_hydro: 32000
+  cell_sub_size_pair_stars: 256000000
+  cell_sub_size_self_stars: 32000
+  cell_sub_size_pair_grav: 256000000
+  cell_sub_size_self_grav: 32000
+  cell_split_size: 400
+  cell_subdepth_diff_grav: 4
+  cell_extra_parts: 0
+  cell_extra_sparts: 100
+  cell_extra_gparts: 0
+  cell_extra_bparts: 0
+  cell_extra_sinks: 0
+  engine_max_parts_per_ghost: 1000
+  engine_max_sparts_per_ghost: 1000
+  engine_max_parts_per_cooling: 10000
+  nr_queues: 28
+  links_per_tasks: 25
+  mpi_message_limit: 4
+
+Restarts:
+  enable: 1
+  save: 1
+  delta_hours: 2.0
+  onexit: 1
+  max_run_time: 71.5
+  subdir: restart
+  basename: swift
+  stop_steps: 100
+  resubmit_on_exit: 0
+
+PhysicalConstants:
+  G: 4.30107e-06
+
+StructureFinding:
+  output_list_on: 0
+
+LineOfSight:
+  output_list_on: 0
+...

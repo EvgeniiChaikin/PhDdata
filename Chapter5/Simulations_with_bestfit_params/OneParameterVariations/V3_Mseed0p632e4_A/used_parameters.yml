@@ -1,0 +1,500 @@
+---
+
+# SWIFT used parameter file
+# code version: 1.0.0
+# git revision: v0.9.0-2208-ge7894702-dirty
+# git branch: cooling_cleanup_hawk
+# git date: 2023-07-18 15:36:31 +0200
+# current date: 01:10:56 2023-07-25 BST
+
+MetaData:
+  run_name: V4_Mseed0p632e4_N2_L50N376_I303
+
+InternalUnitSystem:
+  UnitMass_in_cgs: 1.98841e43
+  UnitLength_in_cgs: 3.08567758e24
+  UnitVelocity_in_cgs: 1e5
+  UnitCurrent_in_cgs: 1
+  UnitTemp_in_cgs: 1
+
+Cosmology:
+  Omega_cdm: 0.256011
+  Omega_b: 0.048600
+  Omega_lambda: 0.693922
+  h: 0.681
+  a_begin: 0.0078125
+  a_end: 1.0000000000
+  N_ur: 2.0308
+  N_nu: 1
+  T_nu_0: 1.9517578050
+  M_nu_eV: 0.06
+  deg_nu: 1.0
+  Omega_m: -1
+  Omega_r: 0
+  w_0: -1
+  w_a: 0
+
+TimeIntegration:
+  dt_min: 1e-10
+  dt_max: 1e-2
+  max_nr_rt_subcycles: 0
+  max_dt_RMS_factor: 0.25
+  dt_RMS_use_gas_only: 0
+
+Gravity:
+  eta: 0.025
+  MAC: geometric
+  theta_cr: 0.7
+  use_tree_below_softening: 0
+  mesh_side_length: 256
+  comoving_baryon_softening: 0.003580
+  max_physical_baryon_softening: 0.001400
+  comoving_DM_softening: 0.004182
+  max_physical_DM_softening: 0.001638
+  rebuild_frequency: 0.01
+  rebuild_active_fraction: 1.01
+  distributed_mesh: 0
+  mesh_uses_local_patches: 1
+  a_smooth: 1.25
+  r_cut_max: 4.5
+  r_cut_min: 0
+
+Snapshots:
+  basename: colibre
+  output_list_on: 1
+  output_list: ../output_list_highz.txt
+  select_output_on: 1
+  select_output: ../output_list.yml
+  recording_triggers_part: [1.0227e-4, 1.0227e-5]
+  recording_triggers_bpart: [1.0227e-4, 1.0227e-5]
+  scale_factor_first: 0.1
+  time_first: 0
+  delta_time: -1
+  subdir: .
+  subsample:  [0, 0, 0, 0, 0, 0, 0]
+  subsample_fraction:  [0, 0, 0, 0, 0, 0, 0]
+  run_on_dump: 0
+  compression: 0
+  distributed: 0
+  lustre_OST_count: 0
+  invoke_stf: 0
+  invoke_fof: 0
+  invoke_ps: 0
+  use_delta_from_edge: 0
+  UnitMass_in_cgs: 1.98841e+43
+  UnitLength_in_cgs: 3.08568e+24
+  UnitVelocity_in_cgs: 100000
+  UnitCurrent_in_cgs: 1
+  UnitTemp_in_cgs: 1
+
+Statistics:
+  delta_time: 1.01
+  scale_factor_first: 0.01
+  time_first: 0
+  energy_file_name: statistics
+  timestep_file_name: timesteps
+  output_list_on: 0
+
+Scheduler:
+  max_top_level_cells: 16
+  cell_split_size: 200
+  engine_max_parts_per_cooling: 200
+  cell_max_size: 8000000
+  cell_sub_size_pair_hydro: 256000000
+  cell_sub_size_self_hydro: 32000
+  cell_sub_size_pair_stars: 256000000
+  cell_sub_size_self_stars: 32000
+  cell_sub_size_pair_grav: 256000000
+  cell_sub_size_self_grav: 32000
+  cell_subdepth_diff_grav: 4
+  cell_recurse_size_self_hydro: 100
+  cell_recurse_size_pair_hydro: 100
+  cell_recurse_size_self_stars: 100
+  cell_recurse_size_pair_stars: 100
+  cell_recurse_size_self_black_holes: 100
+  cell_recurse_size_pair_black_holes: 100
+  cell_recurse_size_self_sinks: 100
+  cell_recurse_size_pair_sinks: 100
+  cell_extra_parts: 0
+  cell_extra_sparts: 100
+  cell_extra_gparts: 0
+  cell_extra_bparts: 0
+  cell_extra_sinks: 0
+  engine_max_parts_per_ghost: 1000
+  engine_max_sparts_per_ghost: 1000
+  engine_redist_alloc_margin: 1.2
+  engine_foreign_alloc_margin: 1.05
+  free_foreign_during_restart: 0
+  free_foreign_during_rebuild: 0
+  nr_queues: 32
+  dependency_graph_frequency: 0
+  dependency_graph_cell: 0
+  task_level_output_frequency: 0
+  tasks_per_cell: 0
+  links_per_tasks: 25
+  mpi_message_limit: 4
+
+Neutrino:
+  use_delta_f: 0
+  generate_ics: 0
+  use_linear_response: 1
+  transfer_functions_filename: ../../ICs/perturbations_L0050N0376.hdf5
+  dataset_delta_cdm: Functions/d_cdm
+  dataset_delta_baryon: Functions/d_b
+  dataset_delta_nu: Functions/d_ncdm[0]
+  dataset_redshifts: Redshifts
+  dataset_wavenumbers: Wavenumbers
+  fixed_bg_density: 1
+  use_delta_f_mesh_only: 0
+  use_model_none: 0
+  neutrino_seed: 0
+
+InitialConditions:
+  file_name: ../../ICs/COLIBRE_ICs_L0050N0376.hdf5
+  periodic: 1
+  cleanup_h_factors: 0
+  cleanup_velocity_factors: 0
+  generate_gas_in_ics: 0
+  cleanup_smoothing_lengths: 0
+  remap_ids: 0
+  replicate: 1
+  metadata_group_name: ICs_parameters
+  smoothing_length_scaling: 1
+  stars_smoothing_length: -1
+  black_holes_smoothing_length: -1
+  shift:  [0, 0, 0]
+
+SPH:
+  H_mass_fraction: 0.756
+  resolution_eta: 1.2348
+  h_min_ratio: 1e-8
+  CFL_condition: 0.2
+  initial_temperature: 268.7
+  minimal_temperature: 10.
+  h_max: 1.0
+  particle_splitting: 1
+  particle_splitting_mass_threshold: 5.76e-3
+  h_tolerance: 0.0001
+  max_ghost_iterations: 30
+  use_mass_weighted_num_ngb: 0
+  max_volume_change: 1.4
+  H_ionization_temperature: 10000
+  viscosity_alpha: 0.1
+  viscosity_alpha_max: 2
+  viscosity_alpha_min: 0
+  viscosity_length: 0.05
+  diffusion_alpha: 0
+  diffusion_beta: 1
+  diffusion_alpha_max: 1
+  diffusion_alpha_min: 0
+  particle_splitting_generate_random_ids: 0
+
+CHIMESCooling:
+  data_path: ../../tables_july2023/chimes-data_july20/
+  EqmAbundanceTable: colibre_HHe
+  PhotoIonTable_UVB: SP20_cross_sections
+  PhotoIonTable_ISRF: cross_sections_B87.hdf5
+  UV_field: COLIBRE
+  Shielding_model: COLIBRE
+  UVB_z_dependence: COLIBRE
+  shielding_length_factor: 0.5
+  init_abundance_mode: read
+  colibre_metal_depletion: 0
+  turbulent_velocity_dispersion_km_p_s: 6.0
+  colibre_use_turbulent_jeans_length: 1
+  relativeTolerance: 1e-3
+  absoluteTolerance: 1e-10
+  explicitTolerance: 0.1
+  scale_metal_tolerances: 1
+  Tmol_K: 1.0e5
+  ChemistryEqmMode: 0
+  ThermEvolOn: 1
+  chimes_debug: 0
+  max_dust_boost_factor: 10.0
+  dust_boost_nH_min_cgs: 0.1
+  dust_boost_nH_max_cgs: 100.0
+  delta_logTEOS_subgrid_properties: 0.3
+  use_colibre_subgrid_EOS: 1
+  set_FB_particles_to_eqm: 1
+  use_hybrid_cooling: 1
+  rapid_cooling_threshold: 0.333333
+  colibre_table_path: ../../tables_july2023/cooling_tables_july_2023/MaxGasDustBoost10from0p1to100_ShieldFactor0p50_lshmax25kpc_abunbugfix2/
+  colibre_table_filebase: cooling_rates
+  UVB_cutoff_z: 127.0
+  S_over_Si_in_solar: 1.0
+  Ca_over_Si_in_solar: 1.0
+  IncludeCarbon: 0
+  IncludeNitrogen: 0
+  IncludeOxygen: 0
+  IncludeNeon: 0
+  IncludeMagnesium: 0
+  IncludeSilicon: 0
+  IncludeSulphur: 0
+  IncludeCalcium: 0
+  IncludeIron: 0
+  NREF_XH_const: 0.75
+  NREF_mu_const: 1.24
+  NREF_column_density_min_cgs: 3.086e+15
+  NREF_column_density_max_cgs: 1e+24
+  NREF_trans_temperature_min_K: 10000
+  NREF_trans_temperature_max_K: 100000
+  NREF_trans_steepness_k: 2
+  NREF_column_length_max_kpc: 50
+  CR_rate_at_transition_cgs: 2e-16
+  CR_transition_column_density_cgs: 1e+21
+  CR_powerlaw_slope_1: 1.4
+  CR_powerlaw_slope_2: 0
+  CR_cutoff_over_density: 100
+  CR_cutoff_phys_density_cgs: 0.01
+  CR_cutoff_width_dex: 1
+  CR_cutoff_steepness_k: 2
+  ISRF_norm_at_transition: 19
+  ISRF_transition_column_density_cgs: 1e+22
+  ISRF_powerlaw_slope_1: 1.4
+  ISRF_powerlaw_slope_2: 0
+  ISRF_cutoff_over_density: 100
+  ISRF_cutoff_phys_density_cgs: 0.01
+  ISRF_cutoff_width_dex: 1
+  ISRF_cutoff_steepness_k: 2
+  dust_grain_temperature_K: 10
+
+COLIBREChemistry:
+  init_abundance_metal: 0.0
+  init_abundance_Hydrogen: 0.756
+  init_abundance_Helium: 0.244
+  init_abundance_Carbon: 0.0
+  init_abundance_Nitrogen: 0.0
+  init_abundance_Oxygen: 0.0
+  init_abundance_Neon: 0.0
+  init_abundance_Magnesium: 0.0
+  init_abundance_Silicon: 0.0
+  init_abundance_Iron: 0.0
+  init_abundance_Europium: 0.0
+  init_abundance_Strontium: 0.0
+  init_abundance_Barium: 0.0
+  metal_diffusion_constant: 0.01
+  metal_diffusion_timestep_mult: 0.2
+
+DustEvolution:
+  pair_to_cooling: 1
+  use_subgrid_props: 1
+  clumping_factor_mode: variable
+  use_sputtering: 1
+  use_SNII_destruction: 1
+  use_accretion: 1
+  clumping_factor: 100.
+  clumping_factor_nH_min_cgs: 0.1
+  clumping_factor_nH_max_cgs: 100.0
+  diffusion_boost_factor: 1.
+  dust_yields_path: ../../tables_july2023/dust_yields/
+  silicate_molecule_subscript_oxygen: 4.0
+  silicate_molecule_subscript_magnesium: 1.3
+  silicate_molecule_subscript_silicon: 1.0
+  silicate_molecule_subscript_iron: 0.7
+  limit_depletion: 1
+  undepleted_min_reduction_factor: 0.423345
+  use_coagulation: 1
+  use_shattering: 1
+  initial_abundance_graphite_l: 0
+  initial_abundance_mgsilicate_l: 0
+  initial_abundance_fesilicate_l: 0
+  initial_abundance_graphite_s: 0
+  initial_abundance_mgsilicate_s: 0
+  initial_abundance_fesilicate_s: 0
+  graphite_large_grain_mfrac: 0.9
+  mgsilicate_large_grain_mfrac: 0.9
+  fesilicate_large_grain_mfrac: 0.9
+  graphite_small_grain_mfrac: 0.1
+  mgsilicate_small_grain_mfrac: 0.1
+  fesilicate_small_grain_mfrac: 0.1
+  silicate_fe_grain_fraction: -1
+
+COLIBREStarFormation:
+  min_over_density: 100.0
+  alpha_virial: 1.
+  SF_model: SchmidtLaw
+  star_formation_efficiency: 0.01
+  density_direct_H_p_cm3: 3.40282e+38
+  subgrid_density_threshold_H_p_CM3: 3.40282e+38
+  temperature_threshold_K: 0
+
+COLIBREFeedback:
+  use_SNII_feedback: 1
+  use_SNIa_feedback: 1
+  use_AGB_enrichment: 1
+  use_SNII_enrichment: 1
+  use_SNIa_enrichment: 1
+  with_r_process_enrichment: 1
+  with_RadiationPressure: 1
+  with_HIIRegions: 1
+  with_StellarWinds: 1
+  filename: ../../tables_july2023/yieldtables/
+  IMF_min_mass_Msun: 0.1
+  IMF_max_mass_Msun: 100.0
+  SNII_min_mass_Msun: 8.0
+  SNII_max_mass_Msun: 100.0
+  SNII_wind_delay_Gyr: -1.0
+  SNII_delta_T_n_0_H_p_cm3: 0.60
+  SNII_delta_T_K_pivot: 3.16228e6
+  SNII_delta_T_slope: 0.666666666
+  SNII_delta_T_K_min: 3.16228e6
+  SNII_delta_T_K_max: 3.16228e7
+  SNII_energy_erg: 1.0e51
+  SNII_delta_v_km_p_s: 50.0
+  SNII_f_kinetic: 0.1
+  SNII_energy_fraction_min: 0.1
+  SNII_energy_fraction_max: 3.5
+  SNII_energy_fraction_Z_0: 2.0
+  SNII_energy_fraction_n_0_H_p_cm3: 0.67
+  SNII_energy_fraction_n_Z: 0.0
+  SNII_energy_fraction_n_n: 0.0
+  SNII_energy_fraction_P_0_K_p_cm3: 7e3
+  SNII_energy_fraction_sigma_P: 0.3
+  SNIa_energy_erg: 1.0e51
+  SNIa_delta_T_n_0_H_p_cm3: 0.60
+  SNIa_delta_T_K_pivot: 3.16228e6
+  SNIa_delta_T_slope: 0.666666666
+  SNIa_delta_T_K_min: 3.16228e6
+  SNIa_delta_T_K_max: 3.16228e7
+  SNIa_energy_fraction: 1.0
+  AGB_ejecta_velocity_km_p_s: 10.0
+  SNII_enrichment_min_mass_Msun: 8.0
+  SNII_enrichment_max_mass_Msun: 40.0
+  SNII_yield_factor_Hydrogen: 1.0
+  SNII_yield_factor_Helium: 1.0
+  SNII_yield_factor_Carbon: 3.0
+  SNII_yield_factor_Nitrogen: 0.8
+  SNII_yield_factor_Oxygen: 1.0
+  SNII_yield_factor_Neon: 1.0
+  SNII_yield_factor_Magnesium: 1.0
+  SNII_yield_factor_Silicon: 0.8
+  SNII_yield_factor_Iron: 2.0
+  num_of_NSM_per_Msun: 1.3e-5
+  yield_Eu_from_NSM_event_Msun: 1e-5
+  num_of_CEJSN_per_Msun: 1.22e-5
+  yield_Eu_from_CEJSN_event_Msun: 2e-5
+  num_of_collapsar_per_Msun: 2.6e-5
+  yield_Eu_from_collapsar_event_Msun: 1e-6
+  collapsar_min_mass_Msun: 10.0
+  collapsar_max_mass_Msun: 40.0
+  Momentum_desired_delta_v: 50.0
+  HIIregion_ionization_fraction: 1.0
+  HIIregion_temperature_K: 1.e4
+  HIIregion_rebuild_dt_Myr: 2.0
+  earlyfb_filename: ../../tables_july2023/Early_stellar_feedback.hdf5
+  stellar_evolution_age_cut_Gyr: 0.1
+  stellar_evolution_sampling_age_fraction: 0.05
+  HIIregion_maxage_Myr: 50
+  stellarwind_maxage_Myr: 250
+
+SNIaDTD:
+  SNIa_efficiency_p_Msun: 0.0016
+  SNIa_timescale_Gyr: 2.0
+  SNIa_delay_time_Gyr: 0.04
+
+Event_logger:
+  delta_time_SNIa_Myr: 100
+  delta_time_SNII_Myr: 10
+  delta_time_r_processes_Myr: 100
+
+COLIBREAGN:
+  subgrid_seed_mass_Msun: 6.32455e3
+  use_multi_phase_bondi: 0
+  use_subgrid_gas_properties: 1
+  use_krumholz: 1
+  with_krumholz_vorticity: 1
+  with_angmom_limiter: 0
+  radiative_efficiency: 0.1
+  max_eddington_fraction: 10.0
+  eddington_fraction_for_recording: 0.1
+  use_nibbling: 1
+  min_gas_mass_for_nibbling_Msun: 6.4e6
+  coupling_efficiency: 0.10
+  AGN_delta_T_K: 1e9
+  AGN_num_ngb_to_heat: 1.
+  with_potential_correction: 1
+  max_reposition_mass_Msun: 2e20
+  max_reposition_distance_ratio: 3.0
+  with_reposition_velocity_threshold: 0
+  set_reposition_speed: 0
+  threshold_major_merger: 0.333
+  threshold_minor_merger: 0.1
+  merger_threshold_type: DynamicalEscapeVelocity
+  merger_max_distance_ratio: 3.0
+  AGN_use_deterministic_feedback: 1
+  AGN_feedback_model: MinimumDistance
+  minimum_timestep_yr: 100.0
+  with_boost_factor: 1
+  boost_alpha: 1.0
+  boost_beta: 0.0
+  boost_n_h_star_cm3: 0.1
+  use_subgrid_mass_from_ics: 1
+
+FOF:
+  basename: fof_output
+  min_group_size: 256
+  linking_length_ratio: 0.2
+  seed_black_holes_enabled: 1
+  black_hole_seed_halo_mass_Msun: 1e10
+  scale_factor_first: 0.05
+  delta_time: 1.00751
+  group_id_default: 2147483647
+  group_id_offset: 1
+  absolute_linking_length: -1
+  dump_catalogue_when_seeding: 0
+  time_first: 0
+
+Stars:
+  resolution_eta: 1.1642
+  h_tolerance: 7e-3
+  timestep_age_threshold_unlimited_Myr: 40
+  max_timestep_young_Myr: 1.
+  luminosity_filename: ../../tables_july2023/photometry
+  max_ghost_iterations: 30
+  max_volume_change: -1
+  overwrite_birth_time: 0
+  overwrite_birth_density: 0
+  overwrite_birth_temperature: 0
+  max_timestep_old_Myr: 3.40282e+38
+  timestep_age_threshold_Myr: 3.40282e+38
+
+Restarts:
+  onexit: 1
+  delta_hours: 5.0
+  max_run_time: 71.5
+  resubmit_on_exit: 1
+  resubmit_command: ./resub.sh
+  subdir: restart
+  basename: swift
+  stop_steps: 100
+  enable: 1
+  save: 1
+  lustre_OST_count: 0
+
+XrayEmissivity:
+  xray_table_path: ../../tables_july2023/X_Ray_tables.hdf5
+
+DomainDecomposition:
+  initial_type: edgememory
+  repartition_type: fullcosts
+  trigger: 0.05
+  minfrac: 0.95
+  usemetis: 0
+  adaptive: 1
+  itr: 100
+  use_fixed_costs: 0
+  synchronous: 0
+
+PhysicalConstants:
+  G: 43.0092
+  mu_0: 1.95009e-28
+
+BlackHoles:
+  resolution_eta: 1.2348
+  h_tolerance: 0.0001
+  max_ghost_iterations: 30
+  max_volume_change: -1
+
+EAGLEAGN:
+  with_subgrid_mass_check: 1
+...

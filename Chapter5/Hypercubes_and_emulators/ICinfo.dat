@@ -1,0 +1,31 @@
+1. An example of how to generate ICs for the hypercube with the full COLIBRE model is given in `example_hypercube_reference_model' directory
+
+The default parameter file is `colibre_50Mpc_376.yml'
+Running the python script `create_hypercube.py' will create the ICs for 40 runs of the hypercube. This script uses `numpy' and `swiftemulator' packages
+
+2. The hypercubes for the other three models are created in the same way, except that
+
+- the ModelSpecification parameters in the script should be different. The relevant parameters are
+  SNII_delta_T_K_min:               3.16228e6            
+  SNII_delta_T_K_max:               3.16228e7  
+  SNIa_delta_T_K_min:               3.16228e6            
+  SNIa_delta_T_K_max:               3.16228e7             
+  SNII_f_kinetic:                   0.1             
+  SNII_energy_fraction_min:         0.1             
+  SNII_energy_fraction_max:         3.5  
+from the COLIBREFeedback parameter section in `colibre_50Mpc_376.yml'
+
+- number_of_simulations in the script may need to be changed from 50 to 32 or 24
+
+- in colibre_50Mpc_376,yml, one may need to adjust some of the above parameters (to ensure that, e.g., all runs in the hypercube have no kinetic feedback by setting SNII_f_kinetic = 0.0)
+
+3. Running the pipeline on the finished runs (see https://github.com/SWIFTSIM/pipeline) will create data_000X.yml files with processed galaxy properties.
+
+4. After data_000X.yml file is available for each run of the hypercube, one can run the script emulate.py. It requires libraries such as
+- tqdm
+- corner
+- emcee
+- astropy,
+which can all be pip-installed.
+
+emulate.py will find the best-fitting parameter values by creating emulators, training them on the hypercube's data, and then fitting them to the observed GSMF and SSM.

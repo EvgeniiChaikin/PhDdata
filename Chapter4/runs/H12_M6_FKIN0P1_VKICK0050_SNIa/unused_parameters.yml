@@ -1,0 +1,115 @@
+---
+
+# SWIFT unused parameter file
+# code version: 0.9.0
+# git revision: v0.9.0-1580-gc89d7e27-dirty
+# git branch: hawk-scaling-test
+# git date: 2022-06-09 22:51:17 +0200
+# current date: 09:05:51 2022-07-04 BST
+
+CHIMESCooling:
+  data_path: chimes-data
+  EqmAbundanceTable: colibre_HHe/z0.000_eqm.hdf5
+  PhotoIonTable_UVB: SP20_cross_sections/z0.000_cross_sections.hdf5
+  PhotoIonTable_ISRF: cross_sections_B87.hdf5
+  UV_field_flag: 2
+  Shielding_flag: 2
+  use_redshift_dependent_UVB: 0
+  shielding_length_factor: 0.5
+  max_shielding_length_kpc: 100.0
+  rad_field_norm_factor: 0.01
+  init_abundance_mode: 1
+  colibre_metal_depletion: 0
+  turbulent_velocity_dispersion_km_p_s: 6.0
+  colibre_use_turbulent_jeans_length: 1
+  colibre_saturate_radiation_field: 1
+  colibre_col_dens_saturate_rad: 1.3e22
+  colibre_saturate_cr_rate: 1
+  colibre_col_dens_saturate_cr: 3.63e20
+  colibre_cr_plaw_index: 1.0
+  relativeTolerance: 1e-3
+  absoluteTolerance: 1e-10
+  explicitTolerance: 0.1
+  scale_metal_tolerances: 1
+  Tmol_K: 1.0e5
+  ChemistryEqmMode: 0
+  ThermEvolOn: 1
+  chimes_debug: 0
+  cosmic_ray_rate_cgs: 1.8e-16
+  delta_logTEOS_subgrid_properties: 0.3
+  use_colibre_subgrid_EOS: 1
+  set_FB_particles_to_eqm: 1
+  use_hybrid_cooling: 1
+  rapid_cooling_threshold: 0.333333
+  colibre_table_path: ./cooling_files
+  colibre_table_filebase: UVB_dust1_CR1_G1_shield1_v1
+  UVB_cutoff_z: 127.0
+  ISRF_low_dens_cutoff_z: 7.5
+  S_over_Si_in_solar: 1.0
+  Ca_over_Si_in_solar: 1.0
+  IncludeCarbon: 0
+  IncludeNitrogen: 0
+  IncludeOxygen: 0
+  IncludeNeon: 0
+  IncludeMagnesium: 0
+  IncludeSilicon: 0
+  IncludeSulphur: 0
+  IncludeCalcium: 0
+  IncludeIron: 0
+
+DustEvolution:
+  initial_abundance_graphite: 0.0
+  initial_abundance_silicate: 0.0
+  initial_abundance_depletedC: 0.0
+  initial_abundance_depletedO: 0.0
+  initial_abundance_depletedMg: 0.0
+  initial_abundance_depletedSi: 0.0
+  initial_abundance_depletedFe: 0.0
+
+COLIBREStarFormation:
+  KS_exponent: 1.4
+  KS_normalisation_Msun_p_yr_p_kpc2: 1.515e-4
+  gas_fraction: 1.0
+
+Stars:
+  birth_time: -1
+
+COLIBREEntropyFloor:
+  Jeans_density_norm_H_p_cm3: 0.1
+  Jeans_temperature_norm_K: 10.
+  Jeans_gamma_effective: 1.0
+  Cool_density_norm_H_p_cm3: 1e-5
+  Cool_temperature_norm_K: -1.
+  Cool_gamma_effective: 1.
+
+COLIBREAGN:
+  subgrid_seed_mass_Msun: 1e4
+  use_multi_phase_bondi: 0
+  use_subgrid_gas_properties: 1
+  use_krumholz: 1
+  with_krumholz_vorticity: 1
+  with_angmom_limiter: 0
+  radiative_efficiency: 0.1
+  max_eddington_fraction: 1.
+  eddington_fraction_for_recording: 0.1
+  use_nibbling: 1
+  min_gas_mass_for_nibbling_Msun: 5e4
+  coupling_efficiency: 0.10
+  AGN_delta_T_K: 1e9
+  AGN_num_ngb_to_heat: 1.
+  max_reposition_mass_Msun: 2e20
+  max_reposition_distance_ratio: 3.0
+  with_reposition_velocity_threshold: 0
+  set_reposition_speed: 0
+  threshold_major_merger: 0.333
+  threshold_minor_merger: 0.1
+  merger_threshold_type: 2
+  merger_max_distance_ratio: 1.0
+  AGN_use_deterministic_feedback: 1
+  AGN_feedback_model: Isotropic
+  minimum_timestep_yr: 10000.0
+  with_boost_factor: 1
+  boost_alpha: 0.2
+  boost_beta: 1.
+  boost_n_h_star_cm3: 1e10
+...

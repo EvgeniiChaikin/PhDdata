@@ -1,0 +1,95 @@
+---
+
+# SWIFT used parameter file
+# Code version: 0.9.0
+# git revision: v0.9.0-46-gab32f06d
+# git branch: (detached from ab32f06)
+# git date: 2020-11-06 08:31:41 +0000
+
+Snapshots:
+  invoke_fof: 0
+
+COLIBRECooling:
+  dir_name: ../../cosmo_runs/UV_dust1_CR1_G1_shield1_new.hdf5
+  H_reion_z: 11.5
+  H_reion_eV_p_H: 2.0
+  He_reion_z_centre: 3.5
+  He_reion_z_sigma: 0.5
+  He_reion_eV_p_H: 2.0
+  delta_logTEOS_subgrid_properties: 0.2
+  rapid_cooling_threshold: 1.0
+
+COLIBREEntropyFloor:
+  Jeans_density_norm_H_p_cm3: 0.1
+  Jeans_temperature_norm_K: 10.
+  Jeans_gamma_effective: 1.0
+  Cool_density_norm_H_p_cm3: 1e-5
+  Cool_temperature_norm_K: -1.
+  Cool_gamma_effective: 1.
+
+COLIBREFeedback:
+  use_SNII_feedback: 0
+  use_SNIa_feedback: 0
+  use_AGB_enrichment: 0
+  use_SNII_enrichment: 0
+  use_SNIa_enrichment: 0
+  with_HIIRegions: 0
+  with_StellarWinds: 0
+  with_r_process_enrichment: 0
+  with_RadiationPressure: 0
+  filename: ../../cosmo_runs/yieldtables/
+  IMF_min_mass_Msun: 0.1
+  IMF_max_mass_Msun: 100.0
+  SNII_min_mass_Msun: 8.0
+  SNII_max_mass_Msun: 100.0
+  SNII_wind_delay_Gyr: 0.00
+  SNII_delta_T_K: 3.16228e1
+  SNII_energy_erg: 1.0e51
+  SNII_delta_v_km_p_s: 25.0
+  SNII_f_kinetic: 0.0
+  SNII_energy_fraction_min: 1.0
+  SNII_energy_fraction_max: 1.0
+  SNII_energy_fraction_Z_0: 0.0012663729
+  SNII_energy_fraction_n_0_H_p_cm3: 0.67
+  SNII_energy_fraction_n_Z: 0.8686
+  SNII_energy_fraction_n_n: 0.8686
+  SNIa_max_mass_Msun: 8.0
+  SNIa_energy_erg: 1.0e51
+  SNIa_delta_T_K: 3.16228e7
+  SNIa_energy_fraction: 1.0
+  AGB_ejecta_velocity_km_p_s: 10.0
+  SNII_yield_factor_Hydrogen: 1.0
+  SNII_yield_factor_Helium: 1.0
+  SNII_yield_factor_Carbon: 0.5
+  SNII_yield_factor_Nitrogen: 1.0
+  SNII_yield_factor_Oxygen: 1.0
+  SNII_yield_factor_Neon: 1.0
+  SNII_yield_factor_Magnesium: 2.0
+  SNII_yield_factor_Silicon: 1.0
+  SNII_yield_factor_Iron: 0.5
+  Momentum_desired_delta_v: -1.0
+  HIIregion_ionization_fraction: 1.0
+  HIIregion_temperature: 1.e4
+  HIIregion_rebuild_dt_Myr: 2.0
+  earlyfb_filename: ../../Early_stellar_feedback.hdf5
+  stellar_evolution_age_cut_Gyr: 1.0
+  stellar_evolution_sampling_rate: 10
+  num_of_NSM_per_Msun: 1.54e-5
+  yield_Eu_from_NSM_event_Msun: 1.5e-5
+  num_of_CEJSN_per_Msun: 1.22e-5
+  yield_Eu_from_CEJSN_event_Msun: 1e-5
+  num_of_collapsar_per_Msun: 4.53e-7
+  yield_Eu_from_collapsar_event_Msun: 1e-4
+  collapsar_min_mass_Msun: 10.0
+  collapsar_max_mass_Msun: 100.0
+
+SNIaDTD:
+  SNIa_efficiency_p_Msun: 0.001
+  normalization_timescale_Gyr: 13.6
+  SNIa_delay_time_Gyr: 0.04
+
+Event_logger:
+  delta_time_SNIa_Myr: 100
+  delta_time_SNII_Myr: 10
+  delta_time_r_processes_Myr: 100
+...

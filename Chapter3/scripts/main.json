@@ -1,0 +1,310 @@
+{
+    "plot_mass_loading_factors.py": 
+    [
+        {
+            "output_file": "mass_loading_main.pdf",
+            "snapshot": 202, 
+            "data": {
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M5_min_distance"                     : "../RUNS_FOR_PLOTS/M12_E2_MDI_MIDRES_ALL_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M5_min_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MDE_MIDRES_ALL_NEWIC",
+                "IG_M5_max_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MAX_MIDRES_ALL_NEWIC"
+            }
+        },
+        {
+            "output_file": "mass_loading_dwarf.pdf",
+            "snapshot": 202, 
+            "data": {
+                "IGD_M3_isotropic"                        : "../RUNS_FOR_PLOTS/M10_E2_ISO_MIDRES_ALL_NEWIC",
+                "IGD_M3_min_distance"                     : "../RUNS_FOR_PLOTS/M10_E2_MDI_MIDRES_ALL_NEWIC",
+                "IGD_M3_mass_weighted"                    : "../RUNS_FOR_PLOTS/M10_E2_RND_MIDRES_ALL_NEWIC",
+                "IGD_M3_min_density"                      : "../RUNS_FOR_PLOTS/M10_E2_MDE_MIDRES_ALL_NEWIC",
+                "IGD_M3_max_density"                      : "../RUNS_FOR_PLOTS/M10_E2_MAX_MIDRES_ALL_NEWIC"
+            }
+        },
+        {
+            "output_file": "mass_loading_res.pdf",
+            "snapshot": 202, 
+            "data": {
+                "IG_M4_isotropic"                        : "../RUNS_FOR_PLOTS/HIGH_RES_ISO_NEWIC",
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M6_isotropic"                        : "../RUNS_FOR_PLOTS/LOW_RES_ISO_NEWIC",
+                "IG_M4_mass_weighted"                    : "../RUNS_FOR_PLOTS/HIGH_RES_RND_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M6_mass_weighted"                    : "../RUNS_FOR_PLOTS/LOW_RES_RND_NEWIC"
+            }
+        }
+    ],
+    "plot_density_distribution.py": 
+    [
+        {
+            "output_file": "density_distribution_eos.pdf",
+            "snapshot": 120, 
+            "timewindow": 200, 
+            "split": 2,
+            "data": {
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M5_isotropic_eos"                    : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_EOS_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M5_mass_weighted_eos"                : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_EOS_NEWIC"
+            }
+        },
+        {
+            "output_file": "density_distribution_main.pdf",
+            "snapshot": 120, 
+            "timewindow": 200, 
+            "split": 0,
+            "data": {
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M5_min_distance"                     : "../RUNS_FOR_PLOTS/M12_E2_MDI_MIDRES_ALL_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M5_min_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MDE_MIDRES_ALL_NEWIC",
+                "IG_M5_max_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MAX_MIDRES_ALL_NEWIC"
+            }
+        },
+        {
+            "output_file": "density_distribution_dwarf.pdf",
+            "snapshot": 120, 
+            "timewindow": 200, 
+            "split": 0,
+            "data": {
+                "IGD_M3_isotropic"                        : "../RUNS_FOR_PLOTS/M10_E2_ISO_MIDRES_ALL_NEWIC",
+                "IGD_M3_min_distance"                     : "../RUNS_FOR_PLOTS/M10_E2_MDI_MIDRES_ALL_NEWIC",
+                "IGD_M3_mass_weighted"                    : "../RUNS_FOR_PLOTS/M10_E2_RND_MIDRES_ALL_NEWIC",
+                "IGD_M3_min_density"                      : "../RUNS_FOR_PLOTS/M10_E2_MDE_MIDRES_ALL_NEWIC",
+                "IGD_M3_max_density"                      : "../RUNS_FOR_PLOTS/M10_E2_MAX_MIDRES_ALL_NEWIC"
+            }
+        },
+        {
+            "output_file": "density_distribution_main_res.pdf",
+            "snapshot": 200, 
+            "timewindow": 900, 
+            "split": 1,
+            "data": {
+                "IG_M4_isotropic"                        : "../RUNS_FOR_PLOTS/HIGH_RES_ISO_NEWIC",
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M6_isotropic"                        : "../RUNS_FOR_PLOTS/LOW_RES_ISO_NEWIC",
+                "IG_M4_mass_weighted"                    : "../RUNS_FOR_PLOTS/HIGH_RES_RND_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M6_mass_weighted"                    : "../RUNS_FOR_PLOTS/LOW_RES_RND_NEWIC"
+            }
+        }
+    ],
+    "plot_stellar_birth_n_vs_feedback_n.py": 
+    [
+        {
+            "output_file": "plot_stellar_birth_n_vs_feedback_n_res.pdf",
+            "snapshot": 200, 
+            "split": 1,
+            "data": {
+                "IG_M4_isotropic"                        : "../RUNS_FOR_PLOTS/HIGH_RES_ISO_NEWIC",
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M6_isotropic"                        : "../RUNS_FOR_PLOTS/LOW_RES_ISO_NEWIC",
+                "IG_M4_mass_weighted"                    : "../RUNS_FOR_PLOTS/HIGH_RES_RND_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M6_mass_weighted"                    : "../RUNS_FOR_PLOTS/LOW_RES_RND_NEWIC"
+            }
+        },
+        {
+            "output_file": "plot_stellar_birth_n_vs_feedback_n.pdf",
+            "snapshot": 200, 
+            "split": 0,
+            "data": {
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M5_min_distance"                     : "../RUNS_FOR_PLOTS/M12_E2_MDI_MIDRES_ALL_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M5_min_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MDE_MIDRES_ALL_NEWIC",
+                "IG_M5_max_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MAX_MIDRES_ALL_NEWIC"
+            }
+        },
+        {
+            "output_file": "plot_stellar_birth_n_vs_feedback_n_dwarf.pdf",
+            "snapshot": 200, 
+            "split": 0,
+            "data": {
+                "IGD_M3_isotropic"                        : "../RUNS_FOR_PLOTS/M10_E2_ISO_MIDRES_ALL_NEWIC",
+                "IGD_M3_min_distance"                     : "../RUNS_FOR_PLOTS/M10_E2_MDI_MIDRES_ALL_NEWIC",
+                "IGD_M3_mass_weighted"                    : "../RUNS_FOR_PLOTS/M10_E2_RND_MIDRES_ALL_NEWIC",
+                "IGD_M3_min_density"                      : "../RUNS_FOR_PLOTS/M10_E2_MDE_MIDRES_ALL_NEWIC",
+                "IGD_M3_max_density"                      : "../RUNS_FOR_PLOTS/M10_E2_MAX_MIDRES_ALL_NEWIC"
+            }
+        },
+        {
+            "output_file": "plot_stellar_birth_n_vs_feedback_n_eos.pdf",
+            "snapshot": 200, 
+            "split": 2,
+            "data": {
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M5_isotropic_eos"                    : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_EOS_NEWIC",
+                "IG_M5_random"                           : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M5_random_eos"                       : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_EOS_NEWIC"
+            }
+        }
+    ],
+    "star_formation_history.py": 
+    [
+        {
+            "output_file": "star_formation_history_eos.pdf",
+            "split": 2,
+            "data": {
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M5_isotropic_eos"                    : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_EOS_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M5_mass_weighted_eos"                : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_EOS_NEWIC"
+            }
+        },
+        {
+            "output_file": "star_formation_history_dwarf.pdf",
+            "split": -1,
+            "data": {
+                "IGD_M3_isotropic"                        : "../RUNS_FOR_PLOTS/M10_E2_ISO_MIDRES_ALL_NEWIC",
+                "IGD_M3_min_distance"                     : "../RUNS_FOR_PLOTS/M10_E2_MDI_MIDRES_ALL_NEWIC",
+                "IGD_M3_mass_weighted"                    : "../RUNS_FOR_PLOTS/M10_E2_RND_MIDRES_ALL_NEWIC",
+                "IGD_M3_min_density"                      : "../RUNS_FOR_PLOTS/M10_E2_MDE_MIDRES_ALL_NEWIC",
+                "IGD_M3_max_density"                      : "../RUNS_FOR_PLOTS/M10_E2_MAX_MIDRES_ALL_NEWIC"
+            }
+        },
+        {
+            "output_file": "star_formation_history_main.pdf",
+            "split": 0,
+            "data": {
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M5_min_distance"                     : "../RUNS_FOR_PLOTS/M12_E2_MDI_MIDRES_ALL_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M5_min_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MDE_MIDRES_ALL_NEWIC",
+                "IG_M5_max_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MAX_MIDRES_ALL_NEWIC"
+            }
+        },
+        {
+            "output_file": "star_formation_history_low.pdf",
+            "split": 0,
+            "data": {
+                "IG_M6_isotropic"                        : "../RUNS_FOR_PLOTS/LOW_RES_ISO_NEWIC",
+                "IG_M6_min_distance"                     : "../RUNS_FOR_PLOTS/LOW_RES_MDI_NEWIC",
+                "IG_M6_mass_weighted"                    : "../RUNS_FOR_PLOTS/LOW_RES_RND_NEWIC",
+                "IG_M6_min_density"                      : "../RUNS_FOR_PLOTS/LOW_RES_MDE_NEWIC",
+                "IG_M6_max_density"                      : "../RUNS_FOR_PLOTS/LOW_RES_MAX_NEWIC"
+            }
+        },
+        {
+            "output_file": "star_formation_history_main_hr.pdf",
+            "split": 0,
+            "data": {
+                "IG_M4_isotropic"                        : "../RUNS_FOR_PLOTS/HIGH_RES_ISO_NEWIC",
+                "IG_M4_min_distance"                     : "../RUNS_FOR_PLOTS/HIGH_RES_MDI_NEWIC",
+                "IG_M4_mass_weighted"                    : "../RUNS_FOR_PLOTS/HIGH_RES_RND_NEWIC"
+            }
+        },
+        {
+            "output_file": "star_formation_history_res.pdf",
+            "split": 1,
+            "data": {
+                "IG_M4_isotropic"                        : "../RUNS_FOR_PLOTS/HIGH_RES_ISO_NEWIC",
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M6_isotropic"                        : "../RUNS_FOR_PLOTS/LOW_RES_ISO_NEWIC",
+                "IG_M4_mass_weighted"                    : "../RUNS_FOR_PLOTS/HIGH_RES_RND_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M6_mass_weighted"                    : "../RUNS_FOR_PLOTS/LOW_RES_RND_NEWIC"
+            }
+        },
+        {
+            "output_file": "star_formation_history_full.pdf",
+            "split": 9,
+            "data": {
+                "IG_M4_isotropic"                        : "../RUNS_FOR_PLOTS/HIGH_RES_ISO_NEWIC",
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M6_isotropic"                        : "../RUNS_FOR_PLOTS/LOW_RES_ISO_NEWIC",
+                "IG_M4_mass_weighted"                    : "../RUNS_FOR_PLOTS/HIGH_RES_RND_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M6_mass_weighted"                    : "../RUNS_FOR_PLOTS/LOW_RES_RND_NEWIC",
+                "IG_M4_min_distance"                     : "../RUNS_FOR_PLOTS/HIGH_RES_MDI_NEWIC",
+                "IG_M5_min_distance"                     : "../RUNS_FOR_PLOTS/M12_E2_MDI_MIDRES_ALL_NEWIC",
+                "IG_M6_min_distance"                     : "../RUNS_FOR_PLOTS/LOW_RES_MDI_NEWIC"
+            }
+        }
+    ],
+    "plot_theta_z_pos.py": 
+    [
+        {
+            "output_file": "plot_theta_z_pos_main.pdf",
+            "snapshot": 200, 
+            "split": 1,
+            "timewindow": 900, 
+            "data": {
+                    "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                    "IG_M5_min_distance"                     : "../RUNS_FOR_PLOTS/M12_E2_MDI_MIDRES_ALL_NEWIC",
+                    "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                    "IG_M5_min_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MDE_MIDRES_ALL_NEWIC",
+                    "IG_M5_max_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MAX_MIDRES_ALL_NEWIC"
+            }
+        },
+        {
+            "output_file": "plot_theta_z_pos_main_hr.pdf",
+            "snapshot": 120, 
+            "split": 1,
+            "timewindow": 500, 
+            "data": {
+                "IG_M4_isotropic"                        : "../RUNS_FOR_PLOTS/HIGH_RES_ISO_NEWIC",
+                "IG_M4_min_distance"                     : "../RUNS_FOR_PLOTS/HIGH_RES_MDI_NEWIC",
+                "IG_M4_mass_weighted"                    : "../RUNS_FOR_PLOTS/HIGH_RES_RND_NEWIC"
+            }
+        },
+        {
+            "output_file": "plot_theta_z_pos_main_res.pdf",
+            "snapshot": 200, 
+            "split": 1,
+            "timewindow": 900, 
+            "data": {
+                "IG_M4_isotropic"                        : "../RUNS_FOR_PLOTS/HIGH_RES_ISO_NEWIC",
+                "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                "IG_M6_isotropic"                        : "../RUNS_FOR_PLOTS/LOW_RES_ISO_NEWIC",
+                "IG_M4_mass_weighted"                    : "../RUNS_FOR_PLOTS/HIGH_RES_RND_NEWIC",
+                "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                "IG_M6_mass_weighted"                    : "../RUNS_FOR_PLOTS/LOW_RES_RND_NEWIC"
+            }
+        }
+    ],
+    "plot_r_to_h_hist.py": 
+    [
+        {
+            "output_file": "plot_r_to_h_hist_main.pdf",
+            "snapshot": 200, 
+            "timewindow": 900, 
+            "data": {
+                    "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                    "IG_M5_min_distance"                     : "../RUNS_FOR_PLOTS/M12_E2_MDI_MIDRES_ALL_NEWIC",
+                    "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC"
+            }
+        },
+        {
+            "output_file": "plot_r_to_h_hist_main_hr.pdf",
+            "snapshot": 120, 
+            "timewindow": 500, 
+            "data": {
+                "IG_M4_isotropic"                        : "../RUNS_FOR_PLOTS/HIGH_RES_ISO_NEWIC",
+                "IG_M4_min_distance"                     : "../RUNS_FOR_PLOTS/HIGH_RES_MDI_NEWIC",
+                "IG_M4_mass_weighted"                    : "../RUNS_FOR_PLOTS/HIGH_RES_RND_NEWIC"
+            }
+        }
+    ],
+    "plot_surface_density_profile.py":
+    [
+        {
+            "output_file": "surface_density_profile_main.pdf",
+            "split": 0,
+            "snapshot": 100,
+            "timewindow": 500,
+            "ylims": [0.1, 1e3],
+            "xlims": [0.0, 15.0],
+            "data": {
+                    "IG_M5_isotropic"                        : "../RUNS_FOR_PLOTS/M12_E2_ISO_MIDRES_ALL_NEWIC",
+                    "IG_M5_min_distance"                     : "../RUNS_FOR_PLOTS/M12_E2_MDI_MIDRES_ALL_NEWIC",
+                    "IG_M5_mass_weighted"                    : "../RUNS_FOR_PLOTS/M12_E2_RND_MIDRES_ALL_NEWIC",
+                    "IG_M5_min_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MDE_MIDRES_ALL_NEWIC",
+                    "IG_M5_max_density"                      : "../RUNS_FOR_PLOTS/M12_E2_MAX_MIDRES_ALL_NEWIC"
+            }
+        }
+    ]
+}
+

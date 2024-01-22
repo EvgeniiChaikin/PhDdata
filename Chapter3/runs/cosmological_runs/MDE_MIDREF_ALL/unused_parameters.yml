@@ -1,0 +1,73 @@
+---
+
+# SWIFT unused parameter file
+# Code version: 0.9.0
+# git revision: v0.9.0-790-gf93ae39c-dirty
+# git branch: colibre_subtask_speedup_new2
+# git date: 2021-09-08 18:06:45 +0100
+
+CHIMESCooling:
+  data_path: ../../cosmo_runs/chimes-data
+  EqmAbundanceTable: colibre_HHe
+  PhotoIonTable_UVB: SP20_cross_sections
+  PhotoIonTable_ISRF: cross_sections_B87.hdf5
+  UV_field_flag: 2
+  Shielding_flag: 2
+  use_redshift_dependent_UVB: 2
+  shielding_length_factor: 0.5
+  max_shielding_length: 100.0
+  rad_field_norm_factor: 0.1
+  init_abundance_mode: 1
+  colibre_metal_depletion: 1
+  relativeTolerance: 1e-3
+  absoluteTolerance: 1e-10
+  explicitTolerance: 0.1
+  scale_metal_tolerances: 1
+  T_mol: 1.0e5
+  ChemistryEqmMode: 0
+  ThermEvolOn: 1
+  chimes_debug: 0
+  cosmic_ray_rate: 1.8e-16
+  delta_logTEOS_subgrid_properties: 0.3
+  use_colibre_subgrid_EOS: 1
+  set_FB_particles_to_eqm: 1
+  use_hybrid_cooling: 1
+  rapid_cooling_threshold: 0.333333
+  colibre_table_path: ../../cosmo_runs/UV_dust1_CR1_G1_shield1.hdf5
+  UVB_cutoff_z: 127.0
+  ISRF_low_dens_cutoff_z: 7.5
+  S_over_Si_in_solar: 1.0
+  Ca_over_Si_in_solar: 1.0
+  IncludeCarbon: 0
+  IncludeNitrogen: 0
+  IncludeOxygen: 0
+  IncludeNeon: 0
+  IncludeMagnesium: 0
+  IncludeSilicon: 0
+  IncludeSulphur: 0
+  IncludeCalcium: 0
+  IncludeIron: 0
+
+DustEvolution:
+  pair_to_cooling: 0
+  use_subgrid_props: 1
+  use_sputtering: 1
+  use_SNII_destruction: 1
+  use_accretion: 1
+  clumping_factor: 10.
+  diffusion_boost_factor: 1.
+  dust_yields_path: ../../../../cosmo_runs/dust_yields
+  silicate_fe_grain_fraction: 0.5
+  inital_abundance_graphite: 0.0
+  inital_abundance_silicate: 0.0
+  inital_abundance_depletedC: 0.0
+  inital_abundance_depletedO: 0.0
+  inital_abundance_depletedMg: 0.0
+  inital_abundance_depletedSi: 0.0
+  inital_abundance_depletedFe: 0.0
+
+COLIBREStarFormation:
+  KS_exponent: 1.4
+  KS_normalisation_Msun_p_yr_p_kpc2: 1.515e-4
+  gas_fraction: 1.0
+...

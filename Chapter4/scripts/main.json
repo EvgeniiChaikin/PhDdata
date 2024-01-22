@@ -1,0 +1,717 @@
+{
+    "star_formation_history_integrated.py":
+    [
+        {
+            "output_file": "star_formation_history_main_integrated.pdf",
+            "split": 0,
+            "snapshot": 201,
+            "ylims": [1e7, 1e10],
+            "data": {
+                "H12_M5_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa"
+            }
+        }
+    ],
+    "star_formation_history.py":
+    [
+        {
+            "output_file": "star_formation_history_M12_fully_kinetic_vary_res.pdf",
+            "split": 6,
+            "fig_size": [8, 6],
+            "ylims": [0.08, 70],
+            "data": {
+                "H12_M5_fkin1p0_v1000"                            : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK1000_SNIa",
+                "H12_M6_fkin1p0_v1000"                            : "../RUNS_FOR_PLOTS_NEW/H12_M6_FKIN1P0_VKICK1000_SNIa",
+                "H12_M7_fkin1p0_v1000"                            : "../RUNS_FOR_PLOTS_NEW/H12_M7_FKIN1P0_VKICK1000_SNIa"
+             }
+        },
+        {
+            "output_file": "star_formation_history_M12_TempDens_vary_fkin.pdf",
+            "split": 0,
+            "fig_size": [8, 6],
+            "ylims": [0.08, 70],
+            "data": {
+                "H12_M5_fkin0p0_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa_TempDens",
+                "H12_M5_fkin0p1_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin0p3_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin1p0_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_TempDens"
+             }
+        },
+        {
+            "output_file": "star_formation_history_M12_vary_kinetic_model.pdf",
+            "split": 6,
+            "fig_size": [8, 5],
+            "ylims": [0.08, 20],
+            "data": {
+                "H12_M5_fkin0p1_v0050"                            : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0050_NoRelMotion"                : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_Beta1",
+                "H12_M5_fkin0p1_v0050_NoRelMotion_MulKicks"       : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_Beta1_Multi",
+                "H12_M5_fkin1p0_v0050"                            : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050_NoRelMotion"                : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_Beta1",
+                "H12_M5_fkin1p0_v0050_NoRelMotion_MulKicks"       : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_Beta1_Multi"
+            }
+        },
+        {
+            "output_file": "star_formation_history_M12_vary_kinetic_model2.pdf",
+            "split": 6,
+            "fig_size": [8, 6],
+            "ylims": [0.08, 70],
+            "data": {
+                "H12_M5_fkin0p1_v0050"                            : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0050_NoRelMotion"                : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_Beta1",
+                "H12_M5_fkin0p1_v0050_NoRelMotion_MulKicks"       : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_Beta1_Multi",
+                "H12_M5_fkin1p0_v0050"                            : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050_MulKicks"                   : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_Multi",
+                "H12_M5_fkin1p0_v0050_NoRelMotion_MulKicks (v3)"  : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_Beta1_Multi_V3"
+            }
+        },
+        {
+            "output_file": "star_formation_history_M12_vary_vkick.pdf",
+            "split": 1,
+            "fig_size": [8, 4],
+            "ylims": [0.4, 20],
+            "data": {
+                "H12_M5_fkin1p0_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0010_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0200_SNIa",
+                "H12_M5_fkin1p0_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0600_SNIa",
+                "H12_M5_fkin1p0_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK1000_SNIa"
+            }
+        },
+        {
+            "output_file": "star_formation_history_M12_fkin0p1_vary_vkick.pdf",
+            "split": 1,
+            "fig_size": [8, 4],
+            "ylims": [0.4, 20],
+            "data": {
+                "H12_M5_fkin0p1_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0010_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0200_SNIa",
+                "H12_M5_fkin0p1_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0600_SNIa",
+                "H12_M5_fkin0p1_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK1000_SNIa"
+            }
+        },
+        {
+            "output_file": "star_formation_history_M12_vary_sf_crit_vkick0010.pdf",
+            "split": 0,
+            "fig_size": [8, 7],
+            "ylims": [0.08, 20],
+            "data": {
+                "H12_M5_fkin0p0"                         : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p1_vkick0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0010_SNIa",
+                "H12_M5_fkin0p1_vkick0010_TempDens"      : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0010_SNIa_TempDens"
+             }
+        },
+        {
+            "output_file": "star_formation_history_M12_vary_sf_crit.pdf",
+            "split": 3,
+            "fig_size": [8, 7],
+            "ylims": [0.08, 20],
+            "data": {
+                "H12_M5_fkin0p0{_,_TempDens}"            : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p1_vkick0050{_,_TempDens}"  : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p3_vkick0050{_,_TempDens}"  : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_vkick0050{_,_TempDens}"  : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin0p0_nolegend"                : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa_TempDens",
+                "H12_M5_fkin0p1_vkick0050_nolegend"      : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin0p3_vkick0050_nolegend"      : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin1p0_vkick0050_nolegend"      : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_TempDens"
+            }
+        },
+        {
+            "output_file": "star_formation_history_M10_vary_vkick.pdf",
+            "split": 1,
+            "fig_size": [8, 7],
+            "ylims": [0.0002, 0.8],
+            "data": {
+                "H10_M3_fkin1p0_v0010"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0010_SNIa",
+                "H10_M3_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0050_SNIa",
+                "H10_M3_fkin1p0_v0200"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0200_SNIa",
+                "H10_M3_fkin1p0_v0600"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0600_SNIa",
+                "H10_M3_fkin1p0_v1000"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK1000_SNIa"
+            }
+        }
+    ],
+    "plot_mass_loading_factors.py":
+    [
+        {
+            "output_file": "mass_loading_M12_way_of_E_injection.pdf",
+            "snapshot": 202,
+            "split": 1,
+            "ylims": [0.003, 30],
+            "fig_size": [8, 4],
+            "data": {
+                "H12_M5_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p0_fixed_esn_inj"       : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa_FIXED_TIME_DELAY"
+            }
+        },
+        {
+            "output_file": "mass_loading_M12_fkin0p1_vary_vkick.pdf",
+            "snapshot": 202,
+            "split": 1,
+            "ylims": [0.003, 30],
+            "fig_size": [8, 4],
+            "data": {
+                "H12_M5_fkin0p1_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0010_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0200_SNIa",
+                "H12_M5_fkin0p1_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0600_SNIa",
+                "H12_M5_fkin0p1_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK1000_SNIa"
+            }
+        },
+        {
+            "output_file": "mass_loading_M12_vary_vkick.pdf",
+            "snapshot": 202,
+            "split": 1,
+            "ylims": [0.003, 30],
+            "fig_size": [8, 4],
+            "data": {
+                "H12_M5_fkin1p0_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0010_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0200_SNIa",
+                "H12_M5_fkin1p0_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0600_SNIa",
+                "H12_M5_fkin1p0_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK1000_SNIa"
+            }
+        },
+        {
+            "output_file": "mass_loading_M10_vary_vkick.pdf",
+            "snapshot": 202,
+            "split": 1,
+            "ylims": [0.03, 2000],
+            "fig_size": [8, 4],
+            "data": {
+                "H10_M3_fkin1p0_v0010"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0010_SNIa",
+                "H10_M3_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0050_SNIa",
+                "H10_M3_fkin1p0_v0200"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0200_SNIa",
+                "H10_M3_fkin1p0_v0600"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0600_SNIa",
+                "H10_M3_fkin1p0_v1000"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK1000_SNIa"
+            }
+        }
+    ],
+    "star_formation_history_insert.py":
+    [
+        {
+            "output_file": "star_formation_history_main_insert.pdf",
+            "split": 0,
+            "ylims_main": [0.06, 15],
+            "ylims_insert": [0.0002, 0.8],
+            "data": {
+                "H12_M5_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H10_M3_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P0_VKICK0000_SNIa",
+                "H10_M3_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P1_VKICK0050_SNIa",
+                "H10_M3_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P3_VKICK0050_SNIa",
+                "H10_M3_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0050_SNIa"
+            }
+        },
+        {
+            "output_file": "star_formation_history_convergence.pdf",
+            "split": 4,
+            "ylims_main": [0.06, 15],
+            "ylims_insert": [0.00011, 0.8],
+            "data": {
+                "H12_M4_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M4_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M6_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M6_FKIN0P1_VKICK0050_SNIa",
+                "H12_M7_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M7_FKIN0P1_VKICK0050_SNIa",
+                "H10_M2_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M2_FKIN0P1_VKICK0050_SNIa",
+                "H10_M3_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P1_VKICK0050_SNIa",
+                "H10_M4_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M4_FKIN0P1_VKICK0050_SNIa",
+                "H10_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M5_FKIN0P1_VKICK0050_SNIa"
+            }
+        }
+    ],
+    "plot_surface_density_profile.py":
+    [
+        {
+            "output_file": "surface_density_profile_M12_fkin0p1_varyvkick.pdf",
+            "split": 1,
+            "snapshot": 70,
+            "ylims": [3, 1.5e3],
+            "xlims": [0.0, 15.0],
+            "data": {
+                "H12_M5_fkin0p1_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0010_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0200_SNIa",
+                "H12_M5_fkin0p1_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0600_SNIa",
+                "H12_M5_fkin0p1_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK1000_SNIa"
+            }
+        },
+        {
+            "output_file": "surface_density_profile_M12.pdf",
+            "split": 0,
+            "snapshot": 70,
+            "ylims": [3, 1.5e3],
+            "xlims": [0.0, 15.0],
+            "data": {
+                "H12_M5_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa"
+            }
+        },
+        {
+            "output_file": "surface_density_profile_M10.pdf",
+            "split": 0,
+            "snapshot": 70,
+            "ylims": [3e-1, 1e2],
+            "xlims": [0.0, 12.5],
+            "data": {
+                "H10_M3_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P0_VKICK0000_SNIa",
+                "H10_M3_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P1_VKICK0050_SNIa",
+                "H10_M3_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P3_VKICK0050_SNIa",
+                "H10_M3_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0050_SNIa"
+            }
+        }
+    ],
+    "plot_dispersion_profile.py":
+    [
+        {
+            "output_file": "dispersion_profile_M12.pdf",
+            "split": 0,
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "ylims": [0.0, 35.0],
+            "xlims": [0.0, 15.0],
+            "data": {
+                "H12_M5_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa"
+            }
+        },
+        {
+            "output_file": "dispersion_profile_fkin0p1_vary_vkick_M12.pdf",
+            "split": 1,
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "ylims": [0.0, 35.0],
+            "xlims": [0.0, 15.0],
+            "data": {
+                "H12_M5_fkin0p1_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0010_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0200_SNIa",
+                "H12_M5_fkin0p1_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0600_SNIa",
+                "H12_M5_fkin0p1_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK1000_SNIa"
+            }
+        },
+        {
+            "output_file": "dispersion_profile_vary_vkick_M12.pdf",
+            "split": 1,
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "ylims": [0.0, 35.0],
+            "xlims": [0.0, 15.0],
+            "data": {
+                "H12_M5_fkin1p0_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0010_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0200_SNIa",
+                "H12_M5_fkin1p0_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0600_SNIa",
+                "H12_M5_fkin1p0_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK1000_SNIa"
+            }
+        }
+    ],
+    "plot_dispersion_feedbacktime.py":
+    [
+        {
+            "output_file": "dispersion_feedbacktime_M12_main.pdf",
+            "snapshot": 100,
+            "ylims": [2.0, 42.0],
+            "xlims": [0.0, 300.0],
+            "split": 0,
+            "data": {
+                "H12_M5_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa"
+            }
+        },
+        {
+            "output_file": "dispersion_feedbacktime_M12_vary_fkin.pdf",
+            "snapshot": 100,
+            "ylims": [2.0, 42.0],
+            "xlims": [0.0, 300.0],
+            "split": 0,
+            "data": {
+                "H12_M5_fkin0p0_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa_TempDens",
+                "H12_M5_fkin0p1_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin0p3_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin1p0_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_TempDens"
+            }
+        },
+        {
+            "output_file": "dispersion_feedbacktime_M12_temp.pdf",
+            "snapshot": 100,
+            "ylims": [2.0, 42.0],
+            "xlims": [0.0, 300.0],
+            "split": 0,
+            "data": {
+                "H12_M5_fkin0p1_vkick0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_vkick0050_TempDensSF"    : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin1p0_vkick0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_vkick0050_TempDensSF"    : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_TempDens"
+            }
+        }
+    ],
+    "plot_sfr_feedbacktime.py":
+    [
+        {
+            "output_file": "sfr_feedbacktime_M12_Temp_vary_fkin.pdf",
+            "snapshot": 100,
+            "split": 0,
+            "ylims": [0.5e-2, 1.3],
+            "xlims": [0.0, 300.0],
+            "data": {
+                "H12_M5_fkin0p0_TempSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa_OCT2022_Temp",
+                "H12_M5_fkin0p1_TempSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_OCT2022_Temp",
+                "H12_M5_fkin0p3_TempSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa_OCT2022_Temp",
+                "H12_M5_fkin1p0_TempSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_OCT2022_Temp"
+            }
+        },
+        {
+            "output_file": "sfr_feedbacktime_M12_Dens_vary_fkin.pdf",
+            "snapshot": 100,
+            "split": 0,
+            "ylims": [0.5e-2, 1.3],
+            "xlims": [0.0, 300.0],
+            "data": {
+                "H12_M5_fkin0p0_DensSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa_OCT2022_Dens",
+                "H12_M5_fkin0p1_DensSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_OCT2022_Dens",
+                "H12_M5_fkin0p3_DensSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa_OCT2022_Dens",
+                "H12_M5_fkin1p0_DensSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_OCT2022_Dens"
+            }
+        },
+        {
+            "output_file": "sfr_feedbacktime_M12_main.pdf",
+            "snapshot": 100,
+            "split": 0,
+            "ylims": [0.5e-2, 1.3],
+            "xlims": [0.0, 300.0],
+            "data": {
+                "H12_M5_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa"
+            }
+        },
+        {
+            "output_file": "sfr_feedbacktime_M12_TempDens_vary_fkin.pdf",
+            "snapshot": 100,
+            "split": 0,
+            "ylims": [0.5e-2, 1.3],
+            "xlims": [0.0, 300.0],
+            "data": {
+                "H12_M5_fkin0p0_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa_TempDens",
+                "H12_M5_fkin0p1_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin0p3_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin1p0_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_TempDens"
+            }
+        },
+        {
+            "output_file": "sfr_feedbacktime_M12_temp.pdf",
+            "snapshot": 100,
+            "split": 0,
+            "ylims": [0.5e-2, 1.3],
+            "xlims": [0.0, 300.0],
+            "data": {
+                "H12_M5_fkin0p1_vkick0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_vkick0050_TempDensSF"    : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin1p0_vkick0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_vkick0050_TempDensSF"    : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_TempDens"
+            }
+        }
+    ],
+    "plot_dispersion_sfr.py":
+    [
+        {
+            "output_file": "dispersion_sfr_M12_vary_kinetic_model.pdf",
+            "split": 0,
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "data": {
+                "H12_M5_fkin1p0_v0050"                            : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050_NoRelMotion"                : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_Beta1",
+                "H12_M5_fkin1p0_v0050_NoRelMotion_MulKicks"       : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_Beta1_Multi"
+            }
+        },
+        {
+            "output_file": "dispersion_sfr_M12.pdf",
+            "split": 0,
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "data": {
+                "H12_M5_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa"
+            }
+        },
+        {
+            "output_file": "dispersion_sfr_TempDens_vary_fkin.pdf",
+            "split": 0,
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "data": {
+                "H12_M5_fkin0p0_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa_TempDens",
+                "H12_M5_fkin0p1_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin0p3_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin1p0_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_TempDens"
+            }
+        },
+        {
+            "output_file": "dispersion_sfr_M12_vkick.pdf",
+            "split": 2,
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "data": {
+                "H12_M5_fkin1p0_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0010_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0200_SNIa",
+                "H12_M5_fkin1p0_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0600_SNIa",
+                "H12_M5_fkin1p0_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK1000_SNIa"
+            }
+        },
+        {
+            "output_file": "dispersion_sfr_M12_vkick_fkin0p1.pdf",
+            "split": 2,
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "data": {
+                "H12_M5_fkin0p1_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0010_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0200_SNIa",
+                "H12_M5_fkin0p1_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0600_SNIa",
+                "H12_M5_fkin0p1_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK1000_SNIa"
+            }
+        },
+        {
+            "output_file": "dispersion_sfr_convergence.pdf",
+            "split": 4,
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "data": {
+                "H12_M4_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M4_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M6_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M6_FKIN0P1_VKICK0050_SNIa",
+                "H12_M7_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M7_FKIN0P1_VKICK0050_SNIa"
+            }
+        }
+    ],
+    "plot_KS.py":
+    [
+        {
+            "output_file": "KS_Temp_vary_fkin.pdf",
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "split": 0,
+            "data": {
+                "H12_M5_fkin0p0_TempSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa_OCT2022_Temp",
+                "H12_M5_fkin0p1_TempSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_OCT2022_Temp",
+                "H12_M5_fkin0p3_TempSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa_OCT2022_Temp",
+                "H12_M5_fkin1p0_TempSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_OCT2022_Temp"
+            }
+        },
+        {
+            "output_file": "KS_Dens_vary_fkin.pdf",
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "split": 0,
+            "data": {
+                "H12_M5_fkin0p0_DensSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa_OCT2022_Dens",
+                "H12_M5_fkin0p1_DensSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_OCT2022_Dens",
+                "H12_M5_fkin0p3_DensSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa_OCT2022_Dens",
+                "H12_M5_fkin1p0_DensSF"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_OCT2022_Dens"
+            }
+        },
+        {
+            "output_file": "KS_main.pdf",
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "split": 0,
+            "data": {
+                "H12_M5_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa"
+            }
+        },
+        {
+            "output_file": "KS_TempDens_vary_fkin.pdf",
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "split": 0,
+            "data": {
+                "H12_M5_fkin0p0_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa_TempDens",
+                "H12_M5_fkin0p1_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin0p3_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa_TempDens",
+                "H12_M5_fkin1p0_TempDensSF"              : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_TempDens"
+            }
+        },
+        {
+            "output_file": "KS_vkick.pdf",
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "split": 2,
+            "data": {
+                "H12_M5_fkin1p0_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0010_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0200_SNIa",
+                "H12_M5_fkin1p0_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0600_SNIa",
+                "H12_M5_fkin1p0_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK1000_SNIa"
+            }
+        },
+        {
+            "output_file": "KS_vkick_fkin0p1.pdf",
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "split": 2,
+            "data": {
+                "H12_M5_fkin0p1_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0010_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0200_SNIa",
+                "H12_M5_fkin0p1_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0600_SNIa",
+                "H12_M5_fkin0p1_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK1000_SNIa"
+            }
+        },
+        {
+            "output_file": "KS_convergence.pdf",
+            "snapshot_min": 40,
+            "snapshot_max": 101,
+            "split": 4,
+            "data": {
+                "H12_M4_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M4_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M6_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M6_FKIN0P1_VKICK0050_SNIa",
+                "H12_M7_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M7_FKIN0P1_VKICK0050_SNIa"
+            }
+        }
+    ],
+    "plot_mass_loading_factors_insert.py":
+    [
+        {
+            "output_file": "mass_loading_main_insert.pdf",
+            "loaddata_files": ["mass_loading_M12_main", "mass_loading_M10_main"],
+            "ylims_main": [0.005, 500],
+            "ylims_insert": [0.005, 5000],
+            "split": 0,
+            "snapshot": 202,
+            "data": {
+                "H12_M5_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P0_VKICK0000_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P3_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H10_M3_fkin0p0"                     : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P0_VKICK0000_SNIa",
+                "H10_M3_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P1_VKICK0050_SNIa",
+                "H10_M3_fkin0p3_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P3_VKICK0050_SNIa",
+                "H10_M3_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0050_SNIa"
+            }
+        },
+        {
+            "output_file": "mass_loading_convergence.pdf",
+            "loaddata_files": ["mass_loading_M12_convergence", "mass_loading_M10_convergence"],
+            "ylims_main": [0.05, 200],
+            "ylims_insert": [0.5, 30000],
+            "split": 4,
+            "snapshot": 202,
+            "data": {
+                "H12_M4_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M4_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M6_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M6_FKIN0P1_VKICK0050_SNIa",
+                "H12_M7_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M7_FKIN0P1_VKICK0050_SNIa",
+                "H10_M2_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M2_FKIN0P1_VKICK0050_SNIa",
+                "H10_M3_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P1_VKICK0050_SNIa",
+                "H10_M4_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M4_FKIN0P1_VKICK0050_SNIa",
+                "H10_M5_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M5_FKIN0P1_VKICK0050_SNIa"
+            }
+        }
+    ],
+    "plot_last_vkick.py":
+    [
+        {
+            "output_file": "plot_last_vkick_main_dwarf.pdf",
+            "split": 1,
+            "snapshot": 201,
+            "data": {
+                "H10_M3_fkin1p0_v0010"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0010_SNIa",
+                "H10_M3_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0050_SNIa",
+                "H10_M3_fkin1p0_v0200"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0200_SNIa",
+                "H10_M3_fkin1p0_v0600"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK0600_SNIa",
+                "H10_M3_fkin1p0_v1000"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN1P0_VKICK1000_SNIa",
+                "H10_M3_fkin0p1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H10_M3_FKIN0P1_VKICK0050_SNIa"
+            }
+        },
+        {
+            "output_file": "plot_last_vkick_main.pdf",
+            "split": 0,
+            "snapshot": 201,
+            "data": {
+                "H12_M5_fkin1p0_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0010_SNIa",
+                "H12_M5_fkin1p0_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0200_SNIa",
+                "H12_M5_fkin1p0_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0600_SNIa",
+                "H12_M5_fkin1p0_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK1000_SNIa",
+                "H12_M5_fkin0p1_v0050_NoRelMotion_MulKicks"       : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_Beta1_Multi",
+                "H12_M5_fkin0p1_v0050_NoRelMotion"                : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_Beta1",
+                "H12_M5_fkin0p1_v0050"                            : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa"
+            }
+        },
+        {
+            "output_file": "plot_last_vkick_main_fkin0p1.pdf",
+            "split": 1,
+            "snapshot": 201,
+            "data": {
+                "H12_M5_fkin0P1_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0010_SNIa",
+                "H12_M5_fkin0P1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0P1_v0200"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0200_SNIa",
+                "H12_M5_fkin0P1_v0600"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0600_SNIa",
+                "H12_M5_fkin0P1_v1000"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK1000_SNIa"
+            }
+        },
+        {
+            "output_file": "plot_last_vkick_rays.pdf",
+            "split": 1,
+            "snapshot": 201,
+            "data": {
+                "H12_M5_fkin0P1_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0010_SNIa",
+                "H12_M5_fkin0P1_v0050"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0P1_v0010_32rays"        : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0010_SNIa_32rays",
+                "H12_M5_fkin0P1_v0050_32rays"        : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_32rays",
+                "H12_M5_fkin1P0_v0010"               : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0010_SNIa",
+                "H12_M5_fkin1P0_v0010_32rays"        : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0010_SNIa_32rays"
+            }
+        },
+        {
+            "output_file": "plot_last_vkick_vary_kin_model.pdf",
+            "split": 7,
+            "snapshot": 201,
+            "data": {
+                "H12_M5_fkin0p1_v0050"                            : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0050_NoRelMotion"                : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_Beta1",
+                "H12_M5_fkin0p1_v0050_NoRelMotion_MulKicks"       : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_Beta1_Multi"
+            }
+        }
+    ],
+    "plot_energy_error.py":
+    [
+        {
+            "output_file": "energy_error_vary_kin_model.pdf",
+            "snapshot": 202,
+            "fig_size": [8, 5.0],
+            "split": 6,
+            "ylims": [-0.2, 5.6],
+            "data": {
+                "H12_M5_fkin0p1_v0050"                            : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa",
+                "H12_M5_fkin0p1_v0050_NoRelMotion"                : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_Beta1",
+                "H12_M5_fkin0p1_v0050_NoRelMotion_MulKicks"       : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN0P1_VKICK0050_SNIa_Beta1_Multi",
+                "H12_M5_fkin1p0_v0050"                            : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa",
+                "H12_M5_fkin1p0_v0050_NoRelMotion"                : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_Beta1",
+                "H12_M5_fkin1p0_v0050_NoRelMotion_MulKicks"       : "../RUNS_FOR_PLOTS_NEW/H12_M5_FKIN1P0_VKICK0050_SNIa_Beta1_Multi"
+            }
+        }
+    ]
+}
+

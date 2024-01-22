@@ -1,0 +1,11 @@
+./configure -disable-mpi --disable-parallel-hdf5 --disable-hand-vec --with-subgrid=COLIBRE --with-kernel=wendland-C2 --with-hydro=sphenix --with-tbbmalloc --enable-debug=yes
+
+swift --hydro --limiter --sync --cooling --threads=28 --pin run.yml
+
+# SWIFT used parameter file
+# Code version: 0.9.0
+# git revision: v0.9.0-46-gab32f06d-dirty
+# git branch: (detached from ab32f06)
+# git date: 2020-11-06 08:31:41 +0000
+
+

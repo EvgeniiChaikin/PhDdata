@@ -1,0 +1,78 @@
+# GENERATE ICs
+# ------------------
+# GET THE GLASS FILE BY RUNNING THE getGlass.sh SCRIT
+# SET THE DENSITY PARAMETER INSIDE THE IC PYTHON SCRIPT, dens, to either 0.01, 0.1. or 1. THESE VALUES ARE IN UNITS of 1/cc.
+# RUN THE IC PYTHON SCRIPT AS
+python3.6 make_high_res_IC_with_tracer.py 128 3   # HIGH RES, 256^3 parts (dens=0.1)
+python3.6 make_high_res_IC_with_tracer.py 64  24  # MID  RES, 128^3 parts (dens=0.1)
+python3.6 make_high_res_IC_with_tracer.py 32  192 # LOW  RES, 64^3  parts (dens=0.1)
+python3.6 make_high_res_IC_with_tracer.py 128 9.5  # Density 1    (dens=1.0)
+python3.6 make_high_res_IC_with_tracer.py 128 0.95 # Density 0.01 (dens=0.01)
+# WHERE
+# FIRST ARG IS HALF OF THE QUBIC ROOT OF NUMBER OF PARTICLES IN THE SIMULATIONS
+# SECOND ARG IS PARTICLE MASS IN UNITS OF 0.01 MSUN
+
+# CHECK THAT FOR THE FIDUCIAL RUN, THE NUMBER OF PARTICLES WITH THE NON-ZERO 
+# CONCENTRATION OF EJECTA is 57 within radius of 5 pc.
+
+# EXPECTED OUTPUT
+# ------------------
+# Output file name            : example_diffusion_128_3.0e-02_with_middle.hdf5
+# Box size                    : 5.264e-01 kpc
+# Number of gas particles     : 16775744
+# Gas number density          : 1.000e-01 cm^-3
+# Average gas-particle mass   : 3.000e-02 M_\odot
+# Min gas-particle mass       : 3.000e-02 M_\odot
+# Max gas-particle mass       : 3.000e-02 M_\odot
+
+# Output file name            : example_diffusion_64_2.4e-01_with_middle.hdf5
+# Box size                    : 5.264e-01 kpc
+# Number of gas particles     : 2096672
+# Gas number density          : 1.000e-01 cm^-3
+# Average gas-particle mass   : 2.400e-01 M_\odot
+# Min gas-particle mass       : 2.400e-01 M_\odot
+# Max gas-particle mass       : 2.400e-01 M_\odot
+
+# Output file name            : example_diffusion_32_1.9e+00_with_middle.hdf5
+# Box size                    : 5.263e-01 kpc
+# Number of gas particles     : 261984
+# Gas number density          : 1.000e-01 cm^-3
+# Average gas-particle mass   : 1.920e+00 M_\odot
+# Min gas-particle mass       : 1.920e+00 M_\odot
+# Max gas-particle mass       : 1.920e+00 M_\odot
+
+# Output file name            : example_diffusion_128_9.5e-03_with_middle.hdf5
+# Box size                    : 7.730e-01 kpc
+# Number of gas particles     : 16775744
+# Gas number density          : 1.000e-02 cm^-3
+# Average gas-particle mass   : 9.500e-03 M_\odot
+# Min gas-particle mass       : 9.500e-03 M_\odot
+# Max gas-particle mass       : 9.500e-03 M_\odot
+
+# Output file name            : example_diffusion_128_9.5e-02_with_middle.hdf5
+# Box size                    : 3.588e-01 kpc
+# Number of gas particles     : 16775744
+# Gas number density          : 1.000e+00 cm^-3
+# Average gas-particle mass   : 9.500e-02 M_\odot
+# Min gas-particle mass       : 9.500e-02 M_\odot
+# Max gas-particle mass       : 9.500e-02 M_\odot
+
+# EXPECTED RADIUS OF SPHERE AND NUMBER OF PARTICLES FILLED WITH EJECTA
+# IN THE ICS DIFFERENT FROM FIDUCIAL (high res, dens 0.1)
+# -------------------------------------------
+# Dens 1.0:
+# Number of particles with initial energy 57
+# New N part: 57
+# Max radius: 3.407745882991245  [pc]
+#
+# Dens 0.01:
+# Number of particles with initial energy 57
+# New N part: 57
+# Max radius: 7.341765945129689  [pc]
+#
+# Dens 0.1 mid res:
+# New N part: 9
+# Max radius: 4.887200353205738  [pc]
+#
+# Dens 0.1 low res:
+# New N part: 1

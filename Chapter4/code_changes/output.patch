@@ -1,0 +1,478 @@
+diff --git a/src/feedback/COLIBRE/feedback.c b/src/feedback/COLIBRE/feedback.c
+index 6ae5ba9..fe2af91 100644
+--- a/src/feedback/COLIBRE/feedback.c
++++ b/src/feedback/COLIBRE/feedback.c
+@@ -213,18 +213,18 @@ INLINE static void compute_SNII_feedback(
+     const float ngb_gas_Z) {
+ 
+   /* Time after birth considered for SNII feedback (internal units) */
+-  const double SNII_wind_delay = feedback_props->SNII_wind_delay;
++  const double eagle_SNII_wind_delay = feedback_props->eagle_SNII_wind_delay;
+ 
+   /* Are we doing feedback this step?
+    * Note that since the ages are calculated using an interpolation table we
+    * must allow some tolerance here*/
+-  /* If SNII_wind_delay < 0, then use timed feedback */
+-  if ((star_age <= SNII_wind_delay &&
+-       (star_age + 1.001 * dt) > SNII_wind_delay) ||
+-      SNII_wind_delay < 0.) {
++  /* If eagle_SNII_wind_delay < 0, then use timed feedback */
++  if ((star_age <= eagle_SNII_wind_delay &&
++       (star_age + 1.001 * dt) > eagle_SNII_wind_delay) ||
++      eagle_SNII_wind_delay < 0.) {
+ 
+     /* Make sure a star does not do feedback twice in the delay time case */
+-    if (sp->SNII_f_E != -1.f && SNII_wind_delay >= 0.) {
++    if (sp->SNII_f_E != -1.f && eagle_SNII_wind_delay >= 0.) {
+ #ifdef SWIFT_DEBUG_CHECKS
+       message("Star has already done feedback! sp->id=%lld age=%e d=%e", sp->id,
+               star_age, dt);
+@@ -232,6 +232,34 @@ INLINE static void compute_SNII_feedback(
+       return;
+     }
+ 
++    double N_SNe_colibre = 0.0;
++
++    /* Only do something if the stellar age is greater than delay */
++    if (star_age >= feedback_props->colibre_SNII_wind_delay) {
++      /* Use the SNII energy accumulated during the delay only once */
++      if (sp->feedback_data.colibre_SNII_wind_delay_state == 
++        colibre_SNII_wind_delay_energy_is_available){
++
++        const double SNII_max_mass_msun = 
++          exp10(feedback_props->log10_SNII_max_mass_msun);
++        N_SNe_colibre = colibre_feedback_number_of_SNII(
++            sp, feedback_props, min_dying_mass_Msun, SNII_max_mass_msun);
++
++        N_SNe_colibre = colibre_feedback_number_of_SNII(
++          sp, feedback_props, min_dying_mass_Msun, max_dying_mass_Msun);
++
++        sp->feedback_data.colibre_SNII_wind_delay_state =
++          colibre_SNII_wind_delay_energy_is_used_up;
++          
++      }
++      /* In the remaining time-steps, do SNII thermal feedback as usual,
++       * without accounting for the energy accumulated during the delay */
++      else{
++        N_SNe_colibre = colibre_feedback_number_of_SNII(
++          sp, feedback_props, min_dying_mass_Msun, max_dying_mass_Msun);
++      }
++    }
++
+     /* Compute heating temperature in variable dT model */
+     const double SNII_T_min = feedback_props->SNII_deltaT_min;
+     const double SNII_T_max = feedback_props->SNII_deltaT_max;
+@@ -244,8 +272,6 @@ INLINE static void compute_SNII_feedback(
+ 
+     const double N_SNe_eagle =
+         eagle_feedback_number_of_SNII(sp, feedback_props);
+-    const double N_SNe_colibre = colibre_feedback_number_of_SNII(
+-        sp, feedback_props, min_dying_mass_Msun, max_dying_mass_Msun);
+     const double f_kin = feedback_props->SNII_f_kinetic;
+     double delta_v = feedback_props->SNII_delta_v;
+     double N_SNe;
+@@ -257,7 +283,7 @@ INLINE static void compute_SNII_feedback(
+     const float ngb_gas_mass_new = ngb_gas_mass + M_ej;
+ 
+     /* Number of SNe detonated during this time-step */
+-    if (SNII_wind_delay > 0.) {
++    if (eagle_SNII_wind_delay > 0.) {
+       N_SNe = N_SNe_eagle;
+     } else {
+       N_SNe = N_SNe_colibre;
+@@ -272,8 +298,8 @@ INLINE static void compute_SNII_feedback(
+      * during this time-step */
+     const double E_SN_total = f_E * E_SNe * N_SNe;
+ 
+-    /* Add kinetic energy to the SNII kinetic-energy reservoir */
+-    sp->feedback_data.SNII_E_kinetic_reservoir += f_kin * E_SN_total;
++    /* Use a variable with a shorter name for the residual kinetic energy */
++    const double E_kin_residual = sp->feedback_data.SNII_E_kinetic_resudial;
+ 
+     /* Conversion factor from T to internal energy */
+     const double conv_factor = feedback_props->temp_to_u_factor;
+@@ -297,7 +323,7 @@ INLINE static void compute_SNII_feedback(
+        * feedback here we do not take into account the ejecta mass because the
+        * kicks are done before the mass transfer. That is, we take ngb_gas_mass
+        * and not ngb_gas_mass_new. */
+-      prob_kinetic = sp->feedback_data.SNII_E_kinetic_reservoir /
++      prob_kinetic = f_kin * E_SN_total /
+                      (ngb_gas_mass * delta_v * delta_v);
+     }
+     /* If delta_v <= 0, this means that the code will compute the kick velocity
+@@ -348,23 +374,6 @@ INLINE static void compute_SNII_feedback(
+       number_of_th_SN_events = ngb_gas_N;
+     }
+ 
+-    /* Is the star old enough to do SNII thermal heating? */
+-    if (star_age < feedback_props->SNII_delay_in_thermal_injections) {
+-      /* If not, postpone the thermal feedback to a later time */
+-      sp->feedback_data.SNII_num_of_SNII_thermal_injections_before_delay +=
+-          number_of_th_SN_events;
+-      number_of_th_SN_events = 0;
+-    }
+-    /* If the stellar age is larger than the delay in SNII thermal injections,
+-     * the star is allowed to heat */
+-    else if (sp->feedback_data
+-                 .SNII_num_of_SNII_thermal_injections_before_delay > 0) {
+-      /* Account for the postponed thermal heating events */
+-      number_of_th_SN_events +=
+-          sp->feedback_data.SNII_num_of_SNII_thermal_injections_before_delay;
+-      sp->feedback_data.SNII_num_of_SNII_thermal_injections_before_delay = 0;
+-    }
+-
+     /* If we have more heating events than the maximum number of
+      * rays (colibre_feedback_number_of_rays), then we cannot
+      * distribute all of the heating events (since 1 event = 1 ray), so we need
+@@ -393,13 +402,19 @@ INLINE static void compute_SNII_feedback(
+        * ( = the number of pairs) */
+       E_kinetic = ngb_gas_mass / ngb_gas_N * delta_v * delta_v *
+                   number_of_kin_SN_events;
++
++      /* Account for the energy and the number of kinetic events leftover from
++       * the previous time-step(s) */
++      E_kinetic += E_kin_residual;
++      number_of_kin_SN_events += 
++          sp->feedback_data.SNII_num_of_kinetic_energy_inj_residual;
+     }
+     /* If the available kinetic energy is zero, no need to enter this scope */
+-    else if (f_kin > 0.0 && E_SN_total > 0.0) {
++    else if ((f_kin * E_SN_total + E_kin_residual) > 0.0) {
+ 
+       /* Special case: we need to adjust the kinetic energy irrespective of
+        * the desired delta v to ensure we inject all the available SN energy. */
+-      E_kinetic = sp->feedback_data.SNII_E_kinetic_reservoir;
++      E_kinetic = f_kin * E_SN_total + E_kin_residual;
+ 
+       /* Number of kick events is equal to the number of Ngbs */
+       number_of_kin_SN_events = ngb_gas_N;
+@@ -422,6 +437,20 @@ INLINE static void compute_SNII_feedback(
+         number_of_th_SN_events;
+     sp->feedback_data.to_distribute.SNII_num_of_kinetic_energy_inj =
+         number_of_kin_SN_events;
++
++    /* Zero the number of kinetic events leftover from the previous 
++     * time-step(s) */
++    sp->feedback_data.SNII_num_of_kinetic_energy_inj_residual = 
++        number_of_kin_SN_events;
++    sp->feedback_data.SNII_E_kinetic_resudial = E_kinetic;
++
++    sp->generated_energy += E_SN_total;
++    sp->energy_reservoir += E_kin_residual;
++
++    //FILE *out;
++    //out = fopen("out.dat", "a+");
++    //fprintf(out, "%.7e %.7e %d \n", star_age, delta_u, number_of_th_SN_events);
++    //fclose(out);
+   }
+ }
+ 
+@@ -2051,12 +2080,12 @@ void feedback_props_init(struct feedback_props* fp,
+ 
+   /* Set the delay time before all SNII budget is released at once */
+   const double Gyr_in_cgs = 1.0e9 * 365.25 * 24. * 3600.;
+-  fp->SNII_wind_delay =
++  fp->eagle_SNII_wind_delay =
+       parser_get_param_double(params, "COLIBREFeedback:SNII_wind_delay_Gyr") *
+       Gyr_in_cgs / units_cgs_conversion_factor(us, UNIT_CONV_TIME);
+ 
+   /* Set the delay time before SNII thermal injections occur */
+-  fp->SNII_delay_in_thermal_injections =
++  fp->colibre_SNII_wind_delay =
+       parser_get_param_double(
+           params, "COLIBREFeedback:SNII_delay_thermal_feedback_Gyr") *
+       Gyr_in_cgs / units_cgs_conversion_factor(us, UNIT_CONV_TIME);
+@@ -2123,6 +2152,14 @@ void feedback_props_init(struct feedback_props* fp,
+   fp->SNII_f_kinetic =
+       parser_get_param_float(params, "COLIBREFeedback:SNII_f_kinetic");
+ 
++  /* Check that the pivot density is not zero or negative. */
++  if (fp->SNII_f_kinetic < 0.0) {
++    error(
++        "The fraction of SN kinetic energy cannot be negative! Current value"
++        " is: COLIBREFeedback:SNII_f_kinetic = %.5e",
++        fp->SNII_f_kinetic);
++  }
++
+   /* Kick velocity used by supernova type II */
+   fp->SNII_delta_v =
+       parser_get_param_float(params, "COLIBREFeedback:SNII_delta_v_km_p_s");
+diff --git a/src/feedback/COLIBRE/feedback.h b/src/feedback/COLIBRE/feedback.h
+index 476a210..9e5b13c 100644
+--- a/src/feedback/COLIBRE/feedback.h
++++ b/src/feedback/COLIBRE/feedback.h
+@@ -206,11 +206,16 @@ __attribute__((always_inline)) INLINE static void feedback_first_init_spart(
+ 
+   feedback_init_spart(sp);
+ 
+-  /* Zero SNII kinetic energy reservoir */
+-  sp->feedback_data.SNII_E_kinetic_reservoir = 0.f;
++  /* Zero residual SN kinetic energy and number of injection events */
++  sp->feedback_data.SNII_E_kinetic_resudial = 0.f;
++  sp->feedback_data.SNII_num_of_kinetic_energy_inj_residual = 0;
+ 
+-  /* Zero the total number of SNII thermal injections during the delay */
+-  sp->feedback_data.SNII_num_of_SNII_thermal_injections_before_delay = 0;
++  /* Set the colibre SNII wind delay state to `available'. This means that
++   * the energy that will be accumulated during the delay can be used. After it
++   * has been used, the state will be switched from `available' to `used up' */
++
++  sp->feedback_data.colibre_SNII_wind_delay_state = 
++      colibre_SNII_wind_delay_energy_is_available;
+ 
+   sp->feedback_data.do_feedback = 0;
+ }
+diff --git a/src/feedback/COLIBRE/feedback_iact.h b/src/feedback/COLIBRE/feedback_iact.h
+index db82901..1b546d1 100644
+--- a/src/feedback/COLIBRE/feedback_iact.h
++++ b/src/feedback/COLIBRE/feedback_iact.h
+@@ -250,8 +250,10 @@ runner_iact_nonsym_feedback_prep2(const float r2, const float *dx,
+            * pair is kicked too. Note that we can't do this step in the fourth
+            * loop because that one only updates properties of gas particles. */
+           if (si->feedback_data.SNII_rays_ext_mirr[i].status ==
+-              ray_feedback_kick_allowed)
+-            si->feedback_data.SNII_E_kinetic_reservoir -= energy_per_pair;
++              ray_feedback_kick_allowed){
++            si->feedback_data.SNII_E_kinetic_resudial -= energy_per_pair;
++            si->feedback_data.SNII_num_of_kinetic_energy_inj_residual--;
++          }
+ 
+           /* If we are using maximum_number_of_rays > 1, then for a given spart,
+            * as soon as we have found the first ray that points at this gas
+@@ -271,8 +273,10 @@ runner_iact_nonsym_feedback_prep2(const float r2, const float *dx,
+           /* Take out energy from the reservoir if the other particle in the
+            * pair is kicked too */
+           if (si->feedback_data.SNII_rays_ext_true[i].status ==
+-              ray_feedback_kick_allowed)
+-            si->feedback_data.SNII_E_kinetic_reservoir -= energy_per_pair;
++              ray_feedback_kick_allowed){
++            si->feedback_data.SNII_E_kinetic_resudial -= energy_per_pair;
++            si->feedback_data.SNII_num_of_kinetic_energy_inj_residual--;
++          }
+           break;
+         }
+       }
+@@ -301,7 +305,7 @@ runner_iact_nonsym_feedback_prep2(const float r2, const float *dx,
+ __attribute__((always_inline)) INLINE static void
+ runner_iact_nonsym_feedback_apply(const float r2, const float *dx,
+                                   const float hi, const float hj,
+-                                  const struct spart *si, struct part *pj,
++                                  struct spart *si, struct part *pj,
+                                   struct xpart *xpj, const int with_cosmology,
+                                   const struct cosmology *cosmo,
+                                   const struct hydro_props *hydro_props,
+@@ -540,6 +544,8 @@ runner_iact_nonsym_feedback_apply(const float r2, const float *dx,
+               si->feedback_data.to_distribute.SNII_E_kinetic /
+               N_of_SNII_kinetic_events;
+ 
++          si->injected_kinetic_energy += energy_per_pair;
++
+           /* Two random numbers in [0, 1[ */
+           const double rand_theta = random_unit_interval_part_ID_and_index(
+               si->id, i, ti_current,
+@@ -569,6 +575,10 @@ runner_iact_nonsym_feedback_apply(const float r2, const float *dx,
+                 rand_phi, mass_true, mass_mirr);
+           }
+ 
++          double v_before2 = xpj->v_full[0] * xpj->v_full[0] +
++                             xpj->v_full[1] * xpj->v_full[1] +
++                             xpj->v_full[2] * xpj->v_full[2];
++
+           /* Do the kicks by updating the particle velocity.
+            * Note that xpj->v_full = a^2 * dx/dt, with x the comoving
+            * coordinate. Therefore, a physical kick, dv, gets translated into a
+@@ -577,6 +587,32 @@ runner_iact_nonsym_feedback_apply(const float r2, const float *dx,
+           xpj->v_full[1] += v_kick[1] * cosmo->a;
+           xpj->v_full[2] += v_kick[2] * cosmo->a;
+ 
++          double v_after2 = xpj->v_full[0] * xpj->v_full[0] +
++                            xpj->v_full[1] * xpj->v_full[1] +
++                            xpj->v_full[2] * xpj->v_full[2];
++
++
++          si->injected_kinetic_energy_actual += 0.5 * pj->mass * (v_after2 - v_before2);
++
++          if (ray_type == ray_feedback_kinetic_true){
++              si->injected_momentum_true[0] += v_kick[0] * pj->mass;
++              si->injected_momentum_true[1] += v_kick[1] * pj->mass;
++              si->injected_momentum_true[2] += v_kick[2] * pj->mass;
++
++              si->injected_ang_momentum_true[0] += pj->mass * (v_kick[1] * dx[2] - v_kick[2] * dx[1]);
++              si->injected_ang_momentum_true[1] += pj->mass * (v_kick[2] * dx[0] - v_kick[0] * dx[2]);
++              si->injected_ang_momentum_true[2] += pj->mass * (v_kick[0] * dx[1] - v_kick[1] * dx[0]);
++          }
++          else if(ray_type == ray_feedback_kinetic_mirr){
++              si->injected_momentum_mirr[0] += v_kick[0] * pj->mass;
++              si->injected_momentum_mirr[1] += v_kick[1] * pj->mass;
++              si->injected_momentum_mirr[2] += v_kick[2] * pj->mass;
++
++              si->injected_ang_momentum_mirr[0] += pj->mass * (v_kick[1] * dx[2] - v_kick[2] * dx[1]);
++              si->injected_ang_momentum_mirr[1] += pj->mass * (v_kick[2] * dx[0] - v_kick[0] * dx[2]);
++              si->injected_ang_momentum_mirr[2] += pj->mass * (v_kick[0] * dx[1] - v_kick[1] * dx[0]);
++          }
++
+           /* Update the signal velocity of the particle based on the velocity
+            * kick
+            */
+@@ -707,6 +743,9 @@ runner_iact_nonsym_feedback_apply(const float r2, const float *dx,
+                                  (float)N_of_SNII_energy_inj_received_by_gas;
+       const double u_new_SNII = u_init_SNII + delta_u_SNII;
+ 
++
++      si->injected_thermal_energy += delta_u_SNII * pj->mass;
++
+ #ifdef SWIFT_DEBUG_CHECKS
+       message("SNII event at star age [Myr]  = %.4f",
+               si->feedback_data.to_distribute.SNII_star_age_Myr);
+diff --git a/src/feedback/COLIBRE/feedback_properties.h b/src/feedback/COLIBRE/feedback_properties.h
+index 383a18c..87bfd3b 100644
+--- a/src/feedback/COLIBRE/feedback_properties.h
++++ b/src/feedback/COLIBRE/feedback_properties.h
+@@ -285,14 +285,14 @@ struct feedback_props {
+ 
+   /*! Wind delay time for SNII (After this amount of time passes since the birth
+    * of the stellar particle, all its SNII energy budget is released at once */
+-  double SNII_wind_delay;
++  double eagle_SNII_wind_delay;
+ 
+-  /*! Time delay in SNII thermal injections. Unlike "SNII_wind_delay" this
++  /*! Time delay in SNII thermal injections. Unlike "eagle_SNII_wind_delay" this
+    * parameter does not make SNII feedback instantaneous. Rather, if a SNII
+    * thermal injection occurs when the stellar age is lower than the value of
+    * this parameter, the SNII is postponed until the star reaches the required
+    * age. */
+-  double SNII_delay_in_thermal_injections;
++  double colibre_SNII_wind_delay;
+ 
+   /*! Minimal temperature in SNII feedback model with variable heating
+    * temperature */
+diff --git a/src/feedback/COLIBRE/feedback_struct.h b/src/feedback/COLIBRE/feedback_struct.h
+index 65d8324..6812732 100644
+--- a/src/feedback/COLIBRE/feedback_struct.h
++++ b/src/feedback/COLIBRE/feedback_struct.h
+@@ -28,6 +28,16 @@
+ #include "rays_struct.h"
+ 
+ /**
++ * @brief Colibre SNII wind delay enum with two states used to prevent multiple 
++ * energy injections in SNII thermal feedback with the energy accumulated during 
++ * the delay.
++ */
++enum colibre_SNII_wind_delay_status {
++  colibre_SNII_wind_delay_energy_is_available = 0,
++  colibre_SNII_wind_delay_energy_is_used_up = 1
++};
++
++/**
+  * @brief Feedback fields carried by each hydro particles
+  */
+ struct feedback_part_data {
+@@ -183,12 +193,18 @@ struct feedback_spart_data {
+   struct ray_data_extra SNII_rays_ext_true[colibre_SNII_feedback_num_of_rays];
+   struct ray_data_extra SNII_rays_ext_mirr[colibre_SNII_feedback_num_of_rays];
+ 
+-  /* Reservoir with SNII kinetic energy */
+-  float SNII_E_kinetic_reservoir;
++  /* Energy in SNII kinetic feedback remained after some particle kicks 
++   * could not be executed */
++  float SNII_E_kinetic_resudial;
++
++  /* Number of energy injection events in SNII kinetic feedback remained 
++   * after some particle kicks could not be executed */
++  int SNII_num_of_kinetic_energy_inj_residual;
+ 
+-  /* The number of SNII thermal injections that would have happenned if there
+-   * were no delay in SNII thermal feedback */
+-  int SNII_num_of_SNII_thermal_injections_before_delay;
++  /* Colibre SNII wind delay status used to prevent multiple energy
++   * injections  in SNII thermal feedback with the energy accumulated 
++   * during the delay. */
++  enum colibre_SNII_wind_delay_status colibre_SNII_wind_delay_state;
+ 
+   /* Instantiate ray structs for SNIa isotropic feedback  */
+   struct ray_data SNIa_rays[colibre_SNIa_feedback_num_of_rays];
+diff --git a/src/stars/COLIBRE/stars_io.h b/src/stars/COLIBRE/stars_io.h
+index e624457..d0b189b 100644
+--- a/src/stars/COLIBRE/stars_io.h
++++ b/src/stars/COLIBRE/stars_io.h
+@@ -155,7 +155,7 @@ INLINE static void stars_write_particles(const struct spart *sparts,
+                                          const int with_cosmology) {
+ 
+   /* Say how much we want to write */
+-  *num_fields = 19;
++  *num_fields = 28;
+ 
+   /* List what we want to write */
+   list[0] = io_make_output_field_convert_spart(
+@@ -262,6 +262,42 @@ INLINE static void stars_write_particles(const struct spart *sparts,
+   list[18] = io_make_output_field(
+       "SNIaRates", DOUBLE, 1, UNIT_CONV_FREQUENCY, 0.f, sparts, SNIa_rate,
+       "SNIa rate averaged over the last enrichment timestep");
++
++  list[19] = io_make_output_field(
++      "InjectedKineticEnergy", DOUBLE, 1, UNIT_CONV_ENERGY, 0.f, sparts, injected_kinetic_energy,
++      "Injected energy by stars in kinetic form");
++
++  list[20] = io_make_output_field(
++      "InjectedKineticEnergyReceived", DOUBLE, 1, UNIT_CONV_ENERGY, 0.f, sparts, injected_kinetic_energy_actual,
++      "Energy received by gas in kinetic form");
++
++  list[21] = io_make_output_field(
++      "InjectedThermalEnergy", DOUBLE, 1, UNIT_CONV_ENERGY, 0.f, sparts, injected_thermal_energy,
++      "Injected energy by stars in thermal form");
++
++  list[22] = io_make_output_field(
++      "GeneratedEnergy", DOUBLE, 1, UNIT_CONV_ENERGY, 0.f, sparts, generated_energy,
++      "Generated energy by stars");
++
++  list[23] = io_make_output_field(
++      "EnergyReservoir", DOUBLE, 1, UNIT_CONV_ENERGY, 0.f, sparts, energy_reservoir,
++      "Energy reservoir");
++
++  list[24] = io_make_output_field(
++      "InjectedMomentumTrue", DOUBLE, 3, UNIT_CONV_MOMENTUM, 0.f, sparts, injected_momentum_true,
++      "Injected momentum true");
++
++  list[25] = io_make_output_field(
++      "InjectedMomentumMirr", DOUBLE, 3, UNIT_CONV_MOMENTUM, 0.f, sparts, injected_momentum_mirr,
++      "Injected momentum mirr");
++
++  list[26] = io_make_output_field(
++      "InjectedAngularMomentumTrue", DOUBLE, 3, UNIT_CONV_ANGULAR_MOMENTUM, 0.f, sparts, injected_ang_momentum_true,
++      "Injected angular momentum true");
++
++  list[27] = io_make_output_field(
++      "InjectedAngularMomentumMirr", DOUBLE, 3, UNIT_CONV_ANGULAR_MOMENTUM, 0.f, sparts, injected_ang_momentum_mirr,
++      "Injected angular momentum mirr");
+ }
+ 
+ /**
+diff --git a/src/stars/COLIBRE/stars_part.h b/src/stars/COLIBRE/stars_part.h
+index d599de2..d79273c 100644
+--- a/src/stars/COLIBRE/stars_part.h
++++ b/src/stars/COLIBRE/stars_part.h
+@@ -96,6 +96,24 @@ struct spart {
+   /*! SNIa rate */
+   double SNIa_rate;
+ 
++  double generated_energy;
++
++  double energy_reservoir;
++
++  double injected_kinetic_energy;
++
++  double injected_kinetic_energy_actual;
++
++  double injected_thermal_energy;
++
++  double injected_momentum_true[3];
++
++  double injected_ang_momentum_true[3];
++
++  double injected_momentum_mirr[3];
++
++  double injected_ang_momentum_mirr[3];
++
+   /*! The physical birth density */
+   float birth_density;
+ 

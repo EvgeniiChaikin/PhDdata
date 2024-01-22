@@ -1,0 +1,3 @@
+# Redshift, Select Output
+2.0, Snapshot
+0.0, Snapshot

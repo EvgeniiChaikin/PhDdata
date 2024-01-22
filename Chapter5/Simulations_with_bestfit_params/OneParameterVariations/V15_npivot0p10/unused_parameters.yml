@@ -1,0 +1,51 @@
+---
+
+# SWIFT unused parameter file
+# code version: 1.0.0
+# git revision: v0.9.0-2208-ge7894702-dirty
+# git branch: cooling_cleanup_hawk
+# git date: 2023-07-18 15:36:31 +0200
+# current date: 01:12:42 2023-09-25 BST
+
+COLIBRECooling:
+  dir_name: ./cooling_files
+  filebase_cool: UVB_dust1_CR1_G1_shield1_v1
+  H_reion_z: 7.5
+  H_reion_eV_p_H: 2.0
+  He_reion_z_centre: 3.5
+  He_reion_z_sigma: 0.5
+  He_reion_eV_p_H: 2.0
+  delta_logTEOS_subgrid_properties: 0.3
+  rapid_cooling_threshold: 0.333333
+  IncludeIron: 0
+
+CHIMESCooling:
+  max_shielding_length_kpc: 100.0
+  rad_field_norm_factor: 0.183
+  colibre_saturate_radiation_field: 0
+  colibre_col_dens_saturate_rad: 1.3e22
+  colibre_saturate_cr_rate: 1
+  colibre_col_dens_saturate_cr: 1.0e21
+  colibre_plaw_index_saturate_cr: 0.0
+  colibre_cr_plaw_index: 1.4
+  cosmic_ray_rate_cgs: 4.36e-17
+  ISRF_low_dens_cutoff_z: 7.5
+
+DustEvolution:
+  use_cooling_clumping_factor: 1
+  initial_abundance_graphite: 0.0
+  initial_abundance_silicate: 0.0
+
+COLIBREStarFormation:
+  KS_exponent: 1.4
+  KS_normalisation_Msun_p_yr_p_kpc2: 1.515e-4
+  gas_fraction: 1.0
+
+COLIBREEntropyFloor:
+  Jeans_density_norm_H_p_cm3: 0.1
+  Jeans_temperature_norm_K: 10.
+  Jeans_gamma_effective: 1.0
+  Cool_density_norm_H_p_cm3: 1e-5
+  Cool_temperature_norm_K: -1.
+  Cool_gamma_effective: 1.
+...

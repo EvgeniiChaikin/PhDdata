@@ -1,0 +1,372 @@
+# Define some meta-data about the simulation
+MetaData:
+  run_name: V19_sigma0p1
+
+# Define the system of units to use internally. 
+InternalUnitSystem:
+  UnitMass_in_cgs:     1.98841e43    # 10^10 M_sun in grams
+  UnitLength_in_cgs:   3.08567758e24 # Mpc in centimeters
+  UnitVelocity_in_cgs: 1e5           # 1 km/s
+  UnitCurrent_in_cgs:  1             # Amperes
+  UnitTemp_in_cgs:     1             # Kelvin
+
+Cosmology:
+  Omega_cdm:    0.256011
+  Omega_b:      0.048600
+  Omega_lambda: 0.693922
+  h:            0.681
+  a_begin:      0.0078125 # z = 127.0
+  a_end:        1.0000000000
+  N_ur:         2.0308
+  N_nu:         1
+  T_nu_0:       1.9517578050
+  M_nu_eV:      0.06
+  deg_nu:       1.0
+
+
+# Parameters governing the time integration
+TimeIntegration:
+  dt_min:     1e-10
+  dt_max:     1e-2
+
+Gravity:
+  eta:                         0.025     # Constant dimensionless multiplier for time integration.
+  MAC:                         geometric # Use the geometric opening angle condition
+  theta_cr:                    0.7       # Opening angle (Multipole acceptance criterion)
+  use_tree_below_softening:    0
+  mesh_side_length:            256       # use 128 for 188^3 particles and 256 for 376^3 particles
+  comoving_baryon_softening:     0.003580    # New EAGLE-Ref values: 0.001790 # Comoving softening for baryons (1.79 ckpc); scale with resolution
+  max_physical_baryon_softening: 0.001400    # New EAGLE-Ref values: 0.000700 # Physical softening for baryons (0.70 pkpc); scale with resolution
+  comoving_DM_softening:         0.004182
+  max_physical_DM_softening:     0.001638
+
+# Parameters governing the snapshots
+Snapshots:
+  basename:            colibre
+  output_list_on:      1
+  output_list:         ../output_list_highz_july2023.txt
+  select_output_on:    1
+  select_output:       ../output_list.yml
+  recording_triggers_part: [1.0227e-4, 1.0227e-5]   # Recording starts 100M and 10M years before a snapshot
+  recording_triggers_bpart: [1.0227e-4, 1.0227e-5]  # Recording starts 100M and 10M years before a snapshot
+
+# Parameters governing the conserved quantities statistics
+Statistics:
+  delta_time:          1.01
+  scale_factor_first:  0.01
+
+Scheduler:
+  max_top_level_cells: 16    # use 8 for 188^3, 16 for 376^3, 32 for 752^3 particles
+  cell_split_size:     200  # should be fine for most systems, could use 50 for older system such as cosma5 and cosma6
+  engine_max_parts_per_cooling: 200 # Better value for CHIMES: split the tasks as finely as possible
+
+Neutrino:
+  use_delta_f:  0
+  generate_ics: 0
+  use_linear_response: 1
+  transfer_functions_filename: ../../ICs/perturbations_L0050N0376.hdf5
+  dataset_delta_cdm: Functions/d_cdm
+  dataset_delta_baryon: Functions/d_b
+  dataset_delta_nu: Functions/d_ncdm[0]
+  dataset_redshifts: Redshifts
+  dataset_wavenumbers: Wavenumbers
+  fixed_bg_density: 1
+
+# Parameters related to the initial conditions
+InitialConditions:
+  file_name:                   ../../ICs/COLIBRE_ICs_L0050N0376.hdf5
+  periodic:                    1
+  cleanup_h_factors:           0
+  cleanup_velocity_factors:    0
+  generate_gas_in_ics:         0
+  cleanup_smoothing_lengths:   0
+  remap_ids:                   0
+
+
+# Parameters of the hydro scheme
+SPH:
+  H_mass_fraction:     0.756    # overwrites the default H mass fraction (updated since EAGLE) 
+  resolution_eta:      1.2348   # "48 Ngb" with the cubic spline kernel
+  h_min_ratio:         1e-10
+  CFL_condition:       0.2
+  initial_temperature: 268.7 
+  minimal_temperature: 10.
+  h_max:               1.0      # Maximal smoothing length in co-moving internal units.
+  particle_splitting:                1        # Particle splitting is ON
+  particle_splitting_mass_threshold: 5.76e-3   # (internal units, i.e. 5.7e7 Msun ~ 4x initial gas particle mass)
+
+# Standard COLIBRE cooling options
+COLIBRECooling:
+  dir_name:                ./cooling_files # Location of the cooling tables
+  filebase_cool:           UVB_dust1_CR1_G1_shield1_v1
+  H_reion_z:               7.5              # Redshift of Hydrogen re-ionization
+  H_reion_eV_p_H:          2.0
+  He_reion_z_centre:       3.5               # Redshift of the centre of the Helium re-ionization Gaussian
+  He_reion_z_sigma:        0.5               # Spread in redshift of the  Helium re-ionization Gaussian
+  He_reion_eV_p_H:         2.0               # Energy inject by Helium re-ionization in electron-volt per Hydrogen atom
+  delta_logTEOS_subgrid_properties: 0.3      # delta log T above the EOS below which the subgrid properties use Teq assumption
+  rapid_cooling_threshold:          0.333333 # Switch to rapid cooling regime for dt / t_cool above this threshold.
+
+  IncludeIron:                0           # Include Iron in the CHIMES network
+
+CHIMESCooling:
+  data_path:                  ../../tables_june_2023/chimes-data-july-2023/   # Path to chimes-data repository
+  EqmAbundanceTable:          colibre_HHe              # Path to equilibrium abundance tables
+  PhotoIonTable_UVB:          SP20_cross_sections      # Path to cross-sections tables; UVB 
+  PhotoIonTable_ISRF:         cross_sections_B87.hdf5  # Path to cross-sections tables; ISRF
+  UV_field:             COLIBRE           # Flag specifying radiation field model 
+  Shielding_model:      COLIBRE           # Flag specifying local shielding model 
+  UVB_z_dependence:     COLIBRE           # Flag to switch on redshift-dependent UVB
+  shielding_length_factor:    0.5         # Multiplicative factor to scale shielding length
+  max_shielding_length_kpc:   100.0       # Max shielding length in kpc
+  rad_field_norm_factor:      0.183       # Multiplicative factor to scale ISRF
+  init_abundance_mode:        read        # Flag to specify how to set initial CHIMES abundances
+  colibre_metal_depletion:    0           # Flag to specify metal depletion model
+  turbulent_velocity_dispersion_km_p_s:  6.0   # 1D velocity dispersion, in km/s.
+  colibre_use_turbulent_jeans_length:  1       # Integer flag, 0 - use only thermal Jeans length, 1 - use maximum of thermal or turbulent Jeans length.
+  colibre_saturate_radiation_field:    0       # Integer flag, 0 - no max rad field, 1 - impose max rad field.
+  colibre_col_dens_saturate_rad:  1.3e22       # Column density at which the Colibre rad field saturates, in cm^-2. 
+  colibre_saturate_cr_rate:   1                # Integer flag, 0 - no max CR rate, 1 - impose max CR rate.
+  colibre_col_dens_saturate_cr:  1.0e21        # Column density at which the CR rate saturates, in cm^-2. 
+  colibre_plaw_index_saturate_cr: 0.0
+  colibre_cr_plaw_index:      1.4              # Power law index of the scaling between CR rate and column density. 
+  relativeTolerance:          1e-3        # Relative tolerance for CHIMES intergration
+  absoluteTolerance:          1e-10       # Absolute tolerance for CHIMES chemistry integration
+  explicitTolerance:          0.1         # Tolerance below which we use the explicit solution in CHIMES
+  scale_metal_tolerances:     1           # Flag to scale absolute tolerances by element abundance
+  Tmol_K:                     1.0e5       # Maximum temperature for the molecular network
+  ChemistryEqmMode:           0           # Flag to use pre-computed equilibrium abundances throughout
+  ThermEvolOn:                1           # Flag to switch on thermal evolution in CHIMES
+  chimes_debug:               0           # Flag to include extra debug outputs in CHIMES
+  cosmic_ray_rate_cgs:        4.36e-17    # HI ionisation rate from cosmic rays in units of HI per second.
+  max_dust_boost_factor:      1.0              # Max boost factor applied to all reactions on dust grains
+  dust_boost_nH_min_cgs:      0.1              # Density below which the dust boost factor is equal to unity, in units of cm^-3
+  dust_boost_nH_max_cgs:      100.0            # Density below which the dust boost factor is equal to unity, in units of cm^-3
+  delta_logTEOS_subgrid_properties:  0.3  # delta logT above the EOS below which set CHIMES to eqm and use subgrid properties
+  use_colibre_subgrid_EOS:    1           # Flag to set subgrid rho and T to thermal and pressure eqm on the EOS
+  set_FB_particles_to_eqm:    1           # Flag to set particles to eqm if they have been heated by feedback 
+  use_hybrid_cooling:         1           # Use hybrid cooling, to read in eqm cooling rates from metals not included in CHIMES
+  rapid_cooling_threshold:    0.333333    # Threshold in dt / t_cool to switch between rapid- and slow-cooling modes
+  colibre_table_path:         ../../tables_june_2023/NoGasDustBoost_zdep_lshmax 
+  colibre_table_filebase:     cooling_rates  # Filebase of COLIBRE cooling tables split in redshift (Ploeckinger & Schaye 2020)
+  UVB_cutoff_z:               127.0            # Redshift above which the UVB is switched off 
+  ISRF_low_dens_cutoff_z:     7.5              # Redshift above which the ISRF is cut off at low densities (UV_field_flag == 2 only)
+  S_over_Si_in_solar:         1.0         # S / Si relative to Solar 
+  Ca_over_Si_in_solar:        1.0         # Ca / Si relative to Solar 
+  IncludeCarbon:              0           # Include Carbon in the CHIMES network
+  IncludeNitrogen:            0           # Include Nitrogen in the CHIMES network
+  IncludeOxygen:              0           # Include Oxygen in the CHIMES network
+  IncludeNeon:                0           # Include Neon in the CHIMES network
+  IncludeMagnesium:           0           # Include Magnesium in the CHIMES network
+  IncludeSilicon:             0           # Include Silicon in the CHIMES network
+  IncludeSulphur:             0           # Include Sulphur in the CHIMES network
+  IncludeCalcium:             0           # Include Calcium in the CHIMES network
+  IncludeIron:                0           # Include Iron in the CHIMES network
+
+
+# Solar abundances
+COLIBREChemistry:
+  init_abundance_metal:     0.0    # Inital fraction of particle mass in *all* metals 
+  init_abundance_Hydrogen:  0.756  # Inital fraction of particle mass in Hydrogen
+  init_abundance_Helium:    0.244  # Inital fraction of particle mass in Helium
+  init_abundance_Carbon:    0.0    # Inital fraction of particle mass in Carbon
+  init_abundance_Nitrogen:  0.0    # Inital fraction of particle mass in Nitrogen
+  init_abundance_Oxygen:    0.0    # Inital fraction of particle mass in Oxygen
+  init_abundance_Neon:      0.0    # Inital fraction of particle mass in Neon
+  init_abundance_Magnesium: 0.0    # Inital fraction of particle mass in Magnesium
+  init_abundance_Silicon:   0.0    # Inital fraction of particle mass in Silicon
+  init_abundance_Iron:      0.0    # Inital fraction of particle mass in Iron
+  init_abundance_Europium:  0.0    # Inital fraction of particle mass in Europium
+  init_abundance_Strontium: 0.0
+  init_abundance_Barium:    0.0
+  metal_diffusion_constant:         0.01           # Metal diffusion constant (Smagorinsky constant)
+  metal_diffusion_timestep_mult:    0.2            # Run-time parameter to control the time-step condition based on the diffusion rate.
+
+# Parameters of the dust model
+DustEvolution:
+  pair_to_cooling:                  1               # Whether to override implicit dust depletion in cooling with the modelled dust depletion (default 0)
+  use_cooling_clumping_factor:      1               # Do we override the dust clumping factor with that used by the paired CHIMES cooling module
+  use_subgrid_props:                1               # Whether to use subgrid density/temperature or hydro (default 1)
+  clumping_factor_mode:             variable        # clumping factor mode: 'constant' (single clumping factor), 'variable' (density dependent clumping) or 'chimes_synced (follow CHIMES dust booss
+t)' 
+  use_sputtering:                   1               # Include destructive effects of sputtering on dust grains (default 1)
+  use_SNII_destruction:             1               # Include destructive effects of SNII on dust grains (default 1)
+  use_accretion:                    1               # Include grain growth by accretion of metals (default 1)
+  clumping_factor:                  100.             # Boost factor applied to accretion rate (default 1.)
+  clumping_factor_nH_min_cgs:       0.1
+  clumping_factor_nH_max_cgs:       100.0
+  diffusion_boost_factor:           1.              # Boost factor applied to diffusion rate for dust (default 1.)
+  dust_yields_path:                 ../../tables_june_2023/dust_yields_june_2023
+  silicate_molecule_subscript_oxygen: 4.0        # subscript for oxygen in the effective silicate molecule e.g. FeMgSi2O6 (default 6)
+  silicate_molecule_subscript_magnesium: 1.3        # subscript for magnesium in the effective silicate molecule e.g. FeMgSi2O6 (default 1)
+  silicate_molecule_subscript_silicon: 1.0        # subscript for silicon in the effective silicate molecule e.g. FeMgSi2O6 (default 2)
+  silicate_molecule_subscript_iron: 0.7        # subscript for iron in the effective silicate molecule e.g. FeMgSi2O6 (default 1)
+  limit_depletion:                   1              # whether to limit the depleted fraction of metals into dust grains to prevent complete depletion of elements
+  undepleted_min_reduction_factor:   0.423345       # The diffuse element limit, represented by a reduction factor to the default saturated diffuse fractions, and chosen to maintain a realistic rr
+esevoir of diffuse CO (Fuente et al 2019)
+  initial_abundance_graphite:        0.0            # Initial abundance of graphite dust        
+  initial_abundance_silicate:        0.0            # Initial abundance of silicate dust
+
+# COLIBRE star formation model (Following a density Schmidt law)
+COLIBREStarFormation:
+  min_over_density:                  100.0          # Minimum over density above which star formation is allowed
+  alpha_virial:                      1.             # set the alpha virial for star forming gas.
+  SF_model:                          SchmidtLaw     # star formation model to use (SchmidtLaw or PressureLaw)
+  star_formation_efficiency:         0.01           # Star formation efficiency (SFE) of the Schmidt law, \rho_\star = SFE * \rho / t_ff
+  KS_exponent:                       1.4            # Kennicutt-Schmidt slope for the pressure law.
+  KS_normalisation_Msun_p_yr_p_kpc2: 1.515e-4       # Normalization of the Kennicutt-Schmidt slope for the pressure law.
+  gas_fraction:                      1.0            # (Optional) gas fraction for pressure law, default to 1.0
+
+# COLIBRE feedback model
+COLIBREFeedback:
+  use_SNII_feedback:                1               # Global switch for SNII thermal (stochastic) feedback.
+  use_SNIa_feedback:                1               # Global switch for SNIa thermal (continuous) feedback.
+  use_AGB_enrichment:               1               # Global switch for enrichment from AGB stars.
+  use_SNII_enrichment:              1               # Global switch for enrichment from SNII stars.
+  use_SNIa_enrichment:              1               # Global switch for enrichment from SNIa stars.
+  with_r_process_enrichment:        1               # Global switch for r process enrichment from neutron star mergers and rare core-collapse SN (collapsars and common envelop jets SN).
+  with_RadiationPressure:           1               # Switch for early feedback (Radiation pressure).
+  with_HIIRegions:                  1               # Switch for early feedback (HII regions).
+  with_StellarWinds:                1               # Switch for early feedback (Stellar winds).
+  filename:                         ../../tables_june_2023/yieldtables_june_2023/  # Path to the directory containing the EAGLE yield tables.
+  IMF_min_mass_Msun:                0.1             # Minimal stellar mass considered for the Chabrier IMF in solar masses.
+  IMF_max_mass_Msun:              100.0             # Maximal stellar mass considered for the Chabrier IMF in solar masses.
+  SNII_min_mass_Msun:               8.0             # Minimal mass considered for SNII feedback (not SNII enrichment!) in solar masses.
+  SNII_max_mass_Msun:             100.0             # Maximal mass considered for SNII feedback (not SNII enrichment!) in solar masses.
+  SNII_wind_delay_Gyr:              -1.0            # Time in Gyr between a star's birth and the SNII thermal feedback event. (< 0. for continuous SNe)
+  SNII_delta_T_n_0_H_p_cm3:         0.60            # Pivot (physical) density in SNII variable-dT thermal feedback in H/cm3.
+  SNII_delta_T_K_pivot:             3.16228e6       # Pivot temperature in SNII variable-dT thermal feedback in Kelvin. 
+  SNII_delta_T_slope:               0.666666666     # Slope in SNII variable-dT thermal feedback.
+  SNII_delta_T_K_min:               3.16228e6             # Minimal change in temperature to apply to the gas particle in an SNII thermal feedback event in Kelvin.
+  SNII_delta_T_K_max:               3.16228e7       # Maximal change in temperature to apply to the gas particle in na SNII thermal feedback event in Kelvin.
+  SNII_energy_erg:                  1.0e51          # Energy of one SNII explosion in ergs.
+  SNII_delta_v_km_p_s:              50.0            # Change in the gas-particle velocity that is kicked in a SNII kinetic feedback event
+  SNII_f_kinetic:                   0.1             # Fraction of SNII energy injected into the gas in kinetic form (the remaining fraction is injected in thermal form)
+  SNII_energy_fraction_min:         0.1             # Minimal fraction of energy applied in a SNII feedback event.
+  SNII_energy_fraction_max:         3.5             # Maximal fraction of energy applied in a SNII feedback event.
+  SNII_energy_fraction_Z_0:         2.0             # Pivot point for the metallicity dependance of the SNII energy fraction (metal mass fraction).
+  SNII_energy_fraction_n_0_H_p_cm3: 0.67            # Pivot point for the birth density dependance of the SNII energy fraction in cm^-3.
+  SNII_energy_fraction_n_Z:         0.0            # Power-law for the metallicity dependance of the SNII energy fraction.
+  SNII_energy_fraction_n_n:         0.0             # Power-law for the birth density dependance of the SNII energy fraction.
+  SNII_energy_fraction_P_0_K_p_cm3: 7e3
+  SNII_energy_fraction_sigma_P:     0.1
+  SNIa_energy_erg:                 1.0e51           # Energy of one SNIa explosion in ergs.
+  SNIa_delta_T_n_0_H_p_cm3:         0.60            # Pivot (physical) density in SNIa variable-dT thermal feedback in H/cm3.
+  SNIa_delta_T_K_pivot:             3.16228e6       # Pivot temperature in SNIa variable-dT thermal feedback in Kelvin. 
+  SNIa_delta_T_slope:               0.666666666     # Slope in SNIa variable-dT thermal feedback.
+  SNIa_delta_T_K_min:               3.16228e6             # Minimal change in temperature to apply to the gas particle in an SNIa thermal feedback event in Kelvin.
+  SNIa_delta_T_K_max:               3.16228e7       # Maximal change in temperature to apply to the gas particle in na SNIa thermal feedback event in Kelvin.
+  SNIa_energy_fraction:             1.0             # Fraction of energy applied in a SNIa feedback event.
+  AGB_ejecta_velocity_km_p_s:      10.0             # Velocity of the AGB ejectas in km/s.
+  SNII_enrichment_min_mass_Msun:    8.0             # Minimal mass considered for SNII enrichment (not SNII feedback!) in solar masses.
+  SNII_enrichment_max_mass_Msun:    40.0            # Minimal mass considered for SNII enrichment (not SNII feedback!) in solar masses.
+  SNII_yield_factor_Hydrogen:       1.0             # Correction factor to apply to the Hydrogen yield from the SNII channel.
+  SNII_yield_factor_Helium:         1.0             # Correction factor to apply to the Helium yield from the SNII channel.
+  SNII_yield_factor_Carbon:         3.0             # Correction factor to apply to the Carbon yield from the SNII channel.
+  SNII_yield_factor_Nitrogen:       0.8             # Correction factor to apply to the Nitrogen yield from the SNII channel.
+  SNII_yield_factor_Oxygen:         1.0             # Correction factor to apply to the Oxygen yield from the SNII channel.
+  SNII_yield_factor_Neon:           1.0             # Correction factor to apply to the Neon yield from the SNII channel.
+  SNII_yield_factor_Magnesium:      1.0             # Correction factor to apply to the Magnesium yield from the SNII channel.
+  SNII_yield_factor_Silicon:        0.8             # Correction factor to apply to the Silicon yield from the SNII channel.
+  SNII_yield_factor_Iron:           2.0             # Correction factor to apply to the Iron yield from the SNII channel.
+  num_of_NSM_per_Msun:                1.3e-5   # Number of neutron star mergers per Msolar.
+  yield_Eu_from_NSM_event_Msun:       6e-6     # Amount of europium (in units of Msolar) released by NSM.
+  num_of_CEJSN_per_Msun:              1.22e-5  # Number of rare core-collapse SN (CEJSN) per Msolar.
+  yield_Eu_from_CEJSN_event_Msun:     2e-5     # Amount of europium (in units of Msolar) released by CEJSN(=Common envelop jet SN).
+  num_of_collapsar_per_Msun:          2.6e-5   # Number of rare core-collapse SN (collapsars) per Msolar.
+  yield_Eu_from_collapsar_event_Msun: 1e-6     # Amount of europium (in units of Msolar) released by collapsars.
+  collapsar_min_mass_Msun:            10.0     # Minimal mass considered for r-process enrichment from collapsars in solar masses.
+  collapsar_max_mass_Msun:            40.0     # Maximal mass considered for r-process enrichment from collapsars in solar masses.
+  Momentum_desired_delta_v:         50.0            # Desired kick in km/s (Done stochastically given the amount of momentum available - v<0 for the code to decide the kick - )
+  HIIregion_ionization_fraction:    1.0             # Ionization fraction for gas particles tagged as HII regions (between 0.5 and 1.)
+  HIIregion_temperature_K:          1.e4            # Temperature of gas particles tagged as HII regions
+  HIIregion_rebuild_dt_Myr:         2.0             # Time between rebuilding the HII region in Myr 
+  earlyfb_filename:                 ../../tables_june_2023/Early_stellar_feedback.hdf5 # Location of file for early feedback, no needed if stellarwind_maxage_Myr = HIIregion_maxage_Myr = 0.
+  stellar_evolution_age_cut_Gyr:           0.1      # Stellar age in Gyr above which the enrichment is down-sampled.
+  stellar_evolution_sampling_age_fraction: 0.05     # Time-step of the stars in units of the star's current age when the star is older than the age cut.
+
+# Parameters for the COLIBRE "equation of state"
+COLIBREEntropyFloor:
+  Jeans_density_norm_H_p_cm3: 0.1        # Physical density above which the COLIBRE Jeans limiter entropy floor kicks in expressed in Hydrogen atoms per cm^3.
+  Jeans_temperature_norm_K:   10.        # Temperature of the COLIBRE Jeans limiter entropy floor at the density normalisation expressed in Kelvin.
+  Jeans_gamma_effective:      1.0        # Slope the of the COLIBRE Jeans limiter entropy floor
+  Cool_density_norm_H_p_cm3:  1e-5       # Physical density above which the COLIBRE Cool limiter entropy floor kicks in expressed in Hydrogen atoms per cm^3.
+  Cool_temperature_norm_K:    -1.        # Temperature of the COLIBRE Cool limiter entropy floor at the density normalisation expressed in Kelvin.
+  Cool_gamma_effective:       1.         # Slope the of the COLIBRE Cool limiter entropy floor
+
+# The SNIa DTD properties in the COLIBRE feedback
+SNIaDTD:
+  SNIa_efficiency_p_Msun:               0.0016          # Normalisation of the SNIa rates in inverse solar masses, used when there is only one functional form in the DTD.
+  SNIa_timescale_Gyr:                   2.0
+  SNIa_delay_time_Gyr:                  0.04            # Delay time before the DTD kicks in.
+
+Event_logger:
+  delta_time_SNIa_Myr:        100
+  delta_time_SNII_Myr:        10
+  delta_time_r_processes_Myr: 100
+
+# COLIBRE AGN model
+COLIBREAGN:
+  subgrid_seed_mass_Msun:             2.0e4        # Black hole subgrid mass at creation time in solar masses.
+  use_multi_phase_bondi:              0          # Compute Bondi rates per neighbour particle [1] or for the smoothed ambient gas around the black hole [0]?
+  use_subgrid_gas_properties:         1          # Use subgrid density [1] or dynamical density [0] to calculate BH accretion rates?
+  use_krumholz:                       1          # Use Krumholz et al. (2006) [1] or standard Bondi-Hoyle-Lyttleton formula [0] for black hole accretion rates? Only used if multi_phase_bondi is 0.
+  with_krumholz_vorticity:            1          # Include the vorticity term in Krumholz et al. formula? Only used if use_multi_phase_bondi is 0.
+  with_angmom_limiter:                0          # Are we applying the Rosas-Guevara (2015) viscous time-scale reduction term?
+  radiative_efficiency:               0.1        # Fraction of the accreted mass that gets radiated.
+  max_eddington_fraction:             10.0       # Maximal allowed accretion rate in units of the Eddington rate.
+  eddington_fraction_for_recording:   0.1        # Record the last time BHs reached an Eddington ratio above this threshold.
+  use_nibbling:                       1          # Continuously transfer small amounts of mass from all gas neighbours to a black hole [1] or stochastically swallow whole gas particles [0]? 
+  min_gas_mass_for_nibbling_Msun:     6.4e6      # Minimum mass for a gas particle to be nibbled from [M_Sun]. Only used if use_nibbling is 1.
+  coupling_efficiency:                0.10       # Fraction of the radiated energy that couples to the gas in feedback events.
+  AGN_delta_T_K:                      1e9        # Change in temperature to apply to the gas particle in an AGN feedback event in Kelvin.
+  AGN_num_ngb_to_heat:                1.         # Target number of gas neighbours to heat in an AGN feedback event.
+  with_potential_correction:          1          # Subtract BH's own contribution to the potential of neighbours when determining repositioning targets.
+  max_reposition_mass_Msun:           2e20       # Maximal BH mass considered for BH repositioning in solar masses.
+  max_reposition_distance_ratio:      3.0        # Maximal distance a BH can be repositioned, in units of the softening length.
+  with_reposition_velocity_threshold: 0          # Should we only reposition to particles that move slowly w.r.t. the black hole?
+  set_reposition_speed:               0          # Should we reposition black holes with (at most) a prescribed speed towards the potential minimum?
+  threshold_major_merger:             0.333      # Mass ratio threshold to consider a BH merger as 'major'
+  threshold_minor_merger:             0.1        # Mass ratio threshold to consider a BH merger as 'minor'
+  merger_threshold_type:              DynamicalEscapeVelocity   # Type of velocity threshold for BH mergers (CircularVelocity as in EAGLE, EscapeVelocity, or DynamicalEscapeVelocity)
+  merger_max_distance_ratio:          3.0        # Maximal distance over which two BHs can merge, in units of the softening length.
+  AGN_use_deterministic_feedback:     1          # Deterministic (1) or stochastic (0) AGN feedback model
+  AGN_feedback_model:                 MinimumDistance  # AGN feedback model (Isotropic or MinimumDistance)
+  minimum_timestep_yr:                100.0      # Minimum time-step of black-hole particles
+  with_boost_factor:                  1          # Are we using the model from Booth, Schaye (2009)?
+  boost_alpha:                        1.0        # Lowest value for the accretion effeciency for the Booth, Schaye 2009 accretion model.
+  boost_beta:                         0.0       # Slope of the power law for the Booth, Schaye 2009 model, set beta to zero for constant alpha models.
+  boost_n_h_star_cm3:                 0.1        # Normalization of the power law for the Booth Schaye 2009 model in cgs (cm^-3).
+
+# Parameters for the Friends-Of-Friends algorithm
+FOF:
+  basename:                        fof_output  # Filename for the FOF outputs.
+  min_group_size:                  256         # The minimum no. of particles required for a group.
+  linking_length_ratio:            0.2         # Linking length in units of the main inter-particle separation.
+  seed_black_holes_enabled:        1           # Enable seeding of black holes in FoF groups
+  black_hole_seed_halo_mass_Msun:  1e10        # Minimal halo mass in which to seed a black hole (in solar masses).
+  scale_factor_first:              0.05        # Scale-factor of first FoF black hole seeding calls.
+  delta_time:                      1.00751     # Scale-factor ratio between consecutive FoF black hole seeding calls.
+
+# Parameters of the stars neighbour search
+Stars:
+  resolution_eta:        1.1642   # Target smoothing length in units of the mean inter-particle separation
+  h_tolerance:           7e-3
+  timestep_age_threshold_unlimited_Myr: 40 # Stars don't employ a stellar property related time-step when they are > 40Myr old.
+  max_timestep_young_Myr:               1. # Stars below an age of 40Myr use a time-step length of 1Myr at most.
+  luminosity_filename:   ../../tables_june_2023/photometry
+
+Restarts:
+  onexit:       1
+  delta_hours:  5.0
+  max_run_time: 71.5                 # Three days minus fergie time
+  resubmit_on_exit:   1
+  resubmit_command:   ./resub.sh
+
+XrayEmissivity:
+  xray_table_path:    ../../tables_june_2023/X_Ray_tables.hdf5  # Path to the X-ray emissivity tables
+
+
+
+
+

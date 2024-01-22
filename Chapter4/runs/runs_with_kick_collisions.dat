@@ -1,0 +1,33 @@
+# In order to allow kick collisions, you need to edit src/feedback/COLIBRE/feedback_iact.h.
+# Go inside `runner_iact_nonsym_feedback_apply()' and remove the if condition such that the 
+# code inside the curly brackets is always executed.
+
+"""
+if (si->feedback_data.SNII_rays_ext_true[i].status ==
+                ray_feedback_kick_allowed &&
+            si->feedback_data.SNII_rays_ext_mirr[i].status ==
+                ray_feedback_kick_allowed) {
+...
+}
+"""
+
+# Then go inside runner_iact_nonsym_feedback_prep2() in the same file, and 
+# remove the if statements 
+
+"""
+if (si->feedback_data.SNII_rays_ext_mirr[i].status ==
+              ray_feedback_kick_allowed) {
+...
+}
+
+"""
+and
+"""
+if (si->feedback_data.SNII_rays_ext_true[i].status ==
+              ray_feedback_kick_allowed) {
+...
+}
+
+"""
+# such that the code inside the curly brackets is always executed.
+

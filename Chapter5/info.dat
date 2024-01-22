@@ -1,0 +1,42 @@
+1. The script `create_hypercube' creates initial conditions for running hypercubes. It requires
+- swiftemulator
+- numpy
+
+2. The `emulate.py' script creates emulators based on the runs from the hypercube of a given model,
+runs MCMC to find the best-fitting parameter value, and creates plots with the posterior distributions as well as diagnostics plots
+
+Running `emulate.py' requires
+- swiftemulator
+- numpy
+- matplotlib
+- velociraptor-python
+- emcee
+- corner
+- unyt
+- astropy
+- tqdm
+
+All libraries can be pip-installed.
+
+3. The observatinal data used in this chapter are available at https://github.com/SWIFTSIM/velociraptor-comparison-data
+
+4. The code for making plots such as
+
+- Galaxy stellar mass function
+- Median galaxy half-mass size vs. stellar mass
+- sSFR vs. stellar mass
+- SMBH mass vs. stellar mass 
+- Galaxy passive fraction vs. stellar mass
+- H2 mass fraction vs. stellar mass
+- HI mass fraction vs. stellar mass
+- Gas metallicity vs. stellar mass
+- Stellar metallicity vs. stellar mass 
+- Stellar-to-halo mass ratio vs. halo mass
+
+can be found at https://github.com/SWIFTSIM/pipeline-configs
+
+5. The script `convert_SFH.py' convers the cosmic star formation history from the hypercube runs from .txt format to .yml format. 
+The latter is read by `emulate.py'.
+
+6. Note that making plots requires halo catalogues in the velociraptor or SOAP format. The latter can be found at https://github.com/SWIFTSIM/SOAP
+and the velociraptor is available at https://velociraptor-stf.readthedocs.io/en/latest/getting.html

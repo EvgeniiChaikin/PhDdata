@@ -1,0 +1,4 @@
+# In order to disable relative star-gas motion corrections in SN kinetic feedback,
+# go to src/rays.h and in function `ray_kinetic_feedback_compute_kick_velocity()', 
+# set parameter `beta' to 1 instead of `sqrt(alpha * alpha + 1.0) - alpha'
+

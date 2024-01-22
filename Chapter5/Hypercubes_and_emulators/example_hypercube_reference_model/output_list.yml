@@ -1,0 +1,11 @@
+  
+Snapshot:
+  Standard_Gas: on
+  Standard_DM: on
+  Standard_Stars: on
+  Standard_BH: on  
+BlackHole:
+  Standard_Gas: off
+  Standard_DM: off
+  Standard_Stars: off
+  Standard_BH: on 
