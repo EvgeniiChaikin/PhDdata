@@ -16,19 +16,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot_SFR():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 split = plot["split"]
@@ -44,19 +40,18 @@ def plot_SFR():
                 fig, ax = plot_style(fig_size_x, fig_size_y)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     SFR_file = np.loadtxt(f"{value}/SFR.txt", skiprows=25)
                     time = SFR_file[:, 1] * 9.778131e02 / 1e3  # Gyr
                     total_SFR = SFR_file[:, -1] * 1.022690e01  # M_sol / yr
 
-                    N_bins = 500 # 51
-                    dt = 0.025 # window of 2x25 Myr = 50 Myr
+                    N_bins = 500  # 51
+                    dt = 0.025  # window of 2x25 Myr = 50 Myr
 
                     bin_centers = np.linspace(0.0 + dt, 1.0 - dt, N_bins)
                     bin_values = np.zeros_like(bin_centers)
 
                     for i in range(len(bin_centers)):
-                        mask = np.where(np.abs(time-bin_centers[i]) < dt)[0]
+                        mask = np.where(np.abs(time - bin_centers[i]) < dt)[0]
                         bin_values[i] = np.mean(total_SFR[mask])
 
                     if split == 0 or split == 9:
@@ -88,7 +83,7 @@ def plot_SFR():
                         lw = lw7
                         dashes = dashes7
 
-                    if key.find("nolegend")>=0:
+                    if key.find("nolegend") >= 0:
                         label = "_nolegend_"
                     else:
                         label = key.replace("_", "\_")
@@ -147,13 +142,13 @@ def plot_SFR():
                         labelspacing=0.3,
                     )
 
-                    #leg1 = ax.legend(fontsize=19, loc="upper center", frameon=False,
-                    #columnspacing=0.25,
-                    #borderaxespad=0.20,
-                    #labelspacing=0.3
-                    #)
+                    # leg1 = ax.legend(fontsize=19, loc="upper center", frameon=False,
+                    # columnspacing=0.25,
+                    # borderaxespad=0.20,
+                    # labelspacing=0.3
+                    # )
 
-                if split != 6: 
+                if split != 6:
                     hl_dict = {
                         handle.get_label(): handle for handle in leg1.legendHandles
                     }
@@ -163,19 +158,19 @@ def plot_SFR():
                     for counter, text in enumerate(leg1.get_texts()):
                         text.set_color(colors[counter])
 
-                l0, = ax.plot([1e4,1e5],[1e4,1e5], lw=3, color="k")
-                l1, = ax.plot([1e4,1e5],[1e4,1e5], lw=3, color="k", dashes=(4, 4))
-                
+                (l0,) = ax.plot([1e4, 1e5], [1e4, 1e5], lw=3, color="k")
+                (l1,) = ax.plot([1e4, 1e5], [1e4, 1e5], lw=3, color="k", dashes=(4, 4))
+
                 if split == 3:
                     leg2 = plt.legend(
-                    [l0, l1],
-                    [
-                        "Gravitational instability criterion",
-                        "Temperature-density criterion"
-                    ],
-                    loc="upper right",
-                    frameon=False,
-                    fontsize=LEGEND_SIZE * 0.9,
+                        [l0, l1],
+                        [
+                            "Gravitational instability criterion",
+                            "Temperature-density criterion",
+                        ],
+                        loc="upper right",
+                        frameon=False,
+                        fontsize=LEGEND_SIZE * 0.9,
                     )
 
                     plt.gca().add_artist(leg1)

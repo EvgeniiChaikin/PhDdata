@@ -10,11 +10,8 @@ from tqdm import tqdm
 
 
 def do_sedov_analytic(time_bins, dens, nmodel):
-
     for i in range(time_bins):
-
         if time_plot_arr[i] > 0.0:
-
             r_s, P_s, rho_s, v_s, r_shock, _, _, _, _ = sedov(
                 time_plot_arr[i] * constants["YEAR_IN_CGS"] * 1e6,
                 1e51,
@@ -28,15 +25,12 @@ def do_sedov_analytic(time_bins, dens, nmodel):
 
 
 def process_data(name, n_snapshot_max, nmodel):
-
     print("Begin to process data...")
 
     for idx in tqdm(range(0, n_snapshot_max, 1)):
-
         f = h5.File(f"{name}" + "/output_{:04d}.hdf5".format(idx), "r")
 
         if idx == 0:
-
             unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
             unit_mass_in_cgs = f["/Units"].attrs["Unit mass in cgs (U_M)"]
             unit_time_in_cgs = f["/Units"].attrs["Unit time in cgs (U_t)"]
@@ -74,7 +68,7 @@ def process_data(name, n_snapshot_max, nmodel):
             r,
             gas_density_f
             * unit_mass_in_cgs
-            / unit_length_in_cgs ** 3
+            / unit_length_in_cgs**3
             / constants["PROTON_MASS_IN_CGS"]
             * v_r
             * 1.0e5,
@@ -99,11 +93,9 @@ def process_data(name, n_snapshot_max, nmodel):
 
 
 def plot_data():
-
     fig, ax = plot_style(8, 8)
 
     for idx, key in enumerate(dict_data.keys()):
-
         ax.plot(
             time_arr[:, idx],
             1e3 * r_numerical[:, idx],
@@ -114,7 +106,6 @@ def plot_data():
         )
 
         if idx == 1:
-
             print("Plot analytic")
 
             ax.plot(
@@ -146,11 +137,12 @@ def plot_data():
     ax.set_ylim(-5, 240)
     ax.set_xlim(-0.1, 3.9)
 
-    plt.savefig("./images/radius_vs_time_3_runs.pdf", bbox_inches="tight", pad_inches=0.1)
+    plt.savefig(
+        "./images/radius_vs_time_3_runs.pdf", bbox_inches="tight", pad_inches=0.1
+    )
 
 
 if __name__ == "__main__":
-
     densities = np.array([0.1, 0.1])
 
     dict_data = {
@@ -196,7 +188,6 @@ if __name__ == "__main__":
         assert np.shape(r_numerical) == (n_snapshot_max_arg, N_models)
 
     except (IOError, AssertionError):
-
         time_arr = np.zeros((n_snapshot_max_arg, N_models))
         h_numerical = np.zeros((n_snapshot_max_arg, N_models))
         r_numerical = np.zeros((n_snapshot_max_arg, N_models))
@@ -204,7 +195,8 @@ if __name__ == "__main__":
         for counter, value in enumerate(dict_data.values()):
             print(
                 "Counter: {:d}, path: {:s}, density: {:.1e} [cm^-3]".format(
-                counter, value, densities[counter])
+                    counter, value, densities[counter]
+                )
             )
             process_data(value, n_snapshot_max_arg, counter)
 

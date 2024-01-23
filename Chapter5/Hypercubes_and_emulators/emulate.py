@@ -1695,7 +1695,6 @@ class Plots(object):
         return 1.0
 
     def ln_likelihood(self, params, m1=1.0, m2=1.0, m3=0.0, chi=False):
-
         prior_likelihood = self.ln_prior(params)
 
         best_fit_params = {name: val for name, val in zip(self.param_keys, params)}

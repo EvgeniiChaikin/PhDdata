@@ -21,26 +21,22 @@ def read_sim_data(file: str = "simulations.json"):
 
 # Get the default KS relation for correct IMF
 def KS(sigma_g, n, A):
-    return A * sigma_g ** n
+    return A * sigma_g**n
 
 
 def plot():
-
     bin_edges = np.arange(-1, 3, 0.25)
     bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
 
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 snapshot_min = plot["snapshot_min"]
@@ -67,7 +63,6 @@ def plot():
                 observational_data = read_obs_data()
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     x_full = np.array([])
                     y_full = np.array([])
 
@@ -180,7 +175,10 @@ def plot():
                         print(np.max(x_full), np.max(y_full))
 
                     y_binned, _, _ = stats.binned_statistic(
-                        np.log10(x_full), y_full, bins=bin_edges, statistic="median",
+                        np.log10(x_full),
+                        y_full,
+                        bins=bin_edges,
+                        statistic="median",
                     )
 
                     deviations = []

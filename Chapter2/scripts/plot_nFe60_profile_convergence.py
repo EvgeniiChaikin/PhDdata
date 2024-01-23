@@ -10,11 +10,19 @@ from tqdm import tqdm
 
 
 def wendlandC2(u):
-
     # Normalised
-    return 21. / (2 * np.pi) * np.where(u > 1., 0., 4.*u**5 - 15.*u**4 + 20.*u**3 - 10*u**2 + 1.)
+    return (
+        21.0
+        / (2 * np.pi)
+        * np.where(
+            u > 1.0,
+            0.0,
+            4.0 * u**5 - 15.0 * u**4 + 20.0 * u**3 - 10 * u**2 + 1.0,
+        )
+    )
 
-#20
+
+# 20
 def intersection_volume_vector(rp, hp_full, w, r1, r2, n_sample: int = 20):
     """
     Parameters:
@@ -40,18 +48,16 @@ def intersection_volume_vector(rp, hp_full, w, r1, r2, n_sample: int = 20):
     r_edges = np.linspace(0.0, 1.0, n_sample + 1)
     r_points = 0.5 * (r_edges[:-1] + r_edges[1:])
     kernel_at_r = wendlandC2(r_points)
-    Volumep_full = 4.0 * np.pi / 3.0 * hp_full ** 3
+    Volumep_full = 4.0 * np.pi / 3.0 * hp_full**3
 
     v_shell_overlap = np.zeros((np.size(rp), n_sample))
 
     for n_subshell, (r_point, r_edge_right) in enumerate(zip(r_points, r_edges[1:])):
-
         hp = hp_full * r_edge_right
 
-        Volumep = 4.0 * np.pi / 3.0 * hp ** 3
+        Volumep = 4.0 * np.pi / 3.0 * hp**3
 
-        for (sign, rb) in zip([-1.0, 1.0], [r1, r2]):
-
+        for sign, rb in zip([-1.0, 1.0], [r1, r2]):
             case2 = np.logical_and(rp + hp > rb, np.abs(rp - hp) < rb)
             case3 = np.logical_and(
                 np.logical_and(rp + hp <= rb, rp - hp >= -rb), np.logical_not(case2)
@@ -62,40 +68,45 @@ def intersection_volume_vector(rp, hp_full, w, r1, r2, n_sample: int = 20):
             )
 
             # Case2
-            alphab = (rb ** 2 + rp[case2] ** 2 - hp[case2] ** 2) / (2.0 * rp[case2] * rb)
-            alphap = (hp[case2] ** 2 + rp[case2] ** 2 - rb ** 2) / (
+            alphab = (rb**2 + rp[case2] ** 2 - hp[case2] ** 2) / (
+                2.0 * rp[case2] * rb
+            )
+            alphap = (hp[case2] ** 2 + rp[case2] ** 2 - rb**2) / (
                 2.0 * rp[case2] * hp[case2]
             )
 
             heightb = rb * (1.0 - alphab)
             heightp = hp[case2] * (1.0 - alphap)
 
-            cap_volumeb = np.pi * heightb ** 2 / 3.0 * (3.0 * rb - heightb)
-            cap_volumep = np.pi * heightp ** 2 / 3.0 * (3.0 * hp[case2] - heightp)
+            cap_volumeb = np.pi * heightb**2 / 3.0 * (3.0 * rb - heightb)
+            cap_volumep = np.pi * heightp**2 / 3.0 * (3.0 * hp[case2] - heightp)
 
-            v_shell_overlap[case2, n_subshell] += sign * (cap_volumeb + cap_volumep) * w[case2]
+            v_shell_overlap[case2, n_subshell] += (
+                sign * (cap_volumeb + cap_volumep) * w[case2]
+            )
 
             # Case3
             v_shell_overlap[case3, n_subshell] += sign * w[case3] * Volumep[case3]
 
             # Case4
-            Volumeb = 4.0 * np.pi / 3.0 * rb ** 3
+            Volumeb = 4.0 * np.pi / 3.0 * rb**3
             v_shell_overlap[case4, n_subshell] += sign * Volumeb * w[case4]
 
         # Particle is inside the bin
         case1 = np.logical_and(rp - hp >= r1, rp + hp <= r2)
         v_shell_overlap[case1, n_subshell] = 1.0 * w[case1] * Volumep[case1]
 
-    for i in range(n_sample-1, 0, -1):
-        v_shell_overlap[:, i] -= v_shell_overlap[:, i-1]
+    for i in range(n_sample - 1, 0, -1):
+        v_shell_overlap[:, i] -= v_shell_overlap[:, i - 1]
 
-    output = np.sum(4. * np.pi / 3.0 * v_shell_overlap * kernel_at_r, axis=1) / Volumep_full
+    output = (
+        np.sum(4.0 * np.pi / 3.0 * v_shell_overlap * kernel_at_r, axis=1) / Volumep_full
+    )
 
     return output
 
 
 def bin_distribute(r, h, w):
-
     r_min = r - h
     r_max = r + h
 
@@ -121,13 +132,18 @@ def bin_distribute(r, h, w):
 
 
 def plot_profile(dens=0.101348, gamma_WendlandC2: float = 1.936492):
-
     global magnitudes, magnitudes_centres, magnitudes_widths
 
     # Create figure
 
     COL_SIZE, ROW_SIZE = 2, 1
-    fig, ax = plt.subplots(COL_SIZE, ROW_SIZE, figsize=(8, 12), sharex=True, gridspec_kw={'height_ratios': [2.5, 1.5]})
+    fig, ax = plt.subplots(
+        COL_SIZE,
+        ROW_SIZE,
+        figsize=(8, 12),
+        sharex=True,
+        gridspec_kw={"height_ratios": [2.5, 1.5]},
+    )
     fig.subplots_adjust(hspace=0, wspace=0)
     plt.rc("text", usetex=True)
     plt.rc("font", family="serif")
@@ -142,14 +158,22 @@ def plot_profile(dens=0.101348, gamma_WendlandC2: float = 1.936492):
         ax[i].xaxis.set_minor_locator(AutoMinorLocator(5))
         ax[i].yaxis.set_minor_locator(AutoMinorLocator(5))
         ax[i].tick_params(
-            axis="both", which="both", pad=8, left=True, right=True, top=True, bottom=True,
+            axis="both",
+            which="both",
+            pad=8,
+            left=True,
+            right=True,
+            top=True,
+            bottom=True,
         )
 
     ax[0].set_ylabel("log $n_{\\rm ^{60}Fe} \\rm \\, [cm^{-3}]$", fontsize=LABEL_SIZE)
     ax[0].set_ylim(-12.2, -8.8)
     ax[0].yaxis.set_tick_params(labelsize=LABEL_SIZE)
 
-    ax[1].set_ylabel("$M_{\\rm ^{60}Fe}(<D) / M_{\\rm ^{60}Fe, tot}$", fontsize=LABEL_SIZE)
+    ax[1].set_ylabel(
+        "$M_{\\rm ^{60}Fe}(<D) / M_{\\rm ^{60}Fe, tot}$", fontsize=LABEL_SIZE
+    )
     ax[1].set_ylim(-0.05, 1.05)
     ax[1].set_xlabel("Distance from SN $D$ [pc]", fontsize=LABEL_SIZE)
     ax[1].xaxis.set_tick_params(labelsize=LABEL_SIZE)
@@ -168,7 +192,6 @@ def plot_profile(dens=0.101348, gamma_WendlandC2: float = 1.936492):
 
     for counter, (key, value) in enumerate(dict_sim.items()):
         with h5.File(f"{key}" + "/output_{:04d}.hdf5".format(idx), "r") as f:
-
             # Internal units
             unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
             unit_time_in_cgs = f["/Units"].attrs["Unit time in cgs (U_t)"]
@@ -269,7 +292,7 @@ def plot_profile(dens=0.101348, gamma_WendlandC2: float = 1.936492):
             # Numerical solution (binned)
             ax[1].plot(
                 magnitudes_centres,
-                np.cumsum(m_bin)/m_bin_tot,
+                np.cumsum(m_bin) / m_bin_tot,
                 lw=line_properties["linewidth"][counter],
                 color=line_properties["colour"][counter],
             )
@@ -293,10 +316,9 @@ def plot_profile(dens=0.101348, gamma_WendlandC2: float = 1.936492):
 
 if __name__ == "__main__":
     plot_profile()
-    #n_sample = 10
-    #r_edges = np.linspace(0.0, 1.0, n_sample + 1)
-    #r_points = 0.5 * (r_edges[:-1] + r_edges[1:])
-    #kernel_at_r = wendlandC2(r_points)
-    #dV = 4 * np.pi * r_points[:] ** 2 * (r_edges[1:] - r_edges[:-1])
-    #print(np.sum(dV * kernel_at_r))
-
+    # n_sample = 10
+    # r_edges = np.linspace(0.0, 1.0, n_sample + 1)
+    # r_points = 0.5 * (r_edges[:-1] + r_edges[1:])
+    # kernel_at_r = wendlandC2(r_points)
+    # dV = 4 * np.pi * r_points[:] ** 2 * (r_edges[1:] - r_edges[:-1])
+    # print(np.sum(dV * kernel_at_r))

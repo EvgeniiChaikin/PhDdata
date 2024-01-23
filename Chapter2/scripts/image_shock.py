@@ -11,15 +11,13 @@ import sphviewer as sph
 
 
 def plot(snp, z_aver_width=10.0 / 1e3, gamma=1.936492, X_H=0.73738788833, FONTSIZE=28):
-
     with h5.File(
-        #"../run01_diffusion_new_one_p_with_centre_higres_1_sphere/output_{:04d}.hdf5".format(
+        # "../run01_diffusion_new_one_p_with_centre_higres_1_sphere/output_{:04d}.hdf5".format(
         "../run01_diffusion_new_one_p_with_centre_higres_sphere/output_{:04d}.hdf5".format(
             snp
         ),
         "r",
     ) as f:
-
         boxsize = f["/Header"].attrs["BoxSize"]
 
         # Units
@@ -33,7 +31,13 @@ def plot(snp, z_aver_width=10.0 / 1e3, gamma=1.936492, X_H=0.73738788833, FONTSI
         # Load Fields (in the correct units)
         gas_pos = f["/PartType0/Coordinates"][:, :]
         gas_T = f["/PartType0/Temperatures"][:]
-        gas_P = f["/PartType0/Pressures"][:] * unit_mass_in_cgs / unit_length_in_cgs / unit_time_in_cgs **2 / constants["BOLTZMANN_IN_CGS"]
+        gas_P = (
+            f["/PartType0/Pressures"][:]
+            * unit_mass_in_cgs
+            / unit_length_in_cgs
+            / unit_time_in_cgs**2
+            / constants["BOLTZMANN_IN_CGS"]
+        )
         gas_mass = f["/PartType0/Masses"][:]
         gas_hsml = f["/PartType0/SmoothingLengths"][:]
         ejecta = f["/PartType0/ElementMassFractions"][:, -1]
@@ -98,7 +102,7 @@ def plot(snp, z_aver_width=10.0 / 1e3, gamma=1.936492, X_H=0.73738788833, FONTSI
             / z_aver_width
             / 2
             * unit_mass_in_cgs
-            / unit_length_in_cgs ** 3
+            / unit_length_in_cgs**3
             / constants["PROTON_MASS_IN_CGS"]
         )
 
@@ -158,14 +162,14 @@ def plot(snp, z_aver_width=10.0 / 1e3, gamma=1.936492, X_H=0.73738788833, FONTSI
             / z_aver_width
             / 2
             * constants["SOLAR_MASS_IN_CGS"]
-            / unit_length_in_cgs ** 3
+            / unit_length_in_cgs**3
             / constants["PROTON_MASS_IN_CGS"]
         )
 
         # Plotting (make a four-panel figure)
         fig, ax = plt.subplots(2, 2, sharex=True, sharey=True)
         fig.subplots_adjust(hspace=0, wspace=0)
-        fig.set_size_inches(9.8*1.3, 9*1.3)
+        fig.set_size_inches(9.8 * 1.3, 9 * 1.3)
 
         plt.rc("text", usetex=True)
         plt.rc("font", family="serif")
@@ -177,7 +181,7 @@ def plot(snp, z_aver_width=10.0 / 1e3, gamma=1.936492, X_H=0.73738788833, FONTSI
             origin="lower",
             cmap=cmm.coolwarm,
             vmin=-3,
-            vmax=1.,
+            vmax=1.0,
         )
 
         divider = make_axes_locatable(ax[0, 0])
@@ -224,7 +228,10 @@ def plot(snp, z_aver_width=10.0 / 1e3, gamma=1.936492, X_H=0.73738788833, FONTSI
         )
 
         np.savetxt(
-            "./output_Alexander2/density_{:03d}.dat".format(snp), density * const, fmt="%.5e", header=header
+            "./output_Alexander2/density_{:03d}.dat".format(snp),
+            density * const,
+            fmt="%.5e",
+            header=header,
         )
 
         # Panel 2 (temperature)
@@ -260,7 +267,7 @@ def plot(snp, z_aver_width=10.0 / 1e3, gamma=1.936492, X_H=0.73738788833, FONTSI
         # Panel 3 (velocity) divide by 1e5 because cm/sec -> km/sec
         im = ax[1, 0].imshow(
             np.log10(pressure),
-            #velocity / 1e5,
+            # velocity / 1e5,
             extent=extent,
             origin="lower",
             cmap=cmm.inferno,
@@ -273,14 +280,20 @@ def plot(snp, z_aver_width=10.0 / 1e3, gamma=1.936492, X_H=0.73738788833, FONTSI
         ax[1, 0].set_xticks([])
         ax[1, 0].set_yticks([])
         cbar = plt.colorbar(
-            im, cax=cax, ticks=[3, 4, 5, 6, 7], orientation="horizontal", use_gridspec=True
-            #im, cax=cax, ticks=[0, 10, 20], orientation="horizontal", use_gridspec=True
+            im,
+            cax=cax,
+            ticks=[3, 4, 5, 6, 7],
+            orientation="horizontal",
+            use_gridspec=True
+            # im, cax=cax, ticks=[0, 10, 20], orientation="horizontal", use_gridspec=True
         )
         cax.xaxis.set_ticks_position("bottom")
-        #cax.xaxis.set_ticklabels(["$0$", "$10$", "$20$"], fontsize=FONTSIZE)
+        # cax.xaxis.set_ticklabels(["$0$", "$10$", "$20$"], fontsize=FONTSIZE)
         cax.xaxis.set_ticklabels(["$3$", "$4$", "$5$", "$6$", "$7$"], fontsize=FONTSIZE)
-        cax.set_xlabel("$P/ \\mathrm{k_B}$ [K cm$^{-3}$]", fontsize=FONTSIZE, labelpad=11)  # , rotation=270
-        #cax.set_xlabel("$v$ [km s$^{-1}$]", fontsize=FONTSIZE, labelpad=11)  # , rotation=270
+        cax.set_xlabel(
+            "$P/ \\mathrm{k_B}$ [K cm$^{-3}$]", fontsize=FONTSIZE, labelpad=11
+        )  # , rotation=270
+        # cax.set_xlabel("$v$ [km s$^{-1}$]", fontsize=FONTSIZE, labelpad=11)  # , rotation=270
         ax[1, 0].plot(
             [-0.5 * boxsize[0] * 0.91, -0.5 * boxsize[0] * 0.91 + 100.0 / 1e3],
             [-0.5 * boxsize[0] * 0.95, -0.5 * boxsize[0] * 0.95],
@@ -424,13 +437,14 @@ def plot(snp, z_aver_width=10.0 / 1e3, gamma=1.936492, X_H=0.73738788833, FONTSI
         )
 
         plt.savefig(
-            "./output_Alexander2/remnant_image_{:04d}.png".format(snp), bbox_inches="tight", pad_inches=0.1
+            "./output_Alexander2/remnant_image_{:04d}.png".format(snp),
+            bbox_inches="tight",
+            pad_inches=0.1,
         )
         plt.close()
 
 
 if __name__ == "__main__":
-
-    for i in range(34,35):
+    for i in range(34, 35):
         print("Current snapshot number is {}".format(i))
         plot(i)

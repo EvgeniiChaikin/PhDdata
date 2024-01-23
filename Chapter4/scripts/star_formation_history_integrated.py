@@ -22,19 +22,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 split = plot["split"]
@@ -44,7 +40,6 @@ def plot():
                 fig, ax = plot_style(8, 8)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     f = h5.File(value + "/output_{:04d}.hdf5".format(snapshot), "r")
 
                     unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
@@ -57,14 +52,17 @@ def plot():
                     )
 
                     bins = 25
-                    edges_Myr = np.linspace(0.0, 1e3, bins) 
+                    edges_Myr = np.linspace(0.0, 1e3, bins)
                     centers_Myr = 0.5 * (edges_Myr[1:] + edges_Myr[:-1])
                     values_Msun = np.zeros_like(centers_Myr)
 
-                    birth_masses_Msun = ( f["/PartType4/InitialMasses"][:] * unit_mass_in_cgs
-                            / constants["SOLAR_MASS_IN_CGS"]
+                    birth_masses_Msun = (
+                        f["/PartType4/InitialMasses"][:]
+                        * unit_mass_in_cgs
+                        / constants["SOLAR_MASS_IN_CGS"]
                     )
-                    birth_times_Myr = ( f["/PartType4/BirthTimes"][:] 
+                    birth_times_Myr = (
+                        f["/PartType4/BirthTimes"][:]
                         * unit_time_in_cgs
                         / constants["YEAR_IN_CGS"]
                         / 1e6
@@ -116,7 +114,6 @@ def plot():
                 ax.set_xlabel("Time [Gyr]", fontsize=31)
                 ax.set_ylabel("$M_*(<t)$ [M$_{\\odot}$]", fontsize=31)
                 ax.legend(loc="lower right", fontsize=18, frameon=False)
-
 
                 plt.savefig(f"./images/{output}", bbox_inches="tight", pad_inches=0.1)
                 plt.close()

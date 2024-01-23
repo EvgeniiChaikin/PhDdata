@@ -25,13 +25,15 @@ year_in_cgs = 3600.0 * 24 * 365.25
 Msun_in_cgs = 1.98848e33
 G_in_cgs = 6.67259e-8
 pc_in_cgs = 3.08567758e18
-gamma = 2.018932 # Quartic spline
+gamma = 2.018932  # Quartic spline
 
 # defining figure
 
 ROW_SIZE = 5
 COL_SIZE = 1
-fig, ax = plt.subplots(COL_SIZE, ROW_SIZE, figsize=(15, 4.025), sharex=True, sharey=True)
+fig, ax = plt.subplots(
+    COL_SIZE, ROW_SIZE, figsize=(15, 4.025), sharex=True, sharey=True
+)
 fig.subplots_adjust(hspace=0, wspace=0)
 plt.rc("text", usetex=True)
 plt.rc("font", family="serif")
@@ -41,7 +43,6 @@ snapshot = 100
 dict_sim = read_sim_data("main.json")
 
 for idx, (key, value) in enumerate(dict_sim.items()):
-
     col, row = idx % ROW_SIZE, idx // ROW_SIZE
     print(col, row, idx)
 
@@ -102,25 +103,37 @@ for idx, (key, value) in enumerate(dict_sim.items()):
         time = f["/Header"].attrs["Time"] * unit_time_in_cgs / year_in_cgs / 1e6
 
         print("time", time)
-        #cmap = cmm.get_cmap('cividis', 30)
+        # cmap = cmm.get_cmap('cividis', 30)
 
         im = ax[col].imshow(
             np.log10(data1),
-            extent = extent,
+            extent=extent,
             origin="lower",
             cmap=cmm.cividis,
             vmin=-0.5,
             vmax=2.0,
         )
 
-
         ax[col].set_xlim(-size, size)
         ax[col].set_ylim(-size, size)
 
         if col == 4:
             shift = 5
-            ax[col].plot([-16 - shift, -6 - shift], [14.2 + shift, 14.2 + shift], lw=1.5, color="white", alpha=0.9)
-            ax[col].text(-16.1 - shift, 16.0 + shift, "$10$ kpc", fontsize=16, color="white", alpha=0.9)
+            ax[col].plot(
+                [-16 - shift, -6 - shift],
+                [14.2 + shift, 14.2 + shift],
+                lw=1.5,
+                color="white",
+                alpha=0.9,
+            )
+            ax[col].text(
+                -16.1 - shift,
+                16.0 + shift,
+                "$10$ kpc",
+                fontsize=16,
+                color="white",
+                alpha=0.9,
+            )
 
         if col == 0:
             ax[col].text(

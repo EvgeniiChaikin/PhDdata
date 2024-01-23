@@ -15,7 +15,6 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     percentiles = [16, 84]
     bin_edges = np.linspace(-0.5, 0.5, 20)
     bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
@@ -23,13 +22,10 @@ def plot():
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 split = plot["split"]
@@ -41,7 +37,6 @@ def plot():
                 fig, ax = plot_style(8, 8)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     print(counter, key)
 
                     # Load data
@@ -57,7 +52,8 @@ def plot():
                     )
                     mask_time = np.logical_and(
                         birth_times > 0.0 * birth_times.units,
-                        np.abs(birth_times.value - snp_time_Myr.value) < TIME_WINDOW_MYR,
+                        np.abs(birth_times.value - snp_time_Myr.value)
+                        < TIME_WINDOW_MYR,
                     )
                     mask = np.logical_and(mask_with_feedback, mask_time)
 
@@ -66,7 +62,6 @@ def plot():
                     theta = data.stars.last_sniithermal_feedback_star_theta[mask]
 
                     if len(z_pos) > 0:
-
                         print(len(z_pos))
 
                         cos_theta_part = np.cos(theta)
@@ -94,7 +89,6 @@ def plot():
                         # Add medians
 
                         if len(dict_sim.items()) == 5:
-
                             if counter < 3:
                                 ax.plot(
                                     bin_centers,
@@ -118,9 +112,24 @@ def plot():
                                     zorder=-2,
                                     label="IG\_M5\_\{min,max\}\_density",
                                 )
-                                ax.plot(bin_centers, medians_3, dashes = (tuple(d for d in dashesMMD[0])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
-                                ax.plot(bin_centers, medians, dashes = (tuple(d for d in dashesMMD[1])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
-
+                                ax.plot(
+                                    bin_centers,
+                                    medians_3,
+                                    dashes=(tuple(d for d in dashesMMD[0])),
+                                    color=colorMMD,
+                                    lw=lwMMD,
+                                    zorder=-1,
+                                    alpha=alphaMMD,
+                                )
+                                ax.plot(
+                                    bin_centers,
+                                    medians,
+                                    dashes=(tuple(d for d in dashesMMD[1])),
+                                    color=colorMMD,
+                                    lw=lwMMD,
+                                    zorder=-1,
+                                    alpha=alphaMMD,
+                                )
 
                         elif len(dict_sim.items()) == 6:
                             colors = color2
@@ -130,7 +139,7 @@ def plot():
                                 medians,
                                 label=key.replace("_", "\_"),
                                 color=colors[counter],
-                                dashes = (tuple(d for d in dashes[counter])),
+                                dashes=(tuple(d for d in dashes[counter])),
                                 lw=3.5,
                                 zorder=3,
                             )
@@ -142,9 +151,8 @@ def plot():
                                 ls=line_properties["ls"][counter],
                                 color=line_properties["colour"][counter],
                                 lw=line_properties["linewidth"][counter],
-                                    zorder=5 - counter,
-                                )
-                        
+                                zorder=5 - counter,
+                            )
 
                 # Decorate
                 plt.xticks([-0.75, -0.5, -0.25, 0, 0.25, 0.50, 0.75])
@@ -160,7 +168,6 @@ def plot():
 
                 plt.xlim(-0.5, 0.5)
                 plt.ylim(-0.85, 0.85)
-
 
                 plt.legend(loc="lower left", fontsize=22.0, frameon=False)
                 ax.text(

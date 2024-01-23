@@ -16,19 +16,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot_SFR():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 runs_per_plot = len(dict_sim) // 2
@@ -62,19 +58,18 @@ def plot_SFR():
                     a.yaxis.set_minor_locator(y_minor_locator)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     SFR_file = np.loadtxt(f"{value}/SFR.txt", skiprows=25)
                     time = SFR_file[:, 1] * 9.778131e02 / 1e3  # Gyr
                     total_SFR = SFR_file[:, -1] * 1.022690e01  # M_sol / yr
 
-                    N_bins = 500 #51
-                    dt = 0.025 # window of 2x25 Myr = 50 Myr
-  
+                    N_bins = 500  # 51
+                    dt = 0.025  # window of 2x25 Myr = 50 Myr
+
                     bin_centers = np.linspace(0.0 + dt, 1.0 - dt, N_bins)
                     bin_values = np.zeros_like(bin_centers)
 
                     for i in range(len(bin_centers)):
-                        mask = np.where(np.abs(time-bin_centers[i]) < dt)[0]
+                        mask = np.where(np.abs(time - bin_centers[i]) < dt)[0]
                         bin_values[i] = np.mean(total_SFR[mask])
 
                     if counter < runs_per_plot:
@@ -117,7 +112,7 @@ def plot_SFR():
                     ncol=2,
                     handlelength=0,
                     handletextpad=0,
-                    prop = {"size": 22}
+                    prop={"size": 22},
                 )
                 hl_dict = {handle.get_label(): handle for handle in leg1.legendHandles}
                 for k in hl_dict:
@@ -135,7 +130,7 @@ def plot_SFR():
                     ncol=2,
                     handlelength=0,
                     handletextpad=0,
-                    prop = {"size": 22}
+                    prop={"size": 22},
                 )
                 hl_dict = {handle.get_label(): handle for handle in leg2.legendHandles}
 
@@ -145,7 +140,6 @@ def plot_SFR():
                     text.set_color(color[counter])
 
                 for a in [ax, ax2]:
-
                     a.set_yscale("log")
                     a.set_yticks([0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0])
 

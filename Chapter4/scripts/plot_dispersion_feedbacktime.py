@@ -22,19 +22,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 y_min, y_max = plot["ylims"]
@@ -50,7 +46,6 @@ def plot():
                 values = np.zeros_like(centers_Myr)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     f = h5.File(value + "/output_{:04d}.hdf5".format(snapshot), "r")
 
                     unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
@@ -132,13 +127,10 @@ def plot():
                     )
 
                     for bin_c, TIMEWINDOW_Myr in enumerate(centers_Myr):
-
                         snii_times = np.where(
                             np.logical_and(
-                                logic_2,  
-                                np.abs(
-                                    feedback_times_Myr - time_Myr[0]
-                                )
+                                logic_2,
+                                np.abs(feedback_times_Myr - time_Myr[0])
                                 <= TIMEWINDOW_Myr,
                             )
                         )
@@ -192,10 +184,10 @@ def plot():
                     leg1 = ax.legend(
                         fontsize=26.0,
                         ncol=2,
-                        bbox_to_anchor=(-0.15, 1.4), # -0.20 1.42
+                        bbox_to_anchor=(-0.15, 1.4),  # -0.20 1.42
                         loc="upper left",
                         handlelength=0,
-                        handletextpad=0.4, # 0.0
+                        handletextpad=0.4,  # 0.0
                         columnspacing=0.25,
                         borderaxespad=0.20,
                         labelspacing=0.3,
@@ -232,7 +224,8 @@ def plot():
 
                 ax.set_ylabel(
                     "$\\sigma_{\\rm turb} \\, [\\rm km \\, s^{-1}]$ ($<\\Delta \\, t_{\\rm kick}$)",
-                    fontsize=29, labelpad=23.0
+                    fontsize=29,
+                    labelpad=23.0,
                 )
 
                 plt.savefig(f"./images/{output}", bbox_inches="tight", pad_inches=0.1)

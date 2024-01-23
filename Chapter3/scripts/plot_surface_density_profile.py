@@ -22,19 +22,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 split = plot["split"]
@@ -46,7 +42,6 @@ def plot():
                 fig, ax = plot_style(8, 8)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     f = h5.File(value + "/output_{:04d}.hdf5".format(snapshot), "r")
 
                     unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
@@ -100,7 +95,6 @@ def plot():
                         r = np.sqrt(pos[:, 0] ** 2 + pos[:, 1] ** 2)
 
                         if part_idx == 0:
-
                             values, _, _ = stats.binned_statistic(
                                 r, mass, statistic="sum", bins=edges
                             )
@@ -114,7 +108,6 @@ def plot():
                                 label=key.replace("_", "\_"),
                             )
                         else:
-
                             print(np.shape(pos[ages]), np.shape(pos))
                             values, _, _ = stats.binned_statistic(
                                 r[ages], mass[ages], statistic="sum", bins=edges

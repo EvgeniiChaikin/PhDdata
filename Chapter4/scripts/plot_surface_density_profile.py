@@ -22,19 +22,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 split = plot["split"]
@@ -148,7 +144,6 @@ def plot():
                     for counter, text in enumerate(leg1.get_texts()):
                         text.set_color(line_properties["colour"][counter])
 
-
                 ax.set_ylabel(
                     "$\\Sigma_{\\rm gas} \\, [\\rm M_\\odot \\, pc^{-2}]$",
                     fontsize=33,
@@ -156,15 +151,13 @@ def plot():
                 ax.text(
                     0.04,
                     0.04,
-                    "$t = {:.2f}$ Gyr".format(
-                        time_snp_Myr[0] / 1e3
-                    ),
+                    "$t = {:.2f}$ Gyr".format(time_snp_Myr[0] / 1e3),
                     ha="left",
                     va="bottom",
                     transform=ax.transAxes,
                     fontsize=32,
                 )
-                  
+
                 fixlogax(ax, "y")
 
                 plt.savefig(f"./images/{output}", bbox_inches="tight", pad_inches=0.1)

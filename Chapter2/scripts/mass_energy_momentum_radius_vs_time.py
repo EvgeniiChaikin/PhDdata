@@ -15,16 +15,19 @@ def p_final(n_gas):
 def p_final2(n_gas):
     return 4.8e5 * np.power(n_gas, -1.0 / 7.0)
 
-def p_ST(t, n_gas, E_51 = 1.0):
-    return 2.21e4 * np.power(E_51,4./5.) * np.power(n_gas, 1./5.) * np.power(t * 1e3, 3./5.)
+
+def p_ST(t, n_gas, E_51=1.0):
+    return (
+        2.21e4
+        * np.power(E_51, 4.0 / 5.0)
+        * np.power(n_gas, 1.0 / 5.0)
+        * np.power(t * 1e3, 3.0 / 5.0)
+    )
 
 
 def do_sedov_analytic(time_bins, dens, nmodel):
-
     for i in range(time_bins):
-
         if time_plot_arr[i] > 0.0:
-
             r_s, P_s, rho_s, v_s, r_shock, _, _, _, _ = sedov(
                 time_plot_arr[i] * constants["YEAR_IN_CGS"] * 1e6,
                 1e51,
@@ -38,12 +41,18 @@ def do_sedov_analytic(time_bins, dens, nmodel):
 
     return
 
-def M_ST(t, n_gas, E_51 = 1.0):
 
-    r_ST = 5.0 * np.power(E_51, 1./5.) * np.power(n_gas, -1./5.) * np.power(t * 1e3, 2./5.) * constants["PARSEC_IN_CGS"]
+def M_ST(t, n_gas, E_51=1.0):
+    r_ST = (
+        5.0
+        * np.power(E_51, 1.0 / 5.0)
+        * np.power(n_gas, -1.0 / 5.0)
+        * np.power(t * 1e3, 2.0 / 5.0)
+        * constants["PARSEC_IN_CGS"]
+    )
 
     # Compute mass in the shell
-    Volume = 4.0 * np.pi / 3.0 * r_ST ** 3
+    Volume = 4.0 * np.pi / 3.0 * r_ST**3
 
     M_shell = (
         n_gas
@@ -56,9 +65,7 @@ def M_ST(t, n_gas, E_51 = 1.0):
 
 
 def plot_energy(ax):
-
     for idx, key in enumerate(dict_data.keys()):
-
         ax.plot(
             time_arr[:, idx],
             np.log10(E_th_arr[:, idx]),
@@ -83,7 +90,7 @@ def plot_energy(ax):
             zorder=3,
         )
 
-        if idx==1:
+        if idx == 1:
             ax.axvline(
                 x=t_sf(1e51, densities[idx]),
                 color="grey",
@@ -94,27 +101,30 @@ def plot_energy(ax):
             )
 
     ax.plot(
-         [5,6], [5,6],
-         label="$E_{\\rm thermal}$",
-         lw=line_properties["linewidth"][idx],
-         color="k",
-         zorder=3,
-         dashes=(1.5, 1.5),
-     )
-    ax.plot(
-         [5,6], [5,6],
-         label="$E_{\\rm kinetic}$",
-         lw=line_properties["linewidth"][idx],
-         color="k",
-         zorder=3,
-         dashes=(4, 1.5, 1, 1.5),
+        [5, 6],
+        [5, 6],
+        label="$E_{\\rm thermal}$",
+        lw=line_properties["linewidth"][idx],
+        color="k",
+        zorder=3,
+        dashes=(1.5, 1.5),
     )
     ax.plot(
-         [5,6], [5,6],
-         label="$E_{\\rm total}$",
-         lw=line_properties["linewidth"][idx],
-         color="k",
-         zorder=3,
+        [5, 6],
+        [5, 6],
+        label="$E_{\\rm kinetic}$",
+        lw=line_properties["linewidth"][idx],
+        color="k",
+        zorder=3,
+        dashes=(4, 1.5, 1, 1.5),
+    )
+    ax.plot(
+        [5, 6],
+        [5, 6],
+        label="$E_{\\rm total}$",
+        lw=line_properties["linewidth"][idx],
+        color="k",
+        zorder=3,
     )
 
     ax.legend(loc="upper right", fontsize=LEGEND_SIZE * 1.0, frameon=False)
@@ -133,9 +143,7 @@ def plot_energy(ax):
 
 
 def plot_momentum(ax):
-
     for idx, key in enumerate(dict_data.keys()):
-
         print(f"Plotting {key}")
 
         ax.plot(
@@ -146,7 +154,7 @@ def plot_momentum(ax):
             zorder=3,
         )
 
-        if idx==1:
+        if idx == 1:
             ax.axvline(
                 x=t_sf(1e51, densities[idx]),
                 color="grey",
@@ -159,21 +167,22 @@ def plot_momentum(ax):
                 y=np.log10(p_final(densities[idx])),
                 color="black",
                 lw=3.5,
-                dashes=(3.5,1.25,1.25,1.25),
+                dashes=(3.5, 1.25, 1.25, 1.25),
                 alpha=0.95,
                 zorder=5,
                 label="$p_{\\rm final}$ (Kim \& Ostriker 2015)",
             )
             time_analytic = np.linspace(0, 4.1, 1500)
-            ax.plot(time_analytic,
+            ax.plot(
+                time_analytic,
                 np.log10(p_ST(time_analytic, densities[idx])),
                 color="black",
                 lw=3,
                 dashes=(1.5, 1.5),
                 alpha=0.95,
                 zorder=3,
-                label="ST solution"
-           )
+                label="ST solution",
+            )
 
     ax.legend(loc="upper right", fontsize=LEGEND_SIZE * 0.97, frameon=False)
 
@@ -192,7 +201,6 @@ def plot_momentum(ax):
 
 
 def plot_mass(ax):
-
     for idx, key in enumerate(dict_data.keys()):
         ax.plot(
             time_arr[:, idx],
@@ -202,7 +210,7 @@ def plot_mass(ax):
             zorder=3,
         )
 
-        if idx==1:
+        if idx == 1:
             ax.axvline(
                 x=t_sf(1e51, densities[idx]),
                 color="grey",
@@ -213,9 +221,15 @@ def plot_mass(ax):
             )
 
             M_sedov = M_ST(time_arr[:, idx], densities[idx])
-            ax.plot(np.concatenate([[-1e-10], time_arr[1:, idx]]),
-                    np.concatenate([[1e-10], np.log10(M_sedov[1:])]), color='k', dashes=(1.5, 1.5), lw=3,
-                    label="ST solution", zorder=7)
+            ax.plot(
+                np.concatenate([[-1e-10], time_arr[1:, idx]]),
+                np.concatenate([[1e-10], np.log10(M_sedov[1:])]),
+                color="k",
+                dashes=(1.5, 1.5),
+                lw=3,
+                label="ST solution",
+                zorder=7,
+            )
 
     ax.legend(loc="lower right", fontsize=LEGEND_SIZE * 1.0, frameon=False)
 
@@ -233,9 +247,7 @@ def plot_mass(ax):
 
 
 def plot_radius(ax):
-
     for idx, key in enumerate(dict_data.keys()):
-
         ax.plot(
             time_arr_r[:, idx],
             1e3 * r_numerical[:, idx],
@@ -246,7 +258,6 @@ def plot_radius(ax):
         )
 
         if idx == 1:
-
             print("Plot analytic")
 
             ax.plot(
@@ -284,13 +295,14 @@ def plot_radius(ax):
 
 
 if __name__ == "__main__":
-
     LABEL_SIZE = 37
 
     densities = np.array([0.1, 0.1])
 
-    dict_data = {"high\_res\_n01": "../run01_diffusion_new_one_p_with_centre_higres_sphere",
-                 "high\_res\_n01\_nocooling": "../run01_diffusion_new_one_p_with_centre_higres_nocooling_sphere_lowT"}
+    dict_data = {
+        "high\_res\_n01": "../run01_diffusion_new_one_p_with_centre_higres_sphere",
+        "high\_res\_n01\_nocooling": "../run01_diffusion_new_one_p_with_centre_higres_nocooling_sphere_lowT",
+    }
 
     N_models = len(dict_data)
     n_snapshot_max_arg = 135
@@ -303,7 +315,11 @@ if __name__ == "__main__":
 
     try:
         input_file = np.load(f"{save_file_name}.npz")
-        E_kin_arr, E_th_arr, time_arr = input_file["arr_0"], input_file["arr_1"], input_file["arr_2"]
+        E_kin_arr, E_th_arr, time_arr = (
+            input_file["arr_0"],
+            input_file["arr_1"],
+            input_file["arr_2"],
+        )
         assert np.shape(E_kin_arr) == (n_snapshot_max_arg, N_models)
     except (IOError, AssertionError) as e:
         raise e
@@ -351,7 +367,7 @@ if __name__ == "__main__":
             input_file["arr_1"],
             input_file["arr_2"],
         )
-        assert np.shape(r_numerical) == (n_snapshot_max_arg-1, N_models)
+        assert np.shape(r_numerical) == (n_snapshot_max_arg - 1, N_models)
 
     except (IOError, AssertionError) as e:
         raise e
@@ -368,24 +384,28 @@ if __name__ == "__main__":
 
     for i in range(2):
         for j in range(2):
-            ax[i,j].tick_params(which="both", width=1.7)
-            ax[i,j].tick_params(which="major", length=9)
-            ax[i,j].tick_params(which="minor", length=5)
-            ax[i,j].xaxis.set_minor_locator(AutoMinorLocator(5))
-            ax[i,j].yaxis.set_minor_locator(AutoMinorLocator(5))
-            ax[i,j].tick_params(
-                axis="both", which="both", pad=8, left=True, right=True, top=True, bottom=True,
+            ax[i, j].tick_params(which="both", width=1.7)
+            ax[i, j].tick_params(which="major", length=9)
+            ax[i, j].tick_params(which="minor", length=5)
+            ax[i, j].xaxis.set_minor_locator(AutoMinorLocator(5))
+            ax[i, j].yaxis.set_minor_locator(AutoMinorLocator(5))
+            ax[i, j].tick_params(
+                axis="both",
+                which="both",
+                pad=8,
+                left=True,
+                right=True,
+                top=True,
+                bottom=True,
             )
-    
+
     print("PLOT 1")
-    plot_energy(ax[0,0])
+    plot_energy(ax[0, 0])
     print("PLOT 2")
-    plot_momentum(ax[0,1])
+    plot_momentum(ax[0, 1])
     print("PLOT 3")
-    plot_mass(ax[1,0])
+    plot_mass(ax[1, 0])
     print("PLOT 4")
-    plot_radius(ax[1,1])           
+    plot_radius(ax[1, 1])
 
     plt.savefig("./images/Fig1.pdf", bbox_inches="tight", pad_inches=0.1)
-
-

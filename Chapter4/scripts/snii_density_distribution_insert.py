@@ -8,6 +8,7 @@ from plot_style import *
 from constants import *
 from matplotlib import ticker
 
+
 def read_sim_data(file: str = "simulations.json"):
     try:
         with open(file, "r") as f:
@@ -17,25 +18,21 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 idx = plot["snapshot"]
                 dt = plot["timewindow"]
                 runs_per_plot = len(dict_sim) // 2
-                print("Runs per plot:",  runs_per_plot)
+                print("Runs per plot:", runs_per_plot)
                 split = plot["split"]
 
                 print(output)
@@ -43,16 +40,25 @@ def plot():
                 bin_edges = np.logspace(-3.5, 5.5, 101)
                 bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
 
-                fig, (ax, ax2) = plt.subplots(2, 1, figsize=(8.0, 8.0), sharex=True, sharey=False)
+                fig, (ax, ax2) = plt.subplots(
+                    2, 1, figsize=(8.0, 8.0), sharex=True, sharey=False
+                )
 
                 for a in [ax, ax2]:
-                    a.tick_params(axis='both', which='both', pad=8, left=True, right=True, top=True, bottom=True)
-                    a.tick_params(which='both', width=1.7)
-                    a.tick_params(which='major', length=9)
-                    a.tick_params(which='minor', length=5)
+                    a.tick_params(
+                        axis="both",
+                        which="both",
+                        pad=8,
+                        left=True,
+                        right=True,
+                        top=True,
+                        bottom=True,
+                    )
+                    a.tick_params(which="both", width=1.7)
+                    a.tick_params(which="major", length=9)
+                    a.tick_params(which="minor", length=5)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     f = h5.File(value + "/output_{:04d}.hdf5".format(idx), "r")
 
                     unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
@@ -87,18 +93,18 @@ def plot():
                         )
                         <= dt
                     )
- 
+
                     snii_n_gas = (
                         f["/PartType0/DensitiesAtLastSupernovaEvent"][:]
                         * gas_XH
-                        / unit_length_in_cgs ** 3
+                        / unit_length_in_cgs**3
                         * unit_mass_in_cgs
                         / constants["PROTON_MASS_IN_CGS"]
                     )[gas_SNII_times]
                     snii_n_stars = (
                         f["/PartType4/DensitiesAtLastSupernovaEvent"][:]
                         * stars_XH
-                        / unit_length_in_cgs ** 3
+                        / unit_length_in_cgs**3
                         * unit_mass_in_cgs
                         / constants["PROTON_MASS_IN_CGS"]
                     )[stars_SNII_times]
@@ -113,37 +119,37 @@ def plot():
                     )
 
                     if counter < runs_per_plot:
-                        c = counter 
+                        c = counter
                     else:
                         c = counter - runs_per_plot
 
                     if split == 0:
                         color = line_properties["colour"][c]
                         dashes = (3, 0)
-                        lw=line_properties["linewidth"][c]
+                        lw = line_properties["linewidth"][c]
                     else:
                         color = color4[c]
                         dashes = tuple(d for d in dashes4[c])
                         lw = 2.3
-                    
+
                     if counter < runs_per_plot:
                         ax.plot(
-                                bin_centers,
-                                np.cumsum(N_snii_binned / np.sum(N_snii_binned)),
-                                lw=lw,
-                                dashes=dashes,
-                                color=color,
-                                label=key.replace("_", "\_"),
-                           )
+                            bin_centers,
+                            np.cumsum(N_snii_binned / np.sum(N_snii_binned)),
+                            lw=lw,
+                            dashes=dashes,
+                            color=color,
+                            label=key.replace("_", "\_"),
+                        )
                     else:
                         ax2.plot(
-                                bin_centers,
-                                np.cumsum(N_snii_binned / np.sum(N_snii_binned)),
-                                lw=lw,
-                                color=color,
-                                label=key.replace("_", "\_"),
-                                dashes=dashes,
-                            )
+                            bin_centers,
+                            np.cumsum(N_snii_binned / np.sum(N_snii_binned)),
+                            lw=lw,
+                            color=color,
+                            label=key.replace("_", "\_"),
+                            dashes=dashes,
+                        )
 
                 ax.legend(fontsize=14, frameon=False, loc="lower right")
                 ax2.legend(fontsize=14, frameon=False, loc="lower right")
@@ -156,15 +162,13 @@ def plot():
                     a.xaxis.set_tick_params(labelsize=28)
                     a.yaxis.set_tick_params(labelsize=28)
 
-                    a.xaxis.set_ticks(
-                     [1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3, 1e4, 1e5]
-                    )
-                    a.yaxis.set_ticks(
-                        [1e-4, 1e-3, 1e-2, 1e-1, 1, 1e1, 1e2, 1e3, 1e4]
-                    )
+                    a.xaxis.set_ticks([1e-3, 1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3, 1e4, 1e5])
+                    a.yaxis.set_ticks([1e-4, 1e-3, 1e-2, 1e-1, 1, 1e1, 1e2, 1e3, 1e4])
 
                     locmin = ticker.LogLocator(
-                        base=10.0, subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9), numticks=20
+                        base=10.0,
+                        subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+                        numticks=20,
                     )
 
                     a.xaxis.set_minor_locator(locmin)
@@ -179,6 +183,7 @@ def plot():
                 ax2.set_xlabel("$n_{\\rm H, snii}$ [cm$^{-3}$]", fontsize=32)
                 plt.setp(ax.get_xticklabels(), visible=False)
                 plt.savefig(f"./images/{output}", bbox_inches="tight", pad_inches=0.1)
+
 
 if __name__ == "__main__":
     plot()

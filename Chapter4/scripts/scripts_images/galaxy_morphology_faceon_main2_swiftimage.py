@@ -5,7 +5,8 @@ import matplotlib.pylab as plt
 from matplotlib import cm as cmm
 from matplotlib.ticker import AutoMinorLocator
 from unyt import unyt_array
-#from swiftsimio.visualisation.projection import scatter
+
+# from swiftsimio.visualisation.projection import scatter
 from swiftsimio.visualisation.projection_backends.subsampled_extreme import scatter
 from swiftsimio.visualisation.smoothing_length_generation import (
     generate_smoothing_lengths,
@@ -30,24 +31,19 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot(dict_sim, snapshot):
-
     ROW_SIZE = 2
     COL_SIZE = 4
-    fig, ax = plt.subplots(
-        COL_SIZE, ROW_SIZE, figsize=(8.25, 14.3), sharey=True
-    )
+    fig, ax = plt.subplots(COL_SIZE, ROW_SIZE, figsize=(8.25, 14.3), sharey=True)
     fig.subplots_adjust(hspace=0, wspace=0)
     plt.rc("text", usetex=True)
     plt.rc("font", family="serif")
 
     for idx, (key, value) in enumerate(dict_sim.items()):
-
         col = idx
 
         if True:
             # Loading data
             f = h5.File(value + "/output_{:04d}.hdf5".format(snapshot), "r")
-
 
             # Units
             unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
@@ -60,7 +56,7 @@ def plot(dict_sim, snapshot):
             )
             centre_kpc = boxsize_kpc / 2.0
 
-            #print("Centre", centre_kpc)
+            # print("Centre", centre_kpc)
 
             time_Myr = f["/Header"].attrs["Time"] * unit_time_in_cgs / year_in_cgs / 1e6
 
@@ -82,7 +78,9 @@ def plot(dict_sim, snapshot):
                 / 1e3
             )
 
-            stellar_ages = f["/PartType4/BirthTimes"][:] * unit_time_in_cgs / year_in_cgs / 1e6
+            stellar_ages = (
+                f["/PartType4/BirthTimes"][:] * unit_time_in_cgs / year_in_cgs / 1e6
+            )
             ages_mask = stellar_ages > 0.0
 
             star_H = generate_smoothing_lengths(
@@ -116,37 +114,47 @@ def plot(dict_sim, snapshot):
             mask_ISM = np.abs(gas_pos_kpc[:, 2]) < height_kpc * 5
             mask_winds = ~mask_ISM
             print("HEIGHT", height_kpc)
-            
+
             M_ISM = np.sum(gas_mass_Msun[mask_ISM])
             M_winds = np.sum(gas_mass_Msun[mask_winds])
             M_stars = np.sum(star_mass_Msun[ages_mask])
             M_total = M_ISM + M_winds + M_stars
-            
-            print("ISM", "WINDS", "STARS")            
+
+            print("ISM", "WINDS", "STARS")
             print(np.log10(M_ISM), np.log10(M_winds), np.log10(M_stars))
             print("___________________")
 
-            M_ISM_fr = M_ISM / M_total * (2. * size)
-            M_winds_fr = M_winds/ M_total * (2. * size)
-            M_stars_fr = M_stars / M_total * (2. * size)
-            
-            gas_T_K = f["/PartType0/Temperatures"][:] 
+            M_ISM_fr = M_ISM / M_total * (2.0 * size)
+            M_winds_fr = M_winds / M_total * (2.0 * size)
+            M_stars_fr = M_stars / M_total * (2.0 * size)
+
+            gas_T_K = f["/PartType0/Temperatures"][:]
             top_T = 1e5
             bottom_T = 1e3
             mask_hot = np.logical_and(mask_ISM, gas_T_K > top_T)
-            mask_warm = np.logical_and(mask_ISM, np.logical_and(gas_T_K > bottom_T, gas_T_K <= top_T))
+            mask_warm = np.logical_and(
+                mask_ISM, np.logical_and(gas_T_K > bottom_T, gas_T_K <= top_T)
+            )
             mask_cold = np.logical_and(mask_ISM, gas_T_K <= bottom_T)
-            
+
             M_hot = np.sum(gas_mass_Msun[mask_hot])
             M_warm = np.sum(gas_mass_Msun[mask_warm])
             M_cold = np.sum(gas_mass_Msun[mask_cold])
-            
-            M_hot_fr = 10 * M_hot / (M_ISM + 9.0 * M_hot) * (2. * size)
-            M_warm_fr = M_warm / (M_ISM + 9.0 * M_hot) * (2. * size)
-            M_cold_fr = M_cold / (M_ISM + 9.0 * M_hot) * (2. * size)
 
-            print(M_ISM_fr / (2. * size) * 100.0, M_winds_fr / (2. * size) * 100.0, M_stars_fr / (2. * size) * 100.0)
-            print(M_hot_fr / (2. * size) * 100.0, M_warm_fr / (2. * size) * 100.0, M_cold_fr / (2. * size) * 100.0)
+            M_hot_fr = 10 * M_hot / (M_ISM + 9.0 * M_hot) * (2.0 * size)
+            M_warm_fr = M_warm / (M_ISM + 9.0 * M_hot) * (2.0 * size)
+            M_cold_fr = M_cold / (M_ISM + 9.0 * M_hot) * (2.0 * size)
+
+            print(
+                M_ISM_fr / (2.0 * size) * 100.0,
+                M_winds_fr / (2.0 * size) * 100.0,
+                M_stars_fr / (2.0 * size) * 100.0,
+            )
+            print(
+                M_hot_fr / (2.0 * size) * 100.0,
+                M_warm_fr / (2.0 * size) * 100.0,
+                M_cold_fr / (2.0 * size) * 100.0,
+            )
 
             N_pix = int(size * 2 / pixel)
             print("NPIXELS", N_pix)
@@ -189,7 +197,7 @@ def plot(dict_sim, snapshot):
             x_val = x_val / (size * 2.0 * 1e3) ** 2
             x_val_s = x_val_s / (size * 2.0 * 1e3) ** 2
 
-            x_val_s[x_val_s < 10.0 ** min_v_s] = 10.0 ** min_v_s
+            x_val_s[x_val_s < 10.0**min_v_s] = 10.0**min_v_s
 
             extent = [-size, size, -size, size]
 
@@ -204,15 +212,52 @@ def plot(dict_sim, snapshot):
                 vmax=max_v,
             )
 
-            ax[col, 1].bar(size, M_stars_fr, size * 0.2, color='black', align="edge", bottom=-size)
-            ax[col, 1].bar(size, M_winds_fr, size * 0.2, color="sienna", align="edge",bottom=-size + M_stars_fr)
-            ax[col, 1].bar(size, M_ISM_fr, size * 0.2, color='lightgrey', align="edge", bottom=-size + M_winds_fr + M_stars_fr)
-            
-            ax[col, 0].bar(-1.2 * size, M_cold_fr, size * 0.2, color='blue', align="edge", bottom=-size)
-            ax[col, 0].bar(-1.2 * size, M_warm_fr, size * 0.2, color="orange", align="edge",bottom=-size + M_cold_fr)
-            ax[col, 0].bar(-1.2 * size, M_hot_fr, size * 0.2, color='red', align="edge", bottom=-size + M_warm_fr + M_cold_fr)
-            
-            ax[col, 0].set_xlim(-size*1.2, size)
+            ax[col, 1].bar(
+                size, M_stars_fr, size * 0.2, color="black", align="edge", bottom=-size
+            )
+            ax[col, 1].bar(
+                size,
+                M_winds_fr,
+                size * 0.2,
+                color="sienna",
+                align="edge",
+                bottom=-size + M_stars_fr,
+            )
+            ax[col, 1].bar(
+                size,
+                M_ISM_fr,
+                size * 0.2,
+                color="lightgrey",
+                align="edge",
+                bottom=-size + M_winds_fr + M_stars_fr,
+            )
+
+            ax[col, 0].bar(
+                -1.2 * size,
+                M_cold_fr,
+                size * 0.2,
+                color="blue",
+                align="edge",
+                bottom=-size,
+            )
+            ax[col, 0].bar(
+                -1.2 * size,
+                M_warm_fr,
+                size * 0.2,
+                color="orange",
+                align="edge",
+                bottom=-size + M_cold_fr,
+            )
+            ax[col, 0].bar(
+                -1.2 * size,
+                M_hot_fr,
+                size * 0.2,
+                color="red",
+                align="edge",
+                bottom=-size + M_warm_fr + M_cold_fr,
+            )
+
+            ax[col, 0].set_xlim(-size * 1.2, size)
             ax[col, 0].set_ylim(-size, size)
 
             im = ax[col, 1].imshow(
@@ -224,7 +269,7 @@ def plot(dict_sim, snapshot):
                 vmax=max_v_s,
             )
 
-            ax[col, 1].set_xlim(-size, size*1.2)
+            ax[col, 1].set_xlim(-size, size * 1.2)
             ax[col, 1].set_ylim(-size, size)
 
             if col == 0:
@@ -274,7 +319,11 @@ def plot(dict_sim, snapshot):
                         alpha=0.9,
                     )
                     ax[col, 1].text(
-                        -2.0 - offset, 1.75 + offset, f"${value}$ kpc", fontsize=20, alpha=0.9,
+                        -2.0 - offset,
+                        1.75 + offset,
+                        f"${value}$ kpc",
+                        fontsize=20,
+                        alpha=0.9,
                     )
             else:
                 if col == 0:
@@ -337,17 +386,26 @@ def plot(dict_sim, snapshot):
     )
 
     plt.savefig(
-        output_name, bbox_inches="tight", pad_inches=0.1, dpi=100,
+        output_name,
+        bbox_inches="tight",
+        pad_inches=0.1,
+        dpi=100,
     )
 
 
 if __name__ == "__main__":
-
     file_names = ["main.json", "main_dwarf.json"]
 
-    for min_v, max_v, min_v_s, max_v_s, DWARF, name, height_kpc in zip([-0.5, -1.0], [2.5, 2.0], 
-                                       [-0.5, -1.5], [2.5, 1.5], [0, 1], file_names, [0.430865, 0.0719907]):
+    for min_v, max_v, min_v_s, max_v_s, DWARF, name, height_kpc in zip(
+        [-0.5, -1.0],
+        [2.5, 2.0],
+        [-0.5, -1.5],
+        [2.5, 1.5],
+        [0, 1],
+        file_names,
+        [0.430865, 0.0719907],
+    ):
         print(DWARF, name)
-        snapshot = 70#70
+        snapshot = 70  # 70
         dict_sim = read_sim_data(name)
         plot(dict_sim, snapshot)

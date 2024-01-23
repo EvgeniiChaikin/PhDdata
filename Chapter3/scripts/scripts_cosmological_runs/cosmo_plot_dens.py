@@ -16,7 +16,6 @@ from matplotlib import ticker
 
 
 def fixlogax(ax, a="x"):
-
     if a == "x":
         labels = [item.get_text() for item in ax.get_xticklabels()]
         positions = ax.get_xticks()
@@ -95,7 +94,6 @@ N_obj = 4
 
 class SimInfo:
     def __init__(self, folder, snap_num, output_path, num_of_galaxies: int = 1):
-
         self.output_path = output_path
         self.num_of_galaxies = num_of_galaxies
         self.num_galaxies = num_of_galaxies
@@ -151,9 +149,7 @@ class SimInfo:
 
 class HaloCatalogue:
     def __init__(self, siminfo: SimInfo):
-
         with h5py.File(siminfo.subhalo_properties, "r") as properties:
-
             stellar_mass = properties["Aperture_mass_star_30_kpc"][:] * 1e10  # msun
             gas_mass = properties["Aperture_mass_gas_30_kpc"][:] * 1e10  # m sun
             halo_mass = properties["Mass_BN98"][:] * 1e10  # msun
@@ -176,7 +172,6 @@ class HaloCatalogue:
             structure_type = properties["Structuretype"][:]
 
             for n_trial in range(siminfo.num_of_galaxies, siminfo.num_of_galaxies * 3):
-
                 catalogue = args_sort_by_halo_mass[-n_trial:]
                 centrals = np.where(structure_type[catalogue] == 10)[0]
                 catalogue = catalogue[centrals]
@@ -218,7 +213,6 @@ class HaloCatalogue:
 
 
 def make_masks(siminfo, halo):
-
     group_file = h5py.File(siminfo.catalog_groups, "r")
     particles_file = h5py.File(siminfo.catalog_particles, "r")
     snapshot_file = h5py.File(siminfo.snapshot, "r")
@@ -234,11 +228,17 @@ def make_masks(siminfo, halo):
     ]
 
     _, _, mask_stars = np.intersect1d(
-        particle_ids_in_halo, star_ids, assume_unique=True, return_indices=True,
+        particle_ids_in_halo,
+        star_ids,
+        assume_unique=True,
+        return_indices=True,
     )
 
     _, _, mask_gas = np.intersect1d(
-        particle_ids_in_halo, gas_ids, assume_unique=True, return_indices=True,
+        particle_ids_in_halo,
+        gas_ids,
+        assume_unique=True,
+        return_indices=True,
     )
 
     return mask_gas[mask_gas > 0], mask_stars[mask_stars > 0]
@@ -249,7 +249,6 @@ def plot_main(
     halo_catalogue_data_list: List[HaloCatalogue],
     labels: List[str],
 ):
-
     bin_edges = np.logspace(-3.5, 5.5, 101)
     bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
 
@@ -265,19 +264,18 @@ def plot_main(
 
     plt.tight_layout(pad=8.0)
 
-    ax[0].set_xlim(10 ** 10.7, 2e13)
-    ax[0].set_ylim(10.0 ** -3.1, 10.0 ** -0.9)
+    ax[0].set_xlim(10**10.7, 2e13)
+    ax[0].set_ylim(10.0**-3.1, 10.0**-0.9)
     ax[0].set_xlabel(
         r"$M_{\rm vir}$ $\left[\rm{M}_\odot\right]$", fontsize=label_size * 1.5
     )
     ax[0].set_ylabel(r"$M_* / M_{\rm vir}$", fontsize=label_size * 1.5)
 
     for idx, (label, catalogue) in enumerate(zip(labels, halo_catalogue_data_list)):
-
         print(idx, label, catalogue)
 
-        Mhalo = 10.0 ** catalogue.log_halo_mass_Msun
-        Mstar = 10.0 ** catalogue.log_stellar_mass_Msun
+        Mhalo = 10.0**catalogue.log_halo_mass_Msun
+        Mstar = 10.0**catalogue.log_stellar_mass_Msun
         Mratio = Mstar / Mhalo
 
         ax[0].scatter(
@@ -303,7 +301,6 @@ def plot_main(
         for gal_plt, gal in enumerate(
             range(number_of_galaxies - 1, number_of_galaxies - 1 - N_obj, -1)
         ):
-
             print(
                 gal,
                 gal_plt,
@@ -379,7 +376,9 @@ def plot_main(
     )
 
     leg2 = ax[0].legend(
-        [line1,],
+        [
+            line1,
+        ],
         [berhoozi_smhm_data[0].citation],
         loc="upper left",
         fontsize=25,
@@ -399,8 +398,8 @@ def plot_main(
         ["Stellar birth densities", "SN feedback densities"],
         loc="upper left",
         fontsize=23,
-        ncol=2, 
-        bbox_to_anchor =(-1.5, 1.3),
+        ncol=2,
+        bbox_to_anchor=(-1.5, 1.3),
     )
 
     if EOS:
@@ -424,7 +423,6 @@ def plot_main(
             ax[i].yaxis.set_tick_params(labelsize=label_size * 1.65)
 
         if i > 0:
-
             ax[i].xaxis.set_ticks([1e-2, 1e0, 1e2, 1e4])
             ax[i].yaxis.set_ticks([1e-4, 1e-3, 1e-2, 1e-1, 1e0])
 
@@ -444,18 +442,17 @@ def plot_main(
             ax[i].xaxis.set_minor_formatter(ticker.NullFormatter())
             ax[i].yaxis.set_minor_formatter(ticker.NullFormatter())
             if i == 3 or i == 4:
-                ax[i].set_xlabel(
-                    "$n_{\\rm H}$ [cm$^{-3}$]", fontsize=label_size * 1.1
-                )
+                ax[i].set_xlabel("$n_{\\rm H}$ [cm$^{-3}$]", fontsize=label_size * 1.1)
 
             if i == 1 or i == 3:
                 ax[i].set_ylabel("Fraction of particles", fontsize=label_size * 1.1)
 
         else:
-
             locmin = ticker.LogLocator(
-                    base=10.0, subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9), numticks=10
-                )
+                base=10.0,
+                subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+                numticks=10,
+            )
 
             ax[i].xaxis.set_minor_locator(locmin)
             ax[i].xaxis.set_minor_formatter(ticker.NullFormatter())
@@ -489,7 +486,6 @@ def plot_main(
 
 
 if __name__ == "__main__":
-
     if not EOS:
         runs = {
             "COS_M5_isotropic": "ISO_MIDREF_ALL/",
@@ -516,7 +512,6 @@ if __name__ == "__main__":
     labels_array = []
 
     for name, path_in in runs.items():
-
         print(name, path_in)
 
         siminfo = SimInfo(
@@ -549,7 +544,6 @@ if __name__ == "__main__":
 
         # Loop over the sample to calculate morphological parameters
         for i in tqdm(range(halo_data.num_of_haloes)):
-
             # Read particle data
             mask_gas, mask_stars = make_masks(siminfo, halo_data.halo_index[i])
 

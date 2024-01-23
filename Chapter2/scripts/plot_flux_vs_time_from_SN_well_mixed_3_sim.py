@@ -11,21 +11,24 @@ from scipy import interpolate
 from tqdm import tqdm
 
 
-def R0(Esn = 1e51, Psw = 2e-8):
+def R0(Esn=1e51, Psw=2e-8):
     # pc
-    return 10.0 * np.power(Esn / 1.0e51, 1./3.) * np.power(Psw / 2e-8, -1./3.)
+    return 10.0 * np.power(Esn / 1.0e51, 1.0 / 3.0) * np.power(Psw / 2e-8, -1.0 / 3.0)
 
 
-def Rfade(nH = 0.1, Esn = 1e51, cs = 10.0):
+def Rfade(nH=0.1, Esn=1e51, cs=10.0):
     # pc
-    return 160.0 * np.power(Esn / 1e51, 0.32) * np.power(nH / 0.1, -0.37) * np.power(cs / 10.0, -2./5.)
+    return (
+        160.0
+        * np.power(Esn / 1e51, 0.32)
+        * np.power(nH / 0.1, -0.37)
+        * np.power(cs / 10.0, -2.0 / 5.0)
+    )
 
 
 def do_sedov_analytic(time_bins, dens, c):
-
     for i in range(time_bins):
         if time_plot_analyt[i] > 0.0:
-
             print("Sedov (analytic): {:d}".format(i))
 
             r_s, P_s, rho_s, v_s, r_shock, _, _, _, _ = sedov(
@@ -41,7 +44,6 @@ def do_sedov_analytic(time_bins, dens, c):
 
 
 def process_data(name, n_model, n_snapshot_max, M_Fe60=1e-4, tau_Fe60=2.6):
-
     print("Begin to process data...")
     print(f"Path: {name}")
     print(f"N model: {n_model}")
@@ -51,13 +53,11 @@ def process_data(name, n_model, n_snapshot_max, M_Fe60=1e-4, tau_Fe60=2.6):
     n_thr_min = 1
 
     for idx in tqdm(range(n_snapshot_max)):
-
         f = h5.File(f"{name}" + "/output_{:04d}.hdf5".format(idx), "r")
 
         print("Snapshot number: {:d}".format(idx))
 
         if idx == 0:
-
             unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
             unit_mass_in_cgs = f["/Units"].attrs["Unit mass in cgs (U_M)"]
             unit_time_in_cgs = f["/Units"].attrs["Unit time in cgs (U_t)"]
@@ -93,7 +93,7 @@ def process_data(name, n_model, n_snapshot_max, M_Fe60=1e-4, tau_Fe60=2.6):
 
         # in Msun/ kpc**3
         gas_density_f = f["/PartType0/Densities"][:]
-        
+
         # in Myr
         time_arr[idx, n_model] = (
             f["/Header"].attrs["Time"]
@@ -107,7 +107,7 @@ def process_data(name, n_model, n_snapshot_max, M_Fe60=1e-4, tau_Fe60=2.6):
             r,
             gas_density_f
             * unit_mass_in_cgs
-            / unit_length_in_cgs ** 3
+            / unit_length_in_cgs**3
             / constants["PROTON_MASS_IN_CGS"]
             * v_r
             * 1.0e5,
@@ -156,7 +156,7 @@ def process_data(name, n_model, n_snapshot_max, M_Fe60=1e-4, tau_Fe60=2.6):
         print("Fe60 decay factor {:.4e}".format(f_decay))
 
         rho_v_r_bin[np.isnan(rho_v_r_bin)] = 0.0
- 
+
         # in cgs
         flux_profiles[idx, :, n_model] = rho_v_r_bin * M_Fe60 / M * f_decay
 
@@ -166,7 +166,6 @@ def process_data(name, n_model, n_snapshot_max, M_Fe60=1e-4, tau_Fe60=2.6):
 
 
 def plot_data():
-
     # Remove weird values
     flux_profiles[np.where(flux_profiles < 0.0)] = 0.0
 
@@ -177,9 +176,7 @@ def plot_data():
     # Create figure
 
     COL_SIZE, ROW_SIZE = 2, 3
-    fig, ax = plt.subplots(
-        COL_SIZE, ROW_SIZE, figsize=(12, 10), sharex=True
-    )
+    fig, ax = plt.subplots(COL_SIZE, ROW_SIZE, figsize=(12, 10), sharex=True)
     fig.subplots_adjust(hspace=0, wspace=0)
     plt.rc("text", usetex=True)
     plt.rc("font", family="serif")
@@ -215,7 +212,10 @@ def plot_data():
             if j == 0 and i == 0:
                 ax[i, j].set_ylabel("Distance to SN [pc]", fontsize=LABEL_SIZE * 0.85)
             elif j == 0:
-                ax[i, j].set_ylabel("$^{60}$Fe flux [atoms cm$^{-2}$ yr$^{-1}$]", fontsize=LABEL_SIZE * 0.85)
+                ax[i, j].set_ylabel(
+                    "$^{60}$Fe flux [atoms cm$^{-2}$ yr$^{-1}$]",
+                    fontsize=LABEL_SIZE * 0.85,
+                )
             else:
                 ax[i, j].get_yaxis().set_ticklabels([])
 
@@ -225,7 +225,6 @@ def plot_data():
     D = np.array([[25, 50, 75, 100], [50, 100, 125, 150], [100, 150, 200, 250]])
 
     for num, name in enumerate(dict_data.keys()):
-
         print(name, num)
         print("Performing interpolation...")
 
@@ -251,7 +250,13 @@ def plot_data():
         # because we want units [N of Fe60 atoms per cm2 per yr
         # Factor of 0.25 is because pi R**2 / 4pi R**2
         efficiency = 0.05
-        flux_Fe60 = flux_interp_f(y / 1e3, x) / 60 * constants["YEAR_IN_CGS"] * 0.25 * efficiency
+        flux_Fe60 = (
+            flux_interp_f(y / 1e3, x)
+            / 60
+            * constants["YEAR_IN_CGS"]
+            * 0.25
+            * efficiency
+        )
 
         extent = [x[0], x[-1], y[0], y[-1]]
 
@@ -278,27 +283,28 @@ def plot_data():
         )
 
         R0_val = R0()
-        Rfade_val = Rfade(nH = dens[num])
+        Rfade_val = Rfade(nH=dens[num])
 
         Rkill_min = [0.0] * 2  # pc
         Rkill_max = [R0_val] * 2  # pc
 
-        Rfade_min = [Rfade_val] * 2 # pc
-        Rfade_max = [500] * 2 # pc
+        Rfade_min = [Rfade_val] * 2  # pc
+        Rfade_max = [500] * 2  # pc
 
         x_R = [-0.1, 4.1]
 
-        ax[0, num].fill_between(x_R, Rkill_min, Rkill_max, color='red', alpha=0.08, hatch = "\\\\\\\\")
-        ax[0, num].fill_between(x_R, Rfade_min, Rfade_max, color='red', alpha=0.08, hatch = "\\\\\\\\")
+        ax[0, num].fill_between(
+            x_R, Rkill_min, Rkill_max, color="red", alpha=0.08, hatch="\\\\\\\\"
+        )
+        ax[0, num].fill_between(
+            x_R, Rfade_min, Rfade_max, color="red", alpha=0.08, hatch="\\\\\\\\"
+        )
 
         colormap = cmm.viridis
         colors = [colormap(i) for i in np.linspace(0, 1, 4)]
         ax[1, num].set_prop_cycle(cycler("color", colors[::-1]))
 
-        for c, dist in enumerate(
-            D[num, :]
-        ):
-
+        for c, dist in enumerate(D[num, :]):
             print("Distance from SN is {:.1f}".format(dist))
 
             # Numerical solution
@@ -308,7 +314,7 @@ def plot_data():
             # The original flux is in cgs units, we do the conversion from sec to yr
             (line,) = ax[1, num].plot(
                 x_arr,
-                y_arr / 60 * constants["YEAR_IN_CGS"] * 0.25 *  efficiency,
+                y_arr / 60 * constants["YEAR_IN_CGS"] * 0.25 * efficiency,
                 label="$D={:.0f}$ pc".format(dist),
                 lw=2.5,
             )
@@ -325,7 +331,7 @@ def plot_data():
             zorder=10,
         )
 
-        ax[1, num].legend(loc="upper right", fontsize=LEGEND_SIZE*0.5, frameon=False)
+        ax[1, num].legend(loc="upper right", fontsize=LEGEND_SIZE * 0.5, frameon=False)
 
         ax[0, num].text(
             0.05,
@@ -334,18 +340,29 @@ def plot_data():
             ha="left",
             va="top",
             transform=ax[0, num].transAxes,
-            fontsize=LABEL_SIZE*0.8,
+            fontsize=LABEL_SIZE * 0.8,
             color="black",
-            zorder=50
+            zorder=50,
         )
 
     fig.subplots_adjust(top=0.92)
     cbar_ax = fig.add_axes([0.3, 0.95, 0.42, 0.025])
 
-    cbar = fig.colorbar(mappable0, cax=cbar_ax, orientation="horizontal", ticks=[0, 1, 2, 3],extend='both')
+    cbar = fig.colorbar(
+        mappable0,
+        cax=cbar_ax,
+        orientation="horizontal",
+        ticks=[0, 1, 2, 3],
+        extend="both",
+    )
     cbar_ax.xaxis.set_tick_params(labelsize=20)
-    cbar.ax.tick_params(which='major', width=1.7,length=17)
-    cbar.ax.set_xlabel('log $^{60}$Fe flux [atoms cm$^{-2}$ yr$^{-1}$]', rotation=0, fontsize=21, labelpad=-70)
+    cbar.ax.tick_params(which="major", width=1.7, length=17)
+    cbar.ax.set_xlabel(
+        "log $^{60}$Fe flux [atoms cm$^{-2}$ yr$^{-1}$]",
+        rotation=0,
+        fontsize=21,
+        labelpad=-70,
+    )
 
     plt.savefig(
         "./images/flux_at_fixed_dist_well_mixed_3runs.pdf",
@@ -355,7 +372,6 @@ def plot_data():
 
 
 if __name__ == "__main__":
-
     N_bins = 301  # 1pc bins
     r_max = 0.3
     n_snapshot_max_arg = 130

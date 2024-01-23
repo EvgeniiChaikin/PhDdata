@@ -1,9 +1,11 @@
-1. The script `create_hypercube' creates initial conditions for running hypercubes. It requires
+1. The script `create_hypercube.py' creates initial conditions for running hypercubes. It requires python libraries
 - swiftemulator
 - numpy
 
-2. The `emulate.py' script creates emulators based on the runs from the hypercube of a given model,
-runs MCMC to find the best-fitting parameter value, and creates plots with the posterior distributions as well as diagnostics plots
+2. The `emulate.py' script 
+- creates emulators based on the runs from the hypercube of a given model
+- finds the best-fitting parameter values by running Monte Calro Markov Chain
+- creates plots with the posterior distributions as well as various diagnostics plots
 
 Running `emulate.py' requires
 - swiftemulator
@@ -36,7 +38,7 @@ All libraries can be pip-installed.
 can be found at https://github.com/SWIFTSIM/pipeline-configs
 
 5. The script `convert_SFH.py' convers the cosmic star formation history from the hypercube runs from .txt format to .yml format. 
-The latter is read by `emulate.py'.
+The latter is read by `emulate.py' in order to make diagnostics plots with star formation histories.
 
-6. Note that making plots requires halo catalogues in the velociraptor or SOAP format. The latter can be found at https://github.com/SWIFTSIM/SOAP
-and the velociraptor is available at https://velociraptor-stf.readthedocs.io/en/latest/getting.html
+6. Note that making plots requires halo catalogues that have the velociraptor or SOAP format. The latter can be found at https://github.com/SWIFTSIM/SOAP
+and the velociraptor package is available at https://velociraptor-stf.readthedocs.io/en/latest/getting.html

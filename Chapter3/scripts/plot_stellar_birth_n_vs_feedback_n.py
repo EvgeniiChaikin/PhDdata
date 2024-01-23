@@ -18,19 +18,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 print(script_name)
 
                 output = plot["output_file"]
@@ -44,7 +40,6 @@ def plot():
                 bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     print(key)
 
                     f = h5.File(value + "/output_{:04d}.hdf5".format(idx), "r")
@@ -61,7 +56,7 @@ def plot():
                     birth_n = (
                         f["/PartType4/BirthDensities"][:]
                         * stars_XH
-                        / unit_length_in_cgs ** 3
+                        / unit_length_in_cgs**3
                         * unit_mass_in_cgs
                         / constants["PROTON_MASS_IN_CGS"]
                     )
@@ -70,7 +65,7 @@ def plot():
                     snii_n_stars = (
                         f["/PartType4/LastSNIIFeedbackDensities"][:]
                         * stars_XH
-                        / unit_length_in_cgs ** 3
+                        / unit_length_in_cgs**3
                         * unit_mass_in_cgs
                         / constants["PROTON_MASS_IN_CGS"]
                     )
@@ -137,8 +132,24 @@ def plot():
                                     zorder=-2,
                                     label="IG\_M5\_\{min,max\}\_density",
                                 )
-                                ax.plot(bin_centers, N_snii_binned_3, dashes = (tuple(d for d in dashesMMD[0])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
-                                ax.plot(bin_centers, N_snii_binned, dashes = (tuple(d for d in dashesMMD[1])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
+                                ax.plot(
+                                    bin_centers,
+                                    N_snii_binned_3,
+                                    dashes=(tuple(d for d in dashesMMD[0])),
+                                    color=colorMMD,
+                                    lw=lwMMD,
+                                    zorder=-1,
+                                    alpha=alphaMMD,
+                                )
+                                ax.plot(
+                                    bin_centers,
+                                    N_snii_binned,
+                                    dashes=(tuple(d for d in dashesMMD[1])),
+                                    color=colorMMD,
+                                    lw=lwMMD,
+                                    zorder=-1,
+                                    alpha=alphaMMD,
+                                )
 
                         else:
                             ax.plot(
@@ -176,7 +187,9 @@ def plot():
                 ax.yaxis.set_ticks([1e-2, 1e-1, 1e0, 1e1, 1e2, 1e3, 1e4, 1e5])
 
                 locmin = ticker.LogLocator(
-                    base=10.0, subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9), numticks=10
+                    base=10.0,
+                    subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+                    numticks=10,
                 )
 
                 ax.xaxis.set_minor_locator(locmin)

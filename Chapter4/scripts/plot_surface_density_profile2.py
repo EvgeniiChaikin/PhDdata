@@ -23,19 +23,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 split = plot["split"]
@@ -47,9 +43,7 @@ def plot():
                     2, 1, figsize=(8.0, 10.0), sharex=True, sharey=False
                 )
 
-
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     f = h5.File(value + "/output_{:04d}.hdf5".format(snapshot), "r")
 
                     unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
@@ -69,7 +63,8 @@ def plot():
                         time * unit_time_in_cgs / constants["YEAR_IN_CGS"] / 1e6
                     )
 
-                    birth_times_Myr = (f["/PartType4/BirthTimes"][:]
+                    birth_times_Myr = (
+                        f["/PartType4/BirthTimes"][:]
                         * unit_time_in_cgs
                         / constants["YEAR_IN_CGS"]
                         / 1e6
@@ -83,7 +78,7 @@ def plot():
                     areas_kpc2 = np.pi * (edges_kpc[1:] ** 2 - edges_kpc[:-1] ** 2)
 
                     Sigma_Msun_pc2 = []
- 
+
                     for part_type in [0, 4]:
                         pos_kpc = (
                             f[f"/PartType{part_type}/Coordinates"][:, :]
@@ -101,17 +96,19 @@ def plot():
                         pos_kpc[:, 1] -= centre_kpc[0]
 
                         r_kpc = np.sqrt(pos_kpc[:, 0] ** 2.0 + pos_kpc[:, 1] ** 2.0)
-            
+
                         if part_type == 0:
                             values_Msun, _, _ = stats.binned_statistic(
                                 r_kpc, mass_Msun, statistic="sum", bins=edges_kpc
                             )
                         else:
                             values_Msun, _, _ = stats.binned_statistic(
-                                r_kpc[mask], mass_Msun[mask], statistic="sum", bins=edges_kpc
+                                r_kpc[mask],
+                                mass_Msun[mask],
+                                statistic="sum",
+                                bins=edges_kpc,
                             )
                         Sigma_Msun_pc2.append(values_Msun / areas_kpc2 / (1e3) ** 2.0)
-
 
                     if split == 0:
                         lw = line_properties["linewidth"]
@@ -142,7 +139,6 @@ def plot():
                         )
 
                 for a in [ax, ax2]:
-
                     a.tick_params(
                         axis="both",
                         which="both",
@@ -176,7 +172,6 @@ def plot():
                     a.yaxis.set_minor_locator(locmin)
                     a.yaxis.set_minor_formatter(ticker.NullFormatter())
 
-
                 ax2.set_xlabel("Radial distance $r$ [kpc]", fontsize=33)
 
                 if split != 6:
@@ -199,7 +194,6 @@ def plot():
                     for counter, text in enumerate(leg1.get_texts()):
                         text.set_color(line_properties["colour"][counter])
 
-
                 ax.set_ylabel(
                     "$\\Sigma_{\\rm gas} \\, [\\rm M_\\odot \\, pc^{-2}]$",
                     fontsize=33,
@@ -211,20 +205,18 @@ def plot():
                 ax.text(
                     0.96,
                     0.96,
-                    "$t = {:.2f}$ Gyr".format(
-                        time_snp_Myr[0] / 1e3
-                    ),
+                    "$t = {:.2f}$ Gyr".format(time_snp_Myr[0] / 1e3),
                     ha="right",
                     va="top",
                     transform=ax.transAxes,
                     fontsize=32,
                 )
-                  
+
                 fixlogax(ax, "y")
                 fixlogax(ax2, "y")
 
                 ax.set_ylim(y_min, y_max)
-                ax2.set_ylim(y_min/30.0, y_max)
+                ax2.set_ylim(y_min / 30.0, y_max)
 
                 plt.savefig(f"./images/{output}", bbox_inches="tight", pad_inches=0.1)
                 plt.close()

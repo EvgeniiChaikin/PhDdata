@@ -21,17 +21,14 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def loaddata(snapshots, dict_runs, save_name, gal_counter):
-
     print("Loading")
 
     # Simulatins
     for model_counter, value in enumerate(dict_runs.values()):
-
         print(model_counter)
 
         # Snapshots
         for i in tqdm(range(snapshots)):
-
             # Loading data
             f = h5.File(f"{value}" + "/output_{:04d}.hdf5".format(i), "r")
 
@@ -130,21 +127,17 @@ def loaddata(snapshots, dict_runs, save_name, gal_counter):
 
 
 def plot():
-
     global time_arr, outflows_p, outflows_m, z_area_kpc, delta_z_kpc
 
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 save_file_name = plot["loaddata_files"]
                 output = plot["output_file"]
                 dict_sim = plot["data"]
@@ -189,7 +182,6 @@ def plot():
                     a.yaxis.set_minor_locator(y_minor_locator)
 
                 for gal_c, file_name in enumerate(save_file_name):
-
                     if gal_c == 0:
                         runs = {
                             key: value
@@ -222,19 +214,18 @@ def plot():
                         loaddata(snapshots, runs, file_name, gal_c)
 
                     for run_c, (key, value) in enumerate(runs.items()):
-
                         SFR_file = np.loadtxt(f"{value}/SFR.txt", skiprows=25)
                         time = SFR_file[:, 1] * 9.778131e02
                         total_SFR = SFR_file[:, -1] * 1.022690e01  # M_sol / yr
 
                         N_bins = 500
-                        dt = 0.025 * 1e3 # window of 2x25 Myr = 50 Myr
+                        dt = 0.025 * 1e3  # window of 2x25 Myr = 50 Myr
 
                         sfh_centers = np.linspace(0.0, 1.0e3, N_bins)
                         sfh_values = np.zeros_like(sfh_centers)
 
                         for i in range(len(sfh_centers)):
-                            mask = np.where(np.abs(time-sfh_centers[i]) < dt)[0]
+                            mask = np.where(np.abs(time - sfh_centers[i]) < dt)[0]
                             sfh_values[i] = np.mean(total_SFR[mask])
 
                         SFR_f = interp1d(
@@ -247,7 +238,6 @@ def plot():
                         bin_values = np.zeros(N_bins - 1)
 
                         for i in range(N_bins - 1):
-
                             n_snp = 0
                             for c, t in enumerate(time_arr[:, run_c, gal_c]):
                                 if bin_edges[i] < t <= bin_edges[i + 1]:
@@ -325,7 +315,6 @@ def plot():
                     text.set_color(color[counter])
 
                 for a in [ax, ax2]:
-
                     a.set_yscale("log")
 
                     locmin = ticker.LogLocator(
@@ -341,7 +330,9 @@ def plot():
                     a.yaxis.set_tick_params(labelsize=30)
                     a.set_xlim(-0.04, 1.04)
 
-                    a.set_yticks([0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0])
+                    a.set_yticks(
+                        [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0]
+                    )
                     a.set_ylabel("Mass loading $\\eta$", fontsize=30)
 
                     fixlogax(a, "y")

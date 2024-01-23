@@ -20,7 +20,7 @@ constants = {
 
 
 def calc_a(g, nu=3):
-    """ 
+    """
     exponents of the polynomials of the sedov solution
     g - the polytropic gamma
     nu - the dimension
@@ -42,8 +42,8 @@ def calc_a(g, nu=3):
 
 
 def calc_beta(v, g, nu=3):
-    """ 
-    beta values for the sedov solution (coefficients of the polynomials of the similarity variables) 
+    """
+    beta values for the sedov solution (coefficients of the polynomials of the similarity variables)
     v - the similarity variable
     g - the polytropic gamma
     nu- the dimension
@@ -81,7 +81,7 @@ def calc_beta(v, g, nu=3):
 
 
 def sedov(t, E0, rho0, g, n=1000, nu=3):
-    """ 
+    """
     solve the sedov problem
     t - the time
     E0 - the initial energy
@@ -134,7 +134,7 @@ def sedov(t, E0, rho0, g, n=1000, nu=3):
     q = np.inner(de[1:] + de[:-1], np.diff(vol)) * 0.5
 
     # the factor to convert to this particular problem
-    fac = (q * (t ** nu) * rho0 / E0) ** (-1.0 / (nu + 2))
+    fac = (q * (t**nu) * rho0 / E0) ** (-1.0 / (nu + 2))
 
     # shock speed
     shock_speed = fac * (2.0 / (nu + 2))
@@ -152,7 +152,6 @@ def sedov(t, E0, rho0, g, n=1000, nu=3):
 
 
 if __name__ == "__main__":
-
     time_kyr = 1e3  # in kyr
     n_H = 0.1  # Gas density in H/cc
     n_radial_bins = 300  # Number of radial bins

@@ -32,12 +32,11 @@ def intersection_volume_vector(rp, hp, w, r1, r2):
     Volume coefficient: \in [0, 1]
     """
 
-    Volumep = 4.0 * np.pi / 3.0 * hp ** 3
+    Volumep = 4.0 * np.pi / 3.0 * hp**3
 
     output = np.zeros_like(rp)
 
-    for (sign, rb) in zip([-1.0, 1.0], [r1, r2]):
-
+    for sign, rb in zip([-1.0, 1.0], [r1, r2]):
         case2 = np.logical_and(rp + hp > rb, np.abs(rp - hp) < rb)
         case3 = np.logical_and(
             np.logical_and(rp + hp <= rb, rp - hp >= -rb), np.logical_not(case2)
@@ -48,16 +47,16 @@ def intersection_volume_vector(rp, hp, w, r1, r2):
         )
 
         # Case2
-        alphab = (rb ** 2 + rp[case2] ** 2 - hp[case2] ** 2) / (2.0 * rp[case2] * rb)
-        alphap = (hp[case2] ** 2 + rp[case2] ** 2 - rb ** 2) / (
+        alphab = (rb**2 + rp[case2] ** 2 - hp[case2] ** 2) / (2.0 * rp[case2] * rb)
+        alphap = (hp[case2] ** 2 + rp[case2] ** 2 - rb**2) / (
             2.0 * rp[case2] * hp[case2]
         )
 
         heightb = rb * (1.0 - alphab)
         heightp = hp[case2] * (1.0 - alphap)
 
-        cap_volumeb = np.pi * heightb ** 2 / 3.0 * (3.0 * rb - heightb)
-        cap_volumep = np.pi * heightp ** 2 / 3.0 * (3.0 * hp[case2] - heightp)
+        cap_volumeb = np.pi * heightb**2 / 3.0 * (3.0 * rb - heightb)
+        cap_volumep = np.pi * heightp**2 / 3.0 * (3.0 * hp[case2] - heightp)
 
         output[case2] += sign * (cap_volumeb + cap_volumep) / Volumep[case2] * w[case2]
 
@@ -65,7 +64,7 @@ def intersection_volume_vector(rp, hp, w, r1, r2):
         output[case3] += sign * w[case3]
 
         # Case4
-        Volumeb = 4.0 * np.pi / 3.0 * rb ** 3
+        Volumeb = 4.0 * np.pi / 3.0 * rb**3
         output[case4] += sign * Volumeb / Volumep[case4] * w[case4]
 
     # Particle is inside the bin
@@ -76,7 +75,6 @@ def intersection_volume_vector(rp, hp, w, r1, r2):
 
 
 def bin_distribute(r, h, w):
-
     r_min = r - h
     r_max = r + h
 
@@ -102,10 +100,8 @@ def bin_distribute(r, h, w):
 
 
 def do_sedov_analytic(time_bins, dens):
-
     for i in range(time_bins):
         if time_plot_arr[i] > 0.0:
-
             r_s, P_s, rho_s, v_s, r_shock, _, _, _, _ = sedov(
                 time_plot_arr[i] * constants["YEAR_IN_CGS"] * 1e6,
                 1e51,
@@ -119,16 +115,13 @@ def do_sedov_analytic(time_bins, dens):
 
 
 def process_data(name, n_snapshot_max, save_file_name):
-
     print("Begin to process data...")
 
     for idx in tqdm(range(n_snapshot_max)):
-
         f = h5.File(f"{name}" + "/output_{:04d}.hdf5".format(idx), "r")
 
         # If 1st snp, get metadata
         if idx == 0:
-
             unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
             unit_mass_in_cgs = f["/Units"].attrs["Unit mass in cgs (U_M)"]
             unit_time_in_cgs = f["/Units"].attrs["Unit time in cgs (U_t)"]
@@ -197,22 +190,22 @@ def process_data(name, n_snapshot_max, save_file_name):
             / constants["PROTON_MASS_IN_CGS"]
         )
 
-
-        rho_v_r_bin = ( rhov_bin 
+        rho_v_r_bin = (
+            rhov_bin
             / bin_volume
             * constants["SOLAR_MASS_IN_CGS"]
             / constants["PROTON_MASS_IN_CGS"]
             * 1.0e5
         )
 
-
-        rho_v_r2_bin = ( rhov2_bin 
+        rho_v_r2_bin = (
+            rhov2_bin
             / bin_volume
             * constants["SOLAR_MASS_IN_CGS"]
             / constants["PROTON_MASS_IN_CGS"]
-            * 1.0e5 * 1e5
+            * 1.0e5
+            * 1e5
         )
-
 
         profiles[idx, :, 0] = rho_v_r_bin
         profiles[idx, :, 1] = rho_v_r2_bin
@@ -225,7 +218,6 @@ def process_data(name, n_snapshot_max, save_file_name):
 
 
 def plot_data():
-
     print("Performing interpolation...")
     profiles[np.where(profiles < 0.0)] = 0.0
 
@@ -325,12 +317,12 @@ def plot_data():
     cax0.xaxis.set_ticks_position("top")
     cax0.xaxis.set_ticklabels(
         ["$0$", "$1$", "$2$"],
-        fontsize=LABEL_SIZE*0.9,
+        fontsize=LABEL_SIZE * 0.9,
         color="black",
     )
     cax0.set_xlabel(
         "log $\\rho \\, v$ [$10^{5}$ m$_{\\rm p}$ cm$^{-2}$ s$^{-1}$]",
-        fontsize=LABEL_SIZE*0.9,
+        fontsize=LABEL_SIZE * 0.9,
         labelpad=-80,
     )
     cax0.xaxis.set_tick_params(color="black", length=10.0)
@@ -348,12 +340,12 @@ def plot_data():
     cax1.xaxis.set_ticks_position("top")
     cax1.xaxis.set_ticklabels(
         ["$-12.5$", "$-11.5$", "$-10.5$", "$-9.5$"],
-        fontsize=LABEL_SIZE*0.9,
+        fontsize=LABEL_SIZE * 0.9,
         color="black",
     )
     cax1.set_xlabel(
         "log $\\rho \, v^2$ [dyne cm$^{-2}$]",
-        fontsize=LABEL_SIZE*0.9,
+        fontsize=LABEL_SIZE * 0.9,
         labelpad=-80,
     )
     cax1.xaxis.set_tick_params(color="black", length=10.0)
@@ -371,12 +363,12 @@ def plot_data():
     cax2.xaxis.set_ticks_position("top")
     cax2.xaxis.set_ticklabels(
         ["$-12$", "$-11$", "$-10$", "$-9$"],
-        fontsize=LABEL_SIZE*0.9,
+        fontsize=LABEL_SIZE * 0.9,
         color="black",
     )
     cax2.set_xlabel(
         "log $n_{\\rm ^{60}Fe}$ [atoms cm$^{-3}$]",
-        fontsize=LABEL_SIZE*0.9,
+        fontsize=LABEL_SIZE * 0.9,
         labelpad=-80,
     )
     cax2.xaxis.set_tick_params(color="black", length=10.0)
@@ -419,7 +411,6 @@ def plot_data():
 
 
 if __name__ == "__main__":
-
     N_bins = 151
     r_max = 0.3  # kpc
     n_snapshot_max_arg = 133

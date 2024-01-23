@@ -15,19 +15,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot_SFR():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 split = plot["split"]
@@ -37,7 +33,6 @@ def plot_SFR():
                 fig, ax = plot_style(8, 8)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     SFR_file = np.loadtxt(f"{value}/SFR.txt", skiprows=25)
                     time = SFR_file[:, 1] * 9.778131e02 / 1e3  # Gyr
                     total_SFR = SFR_file[:, -1] * 1.022690e01  # M_sol / yr
@@ -61,7 +56,7 @@ def plot_SFR():
                         else:
                             colors = color3
                             dashes = dashes3
- 
+
                         print(len(colors), counter)
                         ax.plot(
                             bin_centers,
@@ -69,9 +64,9 @@ def plot_SFR():
                             lw=3,
                             color=colors[counter],
                             zorder=4,
-                            dashes = (tuple(d for d in dashes[counter])),
+                            dashes=(tuple(d for d in dashes[counter])),
                             label=key.replace("_", "\_"),
-                            )
+                        )
 
                     else:
                         if len(list(dict_sim.items())) == 5:
@@ -89,13 +84,12 @@ def plot_SFR():
                             elif counter == 3:
                                 bin_values_run4 = bin_values
                             else:
-
                                 if "M5" in key:
-                                    label="IG\_M5\_\{min,max\}\_density"
+                                    label = "IG\_M5\_\{min,max\}\_density"
                                 elif "M3" in key:
-                                    label="IGD\_M3\_\{min,max\}\_density"
+                                    label = "IGD\_M3\_\{min,max\}\_density"
                                 else:
-                                    label="IG\_M6\_\{min,max\}\_density"
+                                    label = "IG\_M6\_\{min,max\}\_density"
                                 print(label)
 
                                 ax.fill_between(
@@ -108,8 +102,24 @@ def plot_SFR():
                                     zorder=-2,
                                     label=label,
                                 )
-                                ax.plot(bin_centers, bin_values_run4, dashes = (tuple(d for d in dashesMMD[0])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
-                                ax.plot(bin_centers, bin_values, dashes = (tuple(d for d in dashesMMD[1])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
+                                ax.plot(
+                                    bin_centers,
+                                    bin_values_run4,
+                                    dashes=(tuple(d for d in dashesMMD[0])),
+                                    color=colorMMD,
+                                    lw=lwMMD,
+                                    zorder=-1,
+                                    alpha=alphaMMD,
+                                )
+                                ax.plot(
+                                    bin_centers,
+                                    bin_values,
+                                    dashes=(tuple(d for d in dashesMMD[1])),
+                                    color=colorMMD,
+                                    lw=lwMMD,
+                                    zorder=-1,
+                                    alpha=alphaMMD,
+                                )
 
                         else:
                             ax.plot(
@@ -137,7 +147,6 @@ def plot_SFR():
                 ax.xaxis.set_tick_params(labelsize=33)
                 ax.yaxis.set_tick_params(labelsize=33)
                 ax.set_xlim(-0.02, 1.02)
-             
 
                 # Y log scale
                 ax.set_yscale("log")

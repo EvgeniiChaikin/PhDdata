@@ -9,12 +9,19 @@ from tqdm import tqdm
 
 
 def wendlandC2(u):
-
     # Normalised
-    return 21. / (2 * np.pi) * np.where(u > 1., 0., 4.*u**5 - 15.*u**4 + 20.*u**3 - 10*u**2 + 1.)
+    return (
+        21.0
+        / (2 * np.pi)
+        * np.where(
+            u > 1.0,
+            0.0,
+            4.0 * u**5 - 15.0 * u**4 + 20.0 * u**3 - 10 * u**2 + 1.0,
+        )
+    )
 
 
-#20
+# 20
 def intersection_volume_vector(rp, hp_full, w, r1, r2, n_sample: int = 20):
     """
     Parameters:
@@ -40,18 +47,16 @@ def intersection_volume_vector(rp, hp_full, w, r1, r2, n_sample: int = 20):
     r_edges = np.linspace(0.0, 1.0, n_sample + 1)
     r_points = 0.5 * (r_edges[:-1] + r_edges[1:])
     kernel_at_r = wendlandC2(r_points)
-    Volumep_full = 4.0 * np.pi / 3.0 * hp_full ** 3
+    Volumep_full = 4.0 * np.pi / 3.0 * hp_full**3
 
     v_shell_overlap = np.zeros((np.size(rp), n_sample))
 
     for n_subshell, (r_point, r_edge_right) in enumerate(zip(r_points, r_edges[1:])):
-
         hp = hp_full * r_edge_right
 
-        Volumep = 4.0 * np.pi / 3.0 * hp ** 3
+        Volumep = 4.0 * np.pi / 3.0 * hp**3
 
-        for (sign, rb) in zip([-1.0, 1.0], [r1, r2]):
-
+        for sign, rb in zip([-1.0, 1.0], [r1, r2]):
             case2 = np.logical_and(rp + hp > rb, np.abs(rp - hp) < rb)
             case3 = np.logical_and(
                 np.logical_and(rp + hp <= rb, rp - hp >= -rb), np.logical_not(case2)
@@ -62,40 +67,45 @@ def intersection_volume_vector(rp, hp_full, w, r1, r2, n_sample: int = 20):
             )
 
             # Case2
-            alphab = (rb ** 2 + rp[case2] ** 2 - hp[case2] ** 2) / (2.0 * rp[case2] * rb)
-            alphap = (hp[case2] ** 2 + rp[case2] ** 2 - rb ** 2) / (
+            alphab = (rb**2 + rp[case2] ** 2 - hp[case2] ** 2) / (
+                2.0 * rp[case2] * rb
+            )
+            alphap = (hp[case2] ** 2 + rp[case2] ** 2 - rb**2) / (
                 2.0 * rp[case2] * hp[case2]
             )
 
             heightb = rb * (1.0 - alphab)
             heightp = hp[case2] * (1.0 - alphap)
 
-            cap_volumeb = np.pi * heightb ** 2 / 3.0 * (3.0 * rb - heightb)
-            cap_volumep = np.pi * heightp ** 2 / 3.0 * (3.0 * hp[case2] - heightp)
+            cap_volumeb = np.pi * heightb**2 / 3.0 * (3.0 * rb - heightb)
+            cap_volumep = np.pi * heightp**2 / 3.0 * (3.0 * hp[case2] - heightp)
 
-            v_shell_overlap[case2, n_subshell] += sign * (cap_volumeb + cap_volumep) * w[case2]
+            v_shell_overlap[case2, n_subshell] += (
+                sign * (cap_volumeb + cap_volumep) * w[case2]
+            )
 
             # Case3
             v_shell_overlap[case3, n_subshell] += sign * w[case3] * Volumep[case3]
 
             # Case4
-            Volumeb = 4.0 * np.pi / 3.0 * rb ** 3
+            Volumeb = 4.0 * np.pi / 3.0 * rb**3
             v_shell_overlap[case4, n_subshell] += sign * Volumeb * w[case4]
 
         # Particle is inside the bin
         case1 = np.logical_and(rp - hp >= r1, rp + hp <= r2)
         v_shell_overlap[case1, n_subshell] = 1.0 * w[case1] * Volumep[case1]
 
-    for i in range(n_sample-1, 0, -1):
-        v_shell_overlap[:, i] -= v_shell_overlap[:, i-1]
+    for i in range(n_sample - 1, 0, -1):
+        v_shell_overlap[:, i] -= v_shell_overlap[:, i - 1]
 
-    output = np.sum(4. * np.pi / 3.0 * v_shell_overlap * kernel_at_r, axis=1) / Volumep_full
+    output = (
+        np.sum(4.0 * np.pi / 3.0 * v_shell_overlap * kernel_at_r, axis=1) / Volumep_full
+    )
 
     return output
 
 
 def bin_distribute(r, h, w):
-
     r_min = r - h
     r_max = r + h
 
@@ -121,15 +131,12 @@ def bin_distribute(r, h, w):
 
 
 def plot_profile(dens=0.101, gamma_WendlandC2: float = 1.936492):
-
-    global magnitudes,  magnitudes_centres,     magnitudes_widths
+    global magnitudes, magnitudes_centres, magnitudes_widths
 
     # Create figure
 
     COL_SIZE, ROW_SIZE = 3, 3
-    fig, ax = plt.subplots(
-        COL_SIZE, ROW_SIZE, figsize=(15, 13), sharex=True
-    )
+    fig, ax = plt.subplots(COL_SIZE, ROW_SIZE, figsize=(15, 13), sharex=True)
     fig.subplots_adjust(hspace=0, wspace=0)
     plt.rc("text", usetex=True)
     plt.rc("font", family="serif")
@@ -170,7 +177,6 @@ def plot_profile(dens=0.101, gamma_WendlandC2: float = 1.936492):
         ax[2, j].yaxis.set_tick_params(labelsize=LABEL_SIZE)
         ax[0, j].yaxis.set_tick_params(labelsize=LABEL_SIZE)
 
-
         ax[0, j].set_xlim(-2, 242)
         ax[0, j].set_ylim(-0.02, 1.02)
         ax[1, j].set_xlim(-2, 242)
@@ -189,19 +195,18 @@ def plot_profile(dens=0.101, gamma_WendlandC2: float = 1.936492):
         "../run01_diffusion_new_one_p_with_centre_midres_sphere": "mid\_res\_n01",
         "../run01_diffusion_new_one_p_with_centre_lowres_sphere": "low\_res\_n01",
     }
-   
+
     for sim, (key, value) in enumerate(dict_sim.items()):
         print(sim, key, value)
-        for counter, idx in enumerate([17, 17*4, 17*7]):  # 119
+        for counter, idx in enumerate([17, 17 * 4, 17 * 7]):  # 119
             print(counter, idx)
             with h5.File(f"{key}" + "/output_{:04d}.hdf5".format(idx), "r") as f:
-
                 # Internal units
                 unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
                 unit_mass_in_cgs = f["/Units"].attrs["Unit mass in cgs (U_M)"]
                 unit_time_in_cgs = f["/Units"].attrs["Unit time in cgs (U_t)"]
                 unit_energy_in_cgs = (
-                    unit_mass_in_cgs * unit_length_in_cgs ** 2 / unit_time_in_cgs ** 2
+                    unit_mass_in_cgs * unit_length_in_cgs**2 / unit_time_in_cgs**2
                 )
 
                 # Snapshot data
@@ -259,7 +264,14 @@ def plot_profile(dens=0.101, gamma_WendlandC2: float = 1.936492):
                     ],
                 )
 
-                v_s = np.insert(v_s, np.size(v_s), [0.0, 0.0,],)
+                v_s = np.insert(
+                    v_s,
+                    np.size(v_s),
+                    [
+                        0.0,
+                        0.0,
+                    ],
+                )
 
                 # Analytical solution
                 ax[0, sim].plot(
@@ -306,7 +318,7 @@ def plot_profile(dens=0.101, gamma_WendlandC2: float = 1.936492):
                 gas_density = (
                     f["/PartType0/Densities"][:]
                     * unit_mass_in_cgs
-                    / unit_length_in_cgs ** 3
+                    / unit_length_in_cgs**3
                     * X_gas
                     / constants["PROTON_MASS_IN_CGS"]
                 )
@@ -329,7 +341,11 @@ def plot_profile(dens=0.101, gamma_WendlandC2: float = 1.936492):
                 v_r = np.sum(gas_pos * gas_v, axis=1) / r
 
                 # Smoothing length
-                gas_h = f["/PartType0/SmoothingLengths"][:] * unit_length_in_cgs / constants["PARSEC_IN_CGS"]
+                gas_h = (
+                    f["/PartType0/SmoothingLengths"][:]
+                    * unit_length_in_cgs
+                    / constants["PARSEC_IN_CGS"]
+                )
 
                 # Ejecta mass fraction
                 ejecta = f["/PartType0/ElementMassFractions"][:, -1]
@@ -351,7 +367,10 @@ def plot_profile(dens=0.101, gamma_WendlandC2: float = 1.936492):
                 print("Computed ejecta mass")
 
                 # Radial velocity
-                v_bin = bin_distribute(r, gas_h * gamma_WendlandC2, v_r * gas_m) / m_bin_full
+                v_bin = (
+                    bin_distribute(r, gas_h * gamma_WendlandC2, v_r * gas_m)
+                    / m_bin_full
+                )
                 print("Computed gas velocity")
 
                 # cgs units
@@ -362,7 +381,7 @@ def plot_profile(dens=0.101, gamma_WendlandC2: float = 1.936492):
                     * (magnitudes[1:] ** 3 - magnitudes[:-1] ** 3)
                     * constants["PARSEC_IN_CGS"] ** 3
                 )
- 
+
                 rho_bin = (
                     m_bin_full
                     / bin_volume
@@ -413,17 +432,15 @@ def plot_profile(dens=0.101, gamma_WendlandC2: float = 1.936492):
                         color=line_properties["colour"][counter],
                     )
 
-
-
         ax[0, sim].text(
-                0.04,
-                0.96,
-                f"{value}",
-                ha="left",
-                va="top",
-                transform=ax[0, sim].transAxes,
-                fontsize=LEGEND_SIZE * 1.0,
-            )
+            0.04,
+            0.96,
+            f"{value}",
+            ha="left",
+            va="top",
+            transform=ax[0, sim].transAxes,
+            fontsize=LEGEND_SIZE * 1.0,
+        )
 
     ax[2, 0].plot([-30, -40], [-30, -40], lw=3, color="k", label="Numerical")
     ax[2, 0].plot(
@@ -433,9 +450,10 @@ def plot_profile(dens=0.101, gamma_WendlandC2: float = 1.936492):
     ax[2, 0].legend(loc="upper right", fontsize=LEGEND_SIZE * 0.75)
     ax[2, 2].legend(loc="upper right", fontsize=LEGEND_SIZE * 0.75)
 
-
     plt.savefig(
-        "./images/sedov_radial_profile_3_times_conv.pdf", bbox_inches="tight", pad_inches=0.1
+        "./images/sedov_radial_profile_3_times_conv.pdf",
+        bbox_inches="tight",
+        pad_inches=0.1,
     )
 
 

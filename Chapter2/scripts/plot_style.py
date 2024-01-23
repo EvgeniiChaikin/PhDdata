@@ -18,7 +18,6 @@ line_properties = {
 
 
 def plot_style(xsize, ysize):
-
     plt.rc("text", usetex=True)
     plt.rcParams.update({"figure.autolayout": True})
     plt.rcParams["ytick.direction"] = "in"
@@ -50,7 +49,6 @@ def plot_style(xsize, ysize):
 
 
 def fixlogax(ax, a="x"):
-
     if a == "x":
         labels = [item.get_text() for item in ax.get_xticklabels()]
         positions = ax.get_xticks()

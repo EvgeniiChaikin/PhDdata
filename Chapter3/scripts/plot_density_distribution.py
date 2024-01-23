@@ -18,19 +18,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 split = plot["split"]
@@ -55,7 +51,6 @@ def plot():
                 bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     print(key)
 
                     f = h5.File(value + "/output_{:04d}.hdf5".format(idx), "r")
@@ -107,7 +102,7 @@ def plot():
                     birth_n = (
                         f["/PartType4/BirthDensities"][:]
                         * stars_XH
-                        / unit_length_in_cgs ** 3
+                        / unit_length_in_cgs**3
                         * unit_mass_in_cgs
                         / constants["PROTON_MASS_IN_CGS"]
                     )[birth_times]
@@ -115,14 +110,14 @@ def plot():
                     snii_n_gas = (
                         f["/PartType0/DensitiesAtLastSupernovaEvent"][:]
                         * gas_XH
-                        / unit_length_in_cgs ** 3
+                        / unit_length_in_cgs**3
                         * unit_mass_in_cgs
                         / constants["PROTON_MASS_IN_CGS"]
                     )[gas_SNII_times]
                     snii_n_stars = (
                         f["/PartType4/DensitiesAtLastSupernovaEvent"][:]
                         * stars_XH
-                        / unit_length_in_cgs ** 3
+                        / unit_length_in_cgs**3
                         * unit_mass_in_cgs
                         / constants["PROTON_MASS_IN_CGS"]
                     )[stars_SNII_times]
@@ -143,9 +138,7 @@ def plot():
                     )
 
                     if len(list(dict_sim.items())) == 5:
-
                         if counter < 3:
-
                             ax[0].plot(
                                 bin_centers,
                                 np.cumsum(N_birth_binned / np.sum(N_birth_binned)),
@@ -178,9 +171,24 @@ def plot():
                                 hatch="XXXX",
                                 zorder=-2,
                             )
-                            ax[0].plot(bin_centers, y_star_c3, dashes = (tuple(d for d in dashesMMD[0])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
-                            ax[0].plot(bin_centers, np.cumsum(N_birth_binned / np.sum(N_birth_binned)), 
-                                                   dashes = (tuple(d for d in dashesMMD[1])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
+                            ax[0].plot(
+                                bin_centers,
+                                y_star_c3,
+                                dashes=(tuple(d for d in dashesMMD[0])),
+                                color=colorMMD,
+                                lw=lwMMD,
+                                zorder=-1,
+                                alpha=alphaMMD,
+                            )
+                            ax[0].plot(
+                                bin_centers,
+                                np.cumsum(N_birth_binned / np.sum(N_birth_binned)),
+                                dashes=(tuple(d for d in dashesMMD[1])),
+                                color=colorMMD,
+                                lw=lwMMD,
+                                zorder=-1,
+                                alpha=alphaMMD,
+                            )
 
                             ax[1].fill_between(
                                 bin_centers,
@@ -192,9 +200,24 @@ def plot():
                                 zorder=-2,
                                 label="IG\_M5\_\{min,max\}\_density",
                             )
-                            ax[1].plot(bin_centers, y_snii_c3, dashes = (tuple(d for d in dashesMMD[0])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
-                            ax[1].plot(bin_centers, np.cumsum(N_snii_binned / np.sum(N_snii_binned)), 
-                                                   dashes = (tuple(d for d in dashesMMD[1])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
+                            ax[1].plot(
+                                bin_centers,
+                                y_snii_c3,
+                                dashes=(tuple(d for d in dashesMMD[0])),
+                                color=colorMMD,
+                                lw=lwMMD,
+                                zorder=-1,
+                                alpha=alphaMMD,
+                            )
+                            ax[1].plot(
+                                bin_centers,
+                                np.cumsum(N_snii_binned / np.sum(N_snii_binned)),
+                                dashes=(tuple(d for d in dashesMMD[1])),
+                                color=colorMMD,
+                                lw=lwMMD,
+                                zorder=-1,
+                                alpha=alphaMMD,
+                            )
 
                     else:
                         if split:
@@ -271,7 +294,6 @@ def plot():
                 for i, plot_name in enumerate(
                     ["Stellar birth \n gas densities", "SN feedback \n gas densities"]
                 ):
-
                     ax[i].set_yscale("log")
                     ax[i].set_xscale("log")
                     ax[i].xaxis.set_tick_params(labelsize=33)
@@ -284,16 +306,19 @@ def plot():
                         [1e-4, 1e-3, 1e-2, 1e-1, 1, 1e1, 1e2, 1e3, 1e4]
                     )
 
-
                     locmin = ticker.LogLocator(
-                        base=10.0, subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9), numticks=20
+                        base=10.0,
+                        subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+                        numticks=20,
                     )
 
                     ax[i].xaxis.set_minor_locator(locmin)
                     ax[i].xaxis.set_minor_formatter(ticker.NullFormatter())
 
                     locmin = ticker.LogLocator(
-                        base=10.0, subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9), numticks=20
+                        base=10.0,
+                        subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+                        numticks=20,
                     )
 
                     ax[i].yaxis.set_minor_locator(locmin)
@@ -341,16 +366,16 @@ def plot():
 
                 ax[1].legend(fontsize=20.0, markerfirst=False, frameon=False)
                 ax[0].text(
-                        0.97,
-                        0.04,
-                        "${:.1f} < t < {:.1f}$ Gyr".format(
+                    0.97,
+                    0.04,
+                    "${:.1f} < t < {:.1f}$ Gyr".format(
                         (time_snp[0] - dt) / 1e3, time_snp[0] / 1e3
-                        ),
-                        ha="right",
-                        va="bottom",
-                        transform=ax[0].transAxes,
-                        fontsize=25,
-                    )
+                    ),
+                    ha="right",
+                    va="bottom",
+                    transform=ax[0].transAxes,
+                    fontsize=25,
+                )
 
                 plt.savefig(f"./images/{output}", bbox_inches="tight", pad_inches=0.1)
                 plt.close()

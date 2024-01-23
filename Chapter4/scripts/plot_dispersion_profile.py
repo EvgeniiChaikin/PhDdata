@@ -22,19 +22,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 split = plot["split"]
@@ -55,7 +51,6 @@ def plot():
                 values_H2 = np.zeros_like(centers_kpc)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     for snp in range(snapshot_min, snapshot_max):
                         print("snp", snp)
 
@@ -197,7 +192,8 @@ def plot():
 
                 ax.set_xlabel("Radial distance $r$ [kpc]", fontsize=33)
                 ax.set_ylabel(
-                    "$\\sigma_{\\rm turb} \\, [\\rm km \\, s^{-1}]$", fontsize=33,
+                    "$\\sigma_{\\rm turb} \\, [\\rm km \\, s^{-1}]$",
+                    fontsize=33,
                 )
 
                 (l0,) = ax.plot([100, 120], [100, 120], lw=4, color="k", dashes=(17, 4))
@@ -205,7 +201,10 @@ def plot():
 
                 leg2 = plt.legend(
                     [l0, l1],
-                    [r"H\textsc{i}", "H$_2$",],
+                    [
+                        r"H\textsc{i}",
+                        "H$_2$",
+                    ],
                     loc="upper right",
                     frameon=False,
                     fontsize=30.0,

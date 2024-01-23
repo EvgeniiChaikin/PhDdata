@@ -20,7 +20,7 @@ def load_dib_2006_data(path="../Dib2006data.dat"):
     print(np.shape(dib_data))
     x, y = dib_data[:, 0], dib_data[:, 1]
     sigma_th = 12.0  # km/s
-    y = np.sqrt(y ** 2 + sigma_th ** 2.0)
+    y = np.sqrt(y**2 + sigma_th**2.0)
     return x, y
 
 
@@ -68,7 +68,6 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     gamma = 2.018932
 
     bin_edges = np.arange(-4, -0.55, 0.1)  # log Sigma SFR
@@ -77,15 +76,12 @@ def plot():
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 split = plot["split"]
@@ -103,13 +99,17 @@ def plot():
                 )
 
                 l2 = ax.errorbar(
-                    law_x, law_y, yerr=law_y_err, fmt="o-", c="maroon", markersize=10,
+                    law_x,
+                    law_y,
+                    yerr=law_y_err,
+                    fmt="o-",
+                    c="maroon",
+                    markersize=10,
                 )
 
                 output_dict = {}
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     x_full = np.array([])
                     y_full = np.array([])
 
@@ -232,7 +232,7 @@ def plot():
 
                         print("min count (before corr)", np.min(counts[counts > 0.0]))
 
-                        counts /= N_pix ** 2.0
+                        counts /= N_pix**2.0
                         mask_gas = (
                             counts > 1e5 * 20.0
                         )  # 20 particels with mass 1e5 Msun
@@ -241,7 +241,7 @@ def plot():
                         print(
                             "counts",
                             np.size(counts[mask_gas]),
-                            np.size(counts[mask_gas]) / N_pix ** 2.0,
+                            np.size(counts[mask_gas]) / N_pix**2.0,
                         )
 
                         mass_density = scatter(
@@ -263,7 +263,7 @@ def plot():
                             x=gas_x,
                             y=gas_y,
                             h=np.zeros_like(gas_h),
-                            m=(gas_vz_masked ** 2) * gas_HI_M_Msun_masked,
+                            m=(gas_vz_masked**2) * gas_HI_M_Msun_masked,
                             res=N_pix,
                         )
 
@@ -271,8 +271,8 @@ def plot():
                         vel2 = vel2_mass[mask_gas] / mass_density[mask_gas]
                         x_val = x_val[mask_gas]
 
-                        sigma_th2 = 9.0 ** 2.0  # (km/s)**2
-                        y_val_raw = vel2 + sigma_th2 - vel_mean ** 2.0
+                        sigma_th2 = 9.0**2.0  # (km/s)**2
+                        y_val_raw = vel2 + sigma_th2 - vel_mean**2.0
 
                         print(np.mean(vel_mean), np.max(vel_mean))
 
@@ -284,7 +284,10 @@ def plot():
                         y_full = np.concatenate([y_full, y_val])
 
                     bin_values, _, _ = stats.binned_statistic(
-                        np.log10(x_full), y_full, bins=bin_edges, statistic="median",
+                        np.log10(x_full),
+                        y_full,
+                        bins=bin_edges,
+                        statistic="median",
                     )
 
                     deviations = []
@@ -387,7 +390,8 @@ def plot():
                 )
 
                 ax.set_ylabel(
-                    "$\\sigma_{\\rm gas, obs}$ [km s$^{-1}$]", fontsize=30,
+                    "$\\sigma_{\\rm gas, obs}$ [km s$^{-1}$]",
+                    fontsize=30,
                 )
 
                 ax.text(

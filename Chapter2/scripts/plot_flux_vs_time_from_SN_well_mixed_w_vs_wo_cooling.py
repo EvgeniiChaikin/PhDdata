@@ -13,11 +13,8 @@ from numba import njit
 
 
 def do_sedov_analytic(time_bins, dens, M_Fe60=1e-4, tau_Fe60=2.6):
-
     for i in range(time_bins):
-
         if time_plot_arr[i] > 0.0:
-
             print("Sedov (analytic): {:d}".format(i))
 
             r_s, P_s, rho_s, v_s, r_shock, _, _, _, _ = sedov(
@@ -51,7 +48,7 @@ def do_sedov_analytic(time_bins, dens, M_Fe60=1e-4, tau_Fe60=2.6):
             rho_v_r_bin[np.isnan(rho_v_r_bin)] = 0.0
 
             # Compute mass in the shell
-            Volume = 4.0 * np.pi / 3.0 * r_shock ** 3
+            Volume = 4.0 * np.pi / 3.0 * r_shock**3
             M_shell = (
                 dens
                 / (constants["H_mass_fraction"] / constants["PROTON_MASS_IN_CGS"])
@@ -73,18 +70,14 @@ def do_sedov_analytic(time_bins, dens, M_Fe60=1e-4, tau_Fe60=2.6):
 def process_data(
     name, count, n_snapshot_max, save_file_name, M_Fe60=1e-4, tau_Fe60=2.6
 ):
-
     print("Begin to process data...")
 
     # For computing mass in the shell (ensures the shell is always expanding)
     n_thr_min = 1
 
     for idx in tqdm(range(n_snapshot_max)):
-
         with h5.File(f"{name}" + "/output_{:04d}.hdf5".format(idx), "r") as f:
-
             if idx == 0:
-
                 unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
                 unit_mass_in_cgs = f["/Units"].attrs["Unit mass in cgs (U_M)"]
                 unit_time_in_cgs = f["/Units"].attrs["Unit time in cgs (U_t)"]
@@ -120,7 +113,7 @@ def process_data(
                 r,
                 gas_density_f
                 * unit_mass_in_cgs
-                / unit_length_in_cgs ** 3
+                / unit_length_in_cgs**3
                 / constants["PROTON_MASS_IN_CGS"]
                 * v_r
                 * 1.0e5,
@@ -181,7 +174,6 @@ def process_data(
 
 
 def plot_data(runs):
-
     print("Performing interpolation...")
     flux_profiles[np.where(flux_profiles < 0.0)] = 0.0
 
@@ -193,9 +185,11 @@ def plot_data(runs):
     fig, ax = plot_style(8, 8)
 
     for count, name in enumerate(runs.keys()):
-
         flux_interp_f = interpolate.interp2d(
-                magnitudes_centres, time_arr[:, count], flux_profiles[:, :, count], kind="linear"
+            magnitudes_centres,
+            time_arr[:, count],
+            flux_profiles[:, :, count],
+            kind="linear",
         )
         colormap = cmm.viridis
         colors = [colormap(i) for i in np.linspace(0, 1, 4)]
@@ -209,7 +203,6 @@ def plot_data(runs):
                 150.0,
             ]
         ):
-
             print("Distance from SN is {:.1f}".format(dist))
 
             # Numerical solution
@@ -233,8 +226,8 @@ def plot_data(runs):
                 (line,) = plt.plot(
                     x_arr,
                     y_arr / 60 * constants["YEAR_IN_CGS"] * 0.25 * efficiency,
-                    dashes=(10,2,2,2),
-                    lw=3.5
+                    dashes=(10, 2, 2, 2),
+                    lw=3.5,
                 )
 
             color = color = line.get_color()
@@ -242,11 +235,11 @@ def plot_data(runs):
             # Analytical solution
             y_arr = flux_interp_f_analyt(dist / 1e3, x_arr)
             plt.plot(
-                    x_arr,
-                    y_arr / 60 * constants["YEAR_IN_CGS"] * 0.25 * efficiency,
-                    color=color,
-                    lw=1.5,
-                    dashes=(3, 3),
+                x_arr,
+                y_arr / 60 * constants["YEAR_IN_CGS"] * 0.25 * efficiency,
+                color=color,
+                lw=1.5,
+                dashes=(3, 3),
             )
 
     # Cooling time
@@ -254,22 +247,23 @@ def plot_data(runs):
 
     leg1 = ax.legend(loc="upper right", fontsize=LEGEND_SIZE * 0.8, frameon=False)
 
-    (line1,) = plt.plot([-30,-40],[10,20], color="k", lw=3.5)
-    (line2,) = plt.plot([-30,-40],[10,20], color="k", lw=3.5, dashes=(10,2,2,2))
-    (line3,) = plt.plot([-30,-40],[10,20], color="k", lw=1.5, dashes=(3, 3))
+    (line1,) = plt.plot([-30, -40], [10, 20], color="k", lw=3.5)
+    (line2,) = plt.plot([-30, -40], [10, 20], color="k", lw=3.5, dashes=(10, 2, 2, 2))
+    (line3,) = plt.plot([-30, -40], [10, 20], color="k", lw=1.5, dashes=(3, 3))
     lines = [line1, line2, line3]
     key_list = list(runs.keys())
     key_list.append("ST solution")
 
-    leg2 = plt.legend(lines, key_list,
-                      loc="center right",
-                      frameon=False,
-                      fontsize=LEGEND_SIZE * 0.8)
+    leg2 = plt.legend(
+        lines, key_list, loc="center right", frameon=False, fontsize=LEGEND_SIZE * 0.8
+    )
 
     plt.gca().add_artist(leg1)
 
     ax.set_xlabel("Time since SN [Myr]", fontsize=LABEL_SIZE * 1.2)
-    ax.set_ylabel("$^{60}$Fe flux [atoms cm$^{-2}$ yr$^{-1}$]", fontsize=LABEL_SIZE * 1.2)
+    ax.set_ylabel(
+        "$^{60}$Fe flux [atoms cm$^{-2}$ yr$^{-1}$]", fontsize=LABEL_SIZE * 1.2
+    )
 
     ax.xaxis.set_tick_params(labelsize=LABEL_SIZE * 1.2)
     ax.yaxis.set_tick_params(labelsize=LABEL_SIZE * 1.2)
@@ -289,14 +283,15 @@ def plot_data(runs):
 
 
 if __name__ == "__main__":
-
     N_bins = 301  # 1pc bins
     r_max = 0.3
     n_snapshot_max_arg = 134
     # path = "../run01_diffusion_new_one_p_with_centre_higres_sphere/"
 
-    runs = {"high\_res\_n01": "../run01_diffusion_new_one_p_with_centre_higres_sphere/",
-            "high\_res\_n01\_nocooling": "../run01_diffusion_new_one_p_with_centre_higres_nocooling_sphere_lowT/"}
+    runs = {
+        "high\_res\_n01": "../run01_diffusion_new_one_p_with_centre_higres_sphere/",
+        "high\_res\_n01\_nocooling": "../run01_diffusion_new_one_p_with_centre_higres_nocooling_sphere_lowT/",
+    }
 
     dens = 0.1  # H/cc3
 

@@ -61,7 +61,7 @@ T = 0.1  # Initial Temperature [K]
 gamma = 5.0 / 3.0  # Gas adiabatic index
 h_frac = 0.73738788833  # Hydrogen mass fraction
 mu = 0.6  # Mean molecular weight
-from_h_to_rho = 1 / (1.98848e33 / 3.08567758e21 ** 3 / 1.67262e-24) / h_frac
+from_h_to_rho = 1 / (1.98848e33 / 3.08567758e21**3 / 1.67262e-24) / h_frac
 
 print("From H to rho / 1e7: ", from_h_to_rho / 1e7)
 
@@ -69,8 +69,8 @@ rho = from_h_to_rho * dens  # Density of the gas in code units
 mass = float(sys.argv[2]) / 100.0
 boxSize = (mass / rho * numPart * 2 * 2 * 2) ** (1.0 / 3.0)
 
-print("boxsize",boxSize)
-print("cubic root of num part", pow(numPart, 1./3.))
+print("boxsize", boxSize)
+print("cubic root of num part", pow(numPart, 1.0 / 3.0))
 
 periodic = 1  # 1 For periodic box
 fileName = "example_diffusion_{:d}_{:.1e}_within_sphere_one_over_r2.hdf5".format(
@@ -146,20 +146,18 @@ E_SN = 1.0e51
 
 # Target number of particles with E_SN and ejecta
 N_part_with_E_SN = 57
-#N_part_with_E_SN = 1
+# N_part_with_E_SN = 1
 
-#t Sort according to distance from the centre
+# t Sort according to distance from the centre
 arg = np.argsort(r)
 
 # For fiducial run, we want particles with ejecta and E_SN be within 5 pc
-if dens == 0.1: # 0.1
-
+if dens == 0.1:  # 0.1
     # Part within inner 5pc
     for count, i in enumerate(arg):
         print(count, i, 1e3 * r[i], "[pc]")
 
-        if 1e3 * r[i] > 5.0: # 3.41  # 7.468372996966774
-
+        if 1e3 * r[i] > 5.0:  # 3.41  # 7.468372996966774
             print("find i max:", count, i)
             N_part_with_E_SN = count
             break
@@ -190,7 +188,7 @@ mass_fr_init = {
     "init_abundance_Europium": 0.0,
 }
 
-radial_corr = ( 5.0**2 / (1e3 * r[arg[:N_part_with_E_SN]])**2 )
+radial_corr = 5.0**2 / (1e3 * r[arg[:N_part_with_E_SN]]) ** 2
 radial_corr /= np.sum(radial_corr)
 
 print("Radial corr")
@@ -209,7 +207,6 @@ m[arg[:N_part_with_E_SN]] = new_mass
 
 # Loop over element fractions
 for counter, key in enumerate(mass_fr_init.keys()):
-
     # Counter 0 corresponds to metallicity
     if counter == 0:
         Z[:] = mass_fr_init[key]

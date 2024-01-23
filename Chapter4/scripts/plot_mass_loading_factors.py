@@ -21,17 +21,14 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def loaddata(snapshots, dict_sim, save_file_name):
-
     print("Loading..")
 
     # Simulatins
     for model_counter, value in enumerate(dict_sim.values()):
-
         print(model_counter)
 
         # Snapshots
         for i in tqdm(range(snapshots)):
-
             # Loading data
             f = h5.File(f"{value}" + "/output_{:04d}.hdf5".format(i), "r")
 
@@ -61,10 +58,11 @@ def loaddata(snapshots, dict_sim, save_file_name):
 
             args_outflow_p = np.where(
                 np.logical_and(
-                np.logical_and(
-                    gas_pos >= z_area - delta_z / 2, gas_pos <= z_area + delta_z / 2
-                ),
-                gas_v_z > 0.0)
+                    np.logical_and(
+                        gas_pos >= z_area - delta_z / 2, gas_pos <= z_area + delta_z / 2
+                    ),
+                    gas_v_z > 0.0,
+                )
             )
 
             if len(args_outflow_p[0]) > 0:
@@ -79,10 +77,12 @@ def loaddata(snapshots, dict_sim, save_file_name):
 
             args_outflow_m = np.where(
                 np.logical_and(
-                np.logical_and(
-                    gas_pos >= -z_area - delta_z / 2, gas_pos <= -z_area + delta_z / 2
-                ),
-                gas_v_z < 0.0)
+                    np.logical_and(
+                        gas_pos >= -z_area - delta_z / 2,
+                        gas_pos <= -z_area + delta_z / 2,
+                    ),
+                    gas_v_z < 0.0,
+                )
             )
 
             if len(args_outflow_m[0]) > 0:
@@ -102,21 +102,17 @@ def loaddata(snapshots, dict_sim, save_file_name):
 
 
 def plot():
-
     global time_arr, outflows_p, outflows_m, z_area_0, delta_z_0
 
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 print(plot)
 
                 output = plot["output_file"]
@@ -158,19 +154,18 @@ def plot():
                 fig, ax = plot_style(fig_size_x, fig_size_y)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     SFR_file = np.loadtxt(f"{value}/SFR.txt", skiprows=25)
                     time = SFR_file[:, 1] * 9.778131e02
                     total_SFR = SFR_file[:, -1] * 1.022690e01  # M_sol / yr
 
-                    N_bins = 500 
-                    dt = 0.025 * 1e3 # window of 2x25 Myr = 50 Myr
+                    N_bins = 500
+                    dt = 0.025 * 1e3  # window of 2x25 Myr = 50 Myr
 
                     sfh_centers = np.linspace(0.0, 1.0e3, N_bins)
                     sfh_values = np.zeros_like(sfh_centers)
 
                     for i in range(len(sfh_centers)):
-                        mask = np.where(np.abs(time-sfh_centers[i]) < dt)[0]
+                        mask = np.where(np.abs(time - sfh_centers[i]) < dt)[0]
                         sfh_values[i] = np.mean(total_SFR[mask])
 
                     SFR_f = interp1d(
@@ -178,23 +173,24 @@ def plot():
                     )
 
                     N_bins = 51
-                    bin_edges = np.linspace(0.0, 1.0e3, N_bins) # Myr
-                    bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1]) 
-                    bin_values = np.zeros(N_bins-1)
+                    bin_edges = np.linspace(0.0, 1.0e3, N_bins)  # Myr
+                    bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
+                    bin_values = np.zeros(N_bins - 1)
 
-                    for i in range(N_bins-1):
+                    for i in range(N_bins - 1):
                         n_snp = 0
                         for c, t in enumerate(time_arr[:, counter]):
-                            if bin_edges[i] < t <= bin_edges[i+1]:
-                                n_snp += 1 # in bin
-                                bin_values[i] += (outflows_p[c, counter] - outflows_m[c, counter])
+                            if bin_edges[i] < t <= bin_edges[i + 1]:
+                                n_snp += 1  # in bin
+                                bin_values[i] += (
+                                    outflows_p[c, counter] - outflows_m[c, counter]
+                                )
                         if n_snp:
                             print(n_snp)
                             bin_values[i] /= n_snp
                             bin_values[i] /= SFR_f(bin_centers[i])
-                    
-                    if split < 7:
 
+                    if split < 7:
                         if split == 1:
                             colors = color2
                             lw = lw2
@@ -210,7 +206,7 @@ def plot():
                             label=key.replace("_", "\_"),
                             color=colors[counter],
                             lw=lw[counter],
-                            dashes = tuple(d for d in dashes[counter]),
+                            dashes=tuple(d for d in dashes[counter]),
                         )
 
                     else:
@@ -234,10 +230,12 @@ def plot():
 
                 plt.xlim(-0.01, 1.01)
                 plt.yscale("log")
-                ax.set_yticks([1e-2,1e-1,1e0,1e1])
+                ax.set_yticks([1e-2, 1e-1, 1e0, 1e1])
 
                 locmin = ticker.LogLocator(
-                base=10.0, subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9), numticks=10
+                    base=10.0,
+                    subs=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+                    numticks=10,
                 )
 
                 ax.yaxis.set_minor_locator(locmin)
@@ -246,9 +244,7 @@ def plot():
                 ax.set_ylim(y_min, y_max)
                 fixlogax(ax, "y")
 
-                plt.savefig(
-                    f"./images/{output}", bbox_inches="tight", pad_inches=0.1
-                )
+                plt.savefig(f"./images/{output}", bbox_inches="tight", pad_inches=0.1)
 
 
 if __name__ == "__main__":

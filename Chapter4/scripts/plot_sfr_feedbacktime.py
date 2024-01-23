@@ -23,19 +23,15 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def plot():
-
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
                 y_min, y_max = plot["ylims"]
@@ -51,7 +47,6 @@ def plot():
                 values = np.zeros_like(centers_Myr)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     f = h5.File(value + "/output_{:04d}.hdf5".format(snapshot), "r")
 
                     unit_length_in_cgs = f["/Units"].attrs["Unit length in cgs (U_L)"]
@@ -148,7 +143,7 @@ def plot():
                         dashes=tuple(d for d in dashes[counter]),
                         color=colors[counter],
                         label=key.replace("_", "\_"),
-                        #label="Only kicked particles in the neutral ISM"
+                        # label="Only kicked particles in the neutral ISM"
                     )
                     if split != 3:
                         ax.axhline(
@@ -157,7 +152,7 @@ def plot():
                             color=colors[counter],
                             lw=2,
                             dashes=(10, 3, 3, 3),
-                            #label="All particles in the neutral ISM"
+                            # label="All particles in the neutral ISM"
                         )
 
                 ax.set_xlim(x_min / 1e3, x_max / 1e3)  # From Myr to Gyr
@@ -184,9 +179,10 @@ def plot():
                 ax.yaxis.set_minor_locator(locmin)
                 ax.yaxis.set_minor_formatter(ticker.NullFormatter())
 
-                ax.set_yticks([0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0])
+                ax.set_yticks(
+                    [0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0]
+                )
                 ax.set_ylim(y_min, y_max)
-
 
                 if split > 0 and split != 3:
                     leg1 = plt.legend(loc="lower right", fontsize=21, frameon=False)

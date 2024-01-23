@@ -21,17 +21,14 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def loaddata(snapshots, dict_sim, save_file_name):
-
     print("Loading..")
 
     # Simulatins
     for model_counter, value in enumerate(dict_sim.values()):
-
         print(model_counter)
 
         # Snapshots
         for i in tqdm(range(snapshots)):
-
             # Loading data
             f = h5.File(f"{value}" + "/output_{:04d}.hdf5".format(i), "r")
 
@@ -45,8 +42,8 @@ def loaddata(snapshots, dict_sim, save_file_name):
                 time * unit_time_in_cgs / constants["YEAR_IN_CGS"] / 1e6
             )
 
-            E_inj = f['PartType4']["InjectedKineticEnergy"][:] * 0.5
-            E_recv = f['PartType4']["InjectedKineticEnergyReceived"][:] 
+            E_inj = f["PartType4"]["InjectedKineticEnergy"][:] * 0.5
+            E_recv = f["PartType4"]["InjectedKineticEnergyReceived"][:]
 
             energy_expected[i, model_counter] = np.sum(E_inj)
             energy_actual[i, model_counter] = np.sum(E_recv)
@@ -58,21 +55,17 @@ def loaddata(snapshots, dict_sim, save_file_name):
 
 
 def plot():
-
     global time_arr, energy_actual, energy_expected
 
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 print(plot)
 
                 output = plot["output_file"]
@@ -111,7 +104,6 @@ def plot():
                 fig, ax = plot_style(fig_size_x, fig_size_y)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     if split == 0 or split == 9:
                         colors = line_properties["colour"]
                         lw = line_properties["linewidth"]
@@ -140,15 +132,17 @@ def plot():
                         colors = color7
                         lw = lw7
                         dashes = dashes7
-              
+
                     dE_actual = energy_actual[1:, counter] - energy_actual[:-1, counter]
-                    dE_expected =  energy_expected[1:, counter] - energy_expected[:-1, counter]
+                    dE_expected = (
+                        energy_expected[1:, counter] - energy_expected[:-1, counter]
+                    )
 
                     dE_ratio = np.zeros(len(dE_actual))
                     mask = dE_expected != 0.0
                     dE_ratio[mask] = dE_actual[mask] / dE_expected[mask]
 
-                    center = 0.5 * (time_arr[1:, counter]  + time_arr[:-1, counter])
+                    center = 0.5 * (time_arr[1:, counter] + time_arr[:-1, counter])
                     ax.plot(
                         center / 1e3,
                         dE_ratio,
@@ -159,18 +153,21 @@ def plot():
                         label=key.replace("_", "\_"),
                     )
 
-
                 ax.xaxis.set_tick_params(labelsize=31)
                 ax.yaxis.set_tick_params(labelsize=31)
 
                 plt.xlabel("Time [Gyr]", fontsize=31)
-                plt.ylabel("$E_{\\rm kin}$ (recv) / $E_{\\rm kin}$ (released)", fontsize=LABEL_SIZE * 0.85, labelpad=38)
+                plt.ylabel(
+                    "$E_{\\rm kin}$ (recv) / $E_{\\rm kin}$ (released)",
+                    fontsize=LABEL_SIZE * 0.85,
+                    labelpad=38,
+                )
 
-                #leg1 = ax.legend(fontsize=19, loc="upper center", frameon=False,
+                # leg1 = ax.legend(fontsize=19, loc="upper center", frameon=False,
                 #    columnspacing=0.25,
                 #        borderaxespad=0.20,
                 #        labelspacing=0.3
-                #)
+                # )
 
                 print(y_min, y_max)
 
@@ -180,9 +177,7 @@ def plot():
 
                 ax.set_ylim(y_min, y_max)
 
-                plt.savefig(
-                    f"./images/{output}", bbox_inches="tight", pad_inches=0.1
-                )
+                plt.savefig(f"./images/{output}", bbox_inches="tight", pad_inches=0.1)
 
 
 if __name__ == "__main__":

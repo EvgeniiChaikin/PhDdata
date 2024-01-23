@@ -16,7 +16,7 @@ year_in_cgs = 3600.0 * 24 * 365.25
 Msun_in_cgs = 1.98848e33
 G_in_cgs = 6.67259e-8
 pc_in_cgs = 3.08567758e18
-gamma = 2.018932 # Quartic spline
+gamma = 2.018932  # Quartic spline
 
 # defining figure
 
@@ -43,12 +43,10 @@ dict_sim = read_sim_data("main.json")
 (len(dict_sim))
 
 for idx, (key, value) in enumerate(dict_sim.items()):
-
     col, row = idx % ROW_SIZE, idx // ROW_SIZE
     print(col, row, idx)
 
     if True:
-
         print(col, row)
 
         # Loading data
@@ -121,7 +119,7 @@ for idx, (key, value) in enumerate(dict_sim.items()):
         data1 /= np.sum(data1)
 
         print("time", time)
-        cmap = cmm.get_cmap('cividis', 12)
+        cmap = cmm.get_cmap("cividis", 12)
         im = ax[col].imshow(
             np.log10(data1),
             extent=extent,
@@ -170,7 +168,7 @@ for idx, (key, value) in enumerate(dict_sim.items()):
             ax[col].text(
                 0.05,
                 0.95,
-                "${:.1f} < t < {:.1f}$ Gyr".format( (time[0]-dt) / 1e3, time[0] / 1e3),
+                "${:.1f} < t < {:.1f}$ Gyr".format((time[0] - dt) / 1e3, time[0] / 1e3),
                 ha="left",
                 va="top",
                 color="white",

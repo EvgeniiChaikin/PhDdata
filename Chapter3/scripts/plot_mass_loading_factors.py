@@ -20,15 +20,12 @@ def read_sim_data(file: str = "simulations.json"):
 
 
 def loaddata(snapshots, dict_sim, save_file_name):
-
     # Simulatins
     for model_counter, value in enumerate(dict_sim.values()):
-
         print(model_counter)
 
         # Snapshots
         for i in tqdm(range(snapshots)):
-
             # Loading data
             f = h5.File(f"{value}" + "/output_{:04d}.hdf5".format(i), "r")
 
@@ -58,10 +55,11 @@ def loaddata(snapshots, dict_sim, save_file_name):
 
             args_outflow_p = np.where(
                 np.logical_and(
-                np.logical_and(
-                    gas_pos >= z_area - delta_z / 2, gas_pos <= z_area + delta_z / 2
-                ),
-                gas_v_z > 0.0)
+                    np.logical_and(
+                        gas_pos >= z_area - delta_z / 2, gas_pos <= z_area + delta_z / 2
+                    ),
+                    gas_v_z > 0.0,
+                )
             )
 
             if len(args_outflow_p[0]) > 0:
@@ -76,10 +74,12 @@ def loaddata(snapshots, dict_sim, save_file_name):
 
             args_outflow_m = np.where(
                 np.logical_and(
-                np.logical_and(
-                    gas_pos >= -z_area - delta_z / 2, gas_pos <= -z_area + delta_z / 2
-                ),
-                gas_v_z < 0.0)
+                    np.logical_and(
+                        gas_pos >= -z_area - delta_z / 2,
+                        gas_pos <= -z_area + delta_z / 2,
+                    ),
+                    gas_v_z < 0.0,
+                )
             )
 
             if len(args_outflow_m[0]) > 0:
@@ -99,21 +99,17 @@ def loaddata(snapshots, dict_sim, save_file_name):
 
 
 def plot():
-
     global time_arr, outflows_p, outflows_m, z_area_0, delta_z_0
 
     runs = read_sim_data("main.json")
 
     for script_name, plots in runs.items():
-
         print(script_name)
 
         if script_name == sys.argv[0]:
-
             print("FOUND")
 
             for plot in plots:
-
                 output = plot["output_file"]
                 dict_sim = plot["data"]
 
@@ -147,13 +143,12 @@ def plot():
                 fig, ax = plot_style(8, 8)
 
                 for counter, (key, value) in enumerate(dict_sim.items()):
-
                     SFR_file = np.loadtxt(f"{value}/SFR.txt", skiprows=25)
                     time = SFR_file[:, 1] * 9.778131e02
                     total_SFR = SFR_file[:, -1] * 1.022690e01  # M_sol / yr
 
                     sfh_bins = 100
-                    sfh_edges = np.linspace(0.0, 1.0e3, sfh_bins) # Myr
+                    sfh_edges = np.linspace(0.0, 1.0e3, sfh_bins)  # Myr
                     sfh_centers = 0.5 * (sfh_edges[1:] + sfh_edges[:-1])
 
                     sfh_values, _, _ = stats.binned_statistic(
@@ -165,20 +160,22 @@ def plot():
                     )
 
                     N_bins = 40
-                    bin_edges = np.linspace(0.0, 1.0e3, N_bins) # Myr
-                    bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1]) 
-                    bin_values = np.zeros(N_bins-1)
+                    bin_edges = np.linspace(0.0, 1.0e3, N_bins)  # Myr
+                    bin_centers = 0.5 * (bin_edges[1:] + bin_edges[:-1])
+                    bin_values = np.zeros(N_bins - 1)
 
-                    for i in range(N_bins-1):
+                    for i in range(N_bins - 1):
                         n_snp = 0
                         for c, t in enumerate(time_arr[:, counter]):
-                            if bin_edges[i] < t <= bin_edges[i+1]:
-                                n_snp += 1 # in bin
-                                bin_values[i] += (outflows_p[c, counter] - outflows_m[c, counter])
+                            if bin_edges[i] < t <= bin_edges[i + 1]:
+                                n_snp += 1  # in bin
+                                bin_values[i] += (
+                                    outflows_p[c, counter] - outflows_m[c, counter]
+                                )
                         if n_snp:
                             bin_values[i] /= n_snp
                             bin_values[i] /= SFR_f(bin_centers[i])
-                    
+
                     if len(dict_sim.items()) == 5:
                         if counter < 3:
                             ax.plot(
@@ -203,19 +200,35 @@ def plot():
                                 zorder=-2,
                                 label="IG\_M5\_\{min,max\}\_density",
                             )
-                            ax.plot(bin_centers / 1e3, y3, dashes = (tuple(d for d in dashesMMD[0])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
-                            ax.plot(bin_centers / 1e3, bin_values, dashes = (tuple(d for d in dashesMMD[1])), color = colorMMD, lw=lwMMD, zorder=-1, alpha = alphaMMD)
+                            ax.plot(
+                                bin_centers / 1e3,
+                                y3,
+                                dashes=(tuple(d for d in dashesMMD[0])),
+                                color=colorMMD,
+                                lw=lwMMD,
+                                zorder=-1,
+                                alpha=alphaMMD,
+                            )
+                            ax.plot(
+                                bin_centers / 1e3,
+                                bin_values,
+                                dashes=(tuple(d for d in dashesMMD[1])),
+                                color=colorMMD,
+                                lw=lwMMD,
+                                zorder=-1,
+                                alpha=alphaMMD,
+                            )
 
                     else:
                         colors = color2
-                        dashes = dashes2 
+                        dashes = dashes2
                         ax.plot(
                             bin_centers / 1e3,
                             bin_values,
                             label=key.replace("_", "\_"),
                             color=colors[counter],
                             lw=2.5,
-                            dashes = (tuple(d for d in dashes[counter])),
+                            dashes=(tuple(d for d in dashes[counter])),
                         )
 
                 ax.xaxis.set_tick_params(labelsize=33)
@@ -239,9 +252,7 @@ def plot():
                     fontsize=27,
                 )
 
-                plt.savefig(
-                    f"./images/{output}", bbox_inches="tight", pad_inches=0.1
-                )
+                plt.savefig(f"./images/{output}", bbox_inches="tight", pad_inches=0.1)
 
 
 if __name__ == "__main__":

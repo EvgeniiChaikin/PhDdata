@@ -13,7 +13,14 @@ plt.rc("font", family="serif")
 line_properties = {
     "colour": ["black", "orange", "dodgerblue", "lawngreen", "grey"],
     "linewidth": [3.5, 4.5, 2.5, 1.5, 2, 6],
-    "linewidth2": [4.3, 2.5, 2.5, 1.5, 2, 6], # in case two first lines hard to distinguish
+    "linewidth2": [
+        4.3,
+        2.5,
+        2.5,
+        1.5,
+        2,
+        6,
+    ],  # in case two first lines hard to distinguish
     "alpha": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
     "ls": ["-", "-", "-", "-", "-", "-"],
 }
@@ -26,7 +33,17 @@ dashes2 = [[3, 3], [3, 0], [20, 4], [3, 3], [3, 0], [20, 4]]
 color3 = ["black", "black", "dodgerblue", "dodgerblue"]
 dashes3 = [[3, 0], [8, 4], [3, 0], [8, 4]]
 
-color4 = ["black", "black", "black", "dodgerblue", "dodgerblue", "dodgerblue", "orange", "orange", "orange"]
+color4 = [
+    "black",
+    "black",
+    "black",
+    "dodgerblue",
+    "dodgerblue",
+    "dodgerblue",
+    "orange",
+    "orange",
+    "orange",
+]
 dashes4 = [[3, 3], [3, 0], [20, 4], [3, 3], [3, 0], [20, 4], [3, 3], [3, 0], [20, 4]]
 
 # min max dens
@@ -40,7 +57,6 @@ LEGEND_SIZE = 24
 
 
 def plot_style(xsize, ysize):
-
     plt.rc("text", usetex=True)
     plt.rcParams.update({"figure.autolayout": True})
     plt.rcParams["ytick.direction"] = "in"
@@ -72,7 +88,6 @@ def plot_style(xsize, ysize):
 
 
 def fixlogax(ax, a="x"):
-
     if a == "x":
         labels = [item.get_text() for item in ax.get_xticklabels()]
         positions = ax.get_xticks()
